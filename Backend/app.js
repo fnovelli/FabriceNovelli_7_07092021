@@ -1,25 +1,41 @@
 const express = require('express');
 
-const app = express();
 require('dotenv').config()
 
-app.use((req, res, next) => {
-  console.log('Requête reçue !');
-  next();
-});
+const path = require('path');
+var cors = require('cors');
 
-app.use((req, res, next) => {
-  res.status(201);
-  next();
-});
+const rateLimit = require("express-rate-limit");
+  
+const app = express();
 
-app.use((req, res, next) => {
-  res.json({ message: 'Votre requête a bien été reçue !' });
-  next();
-});
+var morgan = require('morgan')
+var fs = require('fs')
 
-app.use((req, res, next) => {
-  console.log('Réponse envoyée avec succès !');
-});
+// create a write stream (in append mode)
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+ 
+// setup the logger
+app.use(morgan('combined', { stream: accessLogStream }))
+ 
+app.get('/', function (req, res) {
+  res.send('hello, world!')
+})
 
-module.exports = app;
+  const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 1000 // limit each IP to 1000 requests per windowMs
+  });
+
+  //body-parser is outdated, we use this syntax instead, the idea is still the same, analyse and treat body request.
+  app.use(express.urlencoded({extended: true})); 
+  app.use(express.json());
+
+  //fix security when doing http request
+  app.use(cors())
+  app.use(limiter);
+  app.use(morgan('combined'))
+
+
+
+  module.exports = app;
