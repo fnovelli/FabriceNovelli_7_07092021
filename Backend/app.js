@@ -1,6 +1,7 @@
 const express = require('express');
 
 const app = express();
+require('dotenv').config()
 
 app.use((req, res, next) => {
   console.log('Requête reçue !');
