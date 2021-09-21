@@ -1,18 +1,18 @@
 var mysql = require('mysql');
 
 
-var connection = mysql.createConnection({
+exports.db = mysql.createConnection({
+
   host: process.env.SQL_HOST,
   user: process.env.SQL_USER,
-  password: process.env.SQL_PASS
-  database: process.env.SQL_DB
+  password: process.env.SQL_PASS,
+
 });
- 
-connection.connect();
- 
-connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
-  if (error) throw error;
-  console.log('The solution is: ', results[0].solution);
+
+exports.db.connect(function(err) {
+  if (err) throw err;
+  console.log("Connecté à la base de données MySQL!");
 });
- 
-connection.end();
+
+
+

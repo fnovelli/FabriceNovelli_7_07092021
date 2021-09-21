@@ -1,23 +1,31 @@
 const express = require('express');
 
+var fs = require('fs')
+
+
+
+
 require('dotenv').config()
 
 const path = require('path');
-var cors = require('cors');
 
+//init security
+var cors = require('cors');
 const rateLimit = require("express-rate-limit");
+var morgan = require('morgan')
   
 const app = express();
-
-var morgan = require('morgan')
-var fs = require('fs')
 
 // create a write stream (in append mode)
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
  
 // setup the logger
 app.use(morgan('combined', { stream: accessLogStream }))
- 
+
+var sql = import('./MySql.js');
+
+
+
 app.get('/', function (req, res) {
   res.send('hello, world!')
 })
@@ -35,7 +43,6 @@ app.get('/', function (req, res) {
   app.use(cors())
   app.use(limiter);
   app.use(morgan('combined'))
-
 
 
   module.exports = app;
