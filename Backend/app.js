@@ -1,10 +1,6 @@
 const express = require('express');
 
 var fs = require('fs')
-
-
-
-
 require('dotenv').config()
 
 const path = require('path');
@@ -23,7 +19,6 @@ var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {
 app.use(morgan('combined', { stream: accessLogStream }))
 
 var sql = import('./MySql.js');
-
 
 
 app.get('/', function (req, res) {
