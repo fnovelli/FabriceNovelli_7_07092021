@@ -10,6 +10,7 @@ var cors = require('cors');
 const rateLimit = require("express-rate-limit");
 var morgan = require('morgan')
   
+const { Sequelize } = require('sequelize');
 const app = express();
 
 // create a write stream (in append mode)

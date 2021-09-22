@@ -1,6 +1,6 @@
 
 var mysql = require('mysql');
-const { Sequelize } = require('sequelize');
+
 
 const con = mysql.createConnection({
 
