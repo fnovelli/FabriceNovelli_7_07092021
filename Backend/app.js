@@ -4,6 +4,8 @@ var fs = require('fs')
 require('dotenv').config()
 
 const path = require('path');
+var sql = import('./my-sql.js');
+
 
 //init security
 var cors = require('cors');
@@ -19,7 +21,6 @@ var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {
 // setup the logger
 app.use(morgan('combined', { stream: accessLogStream }))
 
-var sql = import('./MySql.js');
 
 
 app.get('/', function (req, res) {
