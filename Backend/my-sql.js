@@ -23,6 +23,87 @@ const db = mysql.createConnection({
   password: process.env.SQL_PASS,
 });
 
+function CheckAndCreateDatabase() {
+  db.query(schemaSQL, function (err, result) {
+
+    if (err) {
+      throw err; 
+    }
+
+  });
+}
+
+function ConnectToDB() {
+
+  db.query(useDBSQL, function (err, result) {
+    if (err) {
+      throw err; 
+     }
+
+    console.log("Connected to " + process.env.SQL_DB);
+
+  })
+}
+
+function CreateUserTable() {
+  db.query(userTableSQL, function (err, result) {
+
+    if (err) {
+      throw err; 
+     }
+
+    console.log("Table created!");
+  })
+}
+
+function AddUserToTable() {
+      db.query(insertUser, function (err, result) {
+
+      if (err) {
+        throw err; 
+       }
+
+      console.log("User1 added to the table User");
+    })
+}
+
+function SelectUser() {
+    
+  db.query(selectUser, function (err, result) {
+
+    if (err) {
+      throw err; 
+     }
+
+    console.log(result);
+  })
+}
+
+function RenameUser() {
+  db.query(updateUser, function (err, result) {
+
+    if (err) {
+      throw err; 
+     }
+
+    console.log("First user was renamed to User2");
+  })
+}
+
+function DeleteUser() {
+  
+  db.query(deleteUser, function (err, result) {
+
+    if (err) {
+      throw err; 
+     }
+
+    console.log("User2 has been deleted from the DBB");
+  })
+
+
+}
+
 // we try to connect the user, then we create the database.
 db.connect(function(err) {
 
@@ -32,72 +113,12 @@ db.connect(function(err) {
 
     console.log("SQL User connected");
 
-    db.query(schemaSQL, function (err, result) {
-
-      if (err) {
-        throw err; 
-      }
-
-    });
-
-    db.query(useDBSQL, function (err, result) {
-      if (err) {
-        throw err; 
-       }
-
-      console.log("Connected to " + process.env.SQL_DB);
-
-    })
-
-    db.query(userTableSQL, function (err, result) {
-
-      if (err) {
-        throw err; 
-       }
-
-      console.log("Table created!");
-    })
-
-    
-    db.query(insertUser, function (err, result) {
-
-      if (err) {
-        throw err; 
-       }
-
-      console.log("User1 added to the table User");
-    })
-
-    db.query(selectUser, function (err, result) {
-
-      if (err) {
-        throw err; 
-       }
-
-  
-      console.log(result);
-    })
-
-    db.query(updateUser, function (err, result) {
-
-      if (err) {
-        throw err; 
-       }
-
-      console.log("First user was renamed to User2");
-    })
-
-    db.query(deleteUser, function (err, result) {
-
-      if (err) {
-        throw err; 
-       }
-
-      console.log("User2 has been deleted from the DBB");
-      console.log(result);
-    })
-
-
-
+    CheckAndCreateDatabase();
+    ConnectToDB();
+    CreateUserTable();
+    AddUserToTable();
+    SelectUser();
+    RenameUser();
+    DeleteUser();
  });
 
