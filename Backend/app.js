@@ -6,13 +6,13 @@ require('dotenv').config()
 const path = require('path');
 var sql = import('./my-sql.js');
 
-
+const userRoutes = require('./routes/users');
 //init security
 var cors = require('cors');
 const rateLimit = require("express-rate-limit");
 var morgan = require('morgan')
   
-const { Sequelize } = require('sequelize');
+
 const app = express();
 
 // create a write stream (in append mode)
@@ -40,6 +40,6 @@ app.get('/', function (req, res) {
   app.use(cors())
   app.use(limiter);
   app.use(morgan('combined'))
-
+  app.use('/api/auth', userRoutes);
 
   module.exports = app;
