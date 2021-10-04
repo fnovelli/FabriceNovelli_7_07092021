@@ -4,7 +4,7 @@ var fs = require('fs')
 require('dotenv').config()
 
 const path = require('path');
-var sql = import('./my-sql.js');
+const sql = require('./config/my-sql');
 
 const userRoutes = require('./routes/users');
 //init security
