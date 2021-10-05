@@ -4,13 +4,14 @@ var fs = require('fs')
 require('dotenv').config()
 
 const path = require('path');
-const sql = require('./config/my-sql');
 
 const userRoutes = require('./routes/users');
 //init security
 var cors = require('cors');
 const rateLimit = require("express-rate-limit");
-var morgan = require('morgan')
+var morgan = require('morgan');
+const sequelize = require('./config/my-sql');
+const User = require('./Models/User');
   
 
 const app = express();
@@ -41,5 +42,7 @@ app.get('/', function (req, res) {
   app.use(limiter);
   app.use(morgan('combined'))
   app.use('/api/auth', userRoutes);
+
+  sequelize.sync({force:true});
 
   module.exports = app;

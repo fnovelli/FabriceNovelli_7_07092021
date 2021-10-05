@@ -1,34 +1,32 @@
-const { Model } = require("sequelize");
+const Sequelize = require('sequelize')
+const sequelize = require('../config/my-sql')
 
-module.exports = (sequelize, DataTypes) => {
+const User = sequelize.define('user', {
+   // Name of Column #1 and its properties defined: id
+   user_id:{
 
-    class User extends Model {}
+      // Integer Datatype
+      type:Sequelize.INTEGER,
 
-    User.init({
-      // Model attributes are defined here
-      Name: {
-        type: DataTypes.STRING(30),
-        allowNull: false
-      },
-      Nickname: {
-        type: DataTypes.STRING(30),
-        allowNull: false,
-        unique: true
-      },
-      Email: {
-        type: DataTypes.STRING(40),
-        allowNull: false,
-        unique: true
-      },
-      hashedPassword: {
-          type: DataTypes.STRING(64)
+      // Increment the value automatically
+      autoIncrement:true,
 
-      }
-    }, {
-      // Other model options go here
-      sequelize, // We need to pass the connection instance
-      modelName: 'User' // We need to choose the model name
-    });
-    
-    // the defined model is the class itself
-    console.log(User === sequelize.models.User)};
+      // user_id can not be null.
+      allowNull:false,
+
+      // To uniquely identify user
+      primaryKey:true
+   },
+
+   // Name of Column #2: name
+   name: { type: Sequelize.STRING, allowNull:false },
+
+   // Name of Column #3: email
+   email: { type: Sequelize.STRING, allowNull:false },
+
+   // Column: Timestamps
+   createdAt: Sequelize.DATE,
+   updatedAt: Sequelize.DATE,
+})
+
+module.exports = User
