@@ -2,9 +2,8 @@ const Sequelize = require('sequelize')
 const sequelize = require('../config/my-sql')
 
 const User = sequelize.define('user', {
-   // Name of Column #1 and its properties defined: id
-   user_id:{
 
+   user_id:{
       // Integer Datatype
       type:Sequelize.INTEGER,
 
@@ -18,15 +17,39 @@ const User = sequelize.define('user', {
       primaryKey:true
    },
 
-   // Name of Column #2: name
    name: { type: Sequelize.STRING, allowNull:false },
 
-   // Name of Column #3: email
-   email: { type: Sequelize.STRING, allowNull:false },
+   nickname: { type: Sequelize.STRING, allowNull:false },
 
-   // Column: Timestamps
-   createdAt: Sequelize.DATE,
-   updatedAt: Sequelize.DATE,
+   email: { type: Sequelize.STRING, allowNull:false, unique: true },
+   
+   password: { type: Sequelize.STRING, allowNull:false },
+ 
+   admin: { type: Sequelize.BOOLEAN, allowNull:false, defaultValue: false },
 })
 
+async function createJaneUser() {
+   const jane = User.build({ 
+      name: 'Jane',
+      nickname: 'Jaja',
+      email: 'jane@gmail.com',
+      password: 'passw0rd',
+      admin: false
+   })
+
+   console.log(jane.name);
+   console.log(jane.nickname);
+   try { 
+   await jane.save();
+   console.log("user " + jane.name + " has been added in the database.");
+   }
+   catch (error) {
+      console.error('Unable to save user in DBB.', error);
+   }
+
+         
+  await sequelize.sync({force:false});
+}
+
+createJaneUser();
 module.exports = User
