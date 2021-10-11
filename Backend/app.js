@@ -40,7 +40,6 @@ app.get('/', function (req, res) {
   app.use(limiter);
   app.use(morgan('combined'))
   app.use('/api/auth', userRoutes);
-
-
+  //app.use('api/user', userRoutes);
 
   module.exports = app;

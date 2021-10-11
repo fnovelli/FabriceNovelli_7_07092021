@@ -17,7 +17,7 @@ schema
 .has().not().spaces();
 
 
-exports.signup = (req, res, next) => {
+exports.signup = (req, res) => {
 
     //check if password is strong enough
   if (!schema.validate(req.body.password)) {
@@ -28,8 +28,11 @@ exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
   .then(hash =>{
       const user = new User({
+          name: req.body.name,
+          nickname: req.body.nickname,
           email: req.body.email,
-          password: hash
+          password: hash,
+          admin: false,
       });
       user.save()
       .then(() => res.status(201).json({message: 'User created!'}))
@@ -38,7 +41,7 @@ exports.signup = (req, res, next) => {
   .catch(error => res.status(500).json({error}));
 };
 
-exports.login = (req, res, next) => {
+exports.login = (req, res) => {
   
   User.findOne({ email: req.body.email })
   .then(user => {
@@ -64,9 +67,86 @@ exports.login = (req, res, next) => {
       .catch(error => res.status(500).json({ error }));
 };
 
-exports.getUserAccount = (req, res, next) => {
+
+exports.getUserAccount = (req, res) => {
   
-  User.findOne({ where: { id: req.params.id }})
-      .then((user) => res.status(200).json(user))
-      .catch(error => res.status(404).json({ error }));
+  const id = req.params.id;
+
+  User.findByPk(id)
+    .then(data => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find User with id=${id}.`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving User with id=" + id
+      });
+    });
+};
+
+exports.getAllUsers = (req, res) => {
+
+  const title = req.query.title;
+  var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
+  
+  User.findAll( { where: condition}).
+  then((data) => {
+    res.send(data);
+  })
+.catch((error) => {
+    console.log(error);
+});
+};
+
+exports.updateUser = (req, res) => {
+  const id = req.params.id;
+
+  User.update(req.body, {
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "User was updated successfully."
+        });
+      } else {
+        res.send({
+          message: `Cannot update User with id=${id}. User was not found!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error updating User with id=" + id
+      });
+    });
+};
+
+exports.deleteUser = (req, res) => {
+  const id = req.params.id;
+
+  User.destroy({
+    where: { id: id }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "User was deleted successfully!"
+        });
+      } else {
+        res.send({
+          message: `Cannot delete user with id=${id}. User not found`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete User with id=" + id
+      });
+    });
 };

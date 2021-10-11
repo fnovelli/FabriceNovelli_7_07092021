@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../config/my-sql')
 
-const User = sequelize.define('user', {
+const Users = sequelize.define('user', {
 
    user_id:{
       // Integer Datatype
@@ -29,7 +29,7 @@ const User = sequelize.define('user', {
 })
 
 async function createJaneUser() {
-   const jane = User.build({ 
+   const jane = Users.build({ 
       name: 'Jane',
       nickname: 'Jaja',
       email: 'jane@gmail.com',
@@ -37,8 +37,6 @@ async function createJaneUser() {
       admin: false
    })
 
-   console.log(jane.name);
-   console.log(jane.nickname);
    try { 
    await jane.save();
    console.log("user " + jane.name + " has been added in the database.");
@@ -46,10 +44,11 @@ async function createJaneUser() {
    catch (error) {
       console.error('Unable to save user in DBB.', error);
    }
-
-         
+       
   await sequelize.sync({force:false});
 }
 
-createJaneUser();
-module.exports = User
+
+//createJaneUser();
+
+module.exports = Users
