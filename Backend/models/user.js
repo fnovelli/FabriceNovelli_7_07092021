@@ -28,27 +28,5 @@ const Users = sequelize.define('user', {
    admin: { type: Sequelize.BOOLEAN, allowNull:false, defaultValue: false },
 })
 
-async function createJaneUser() {
-   const jane = Users.build({ 
-      name: 'Jane',
-      nickname: 'Jaja',
-      email: 'jane@gmail.com',
-      password: 'passw0rd',
-      admin: false
-   })
-
-   try { 
-   await jane.save();
-   console.log("user " + jane.name + " has been added in the database.");
-   }
-   catch (error) {
-      console.error('Unable to save user in DBB.', error);
-   }
-       
-  await sequelize.sync({force:false});
-}
-
-
-//createJaneUser();
 
 module.exports = Users

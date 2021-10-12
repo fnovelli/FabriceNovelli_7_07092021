@@ -21,7 +21,6 @@ var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {
 app.use(morgan('combined', { stream: accessLogStream }))
 
 
-
 app.get('/', function (req, res) {
   res.send('hello, world!')
 })
@@ -40,6 +39,5 @@ app.get('/', function (req, res) {
   app.use(limiter);
   app.use(morgan('combined'))
   app.use('/api/auth', userRoutes);
-  //app.use('api/user', userRoutes);
 
   module.exports = app;

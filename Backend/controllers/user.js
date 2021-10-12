@@ -45,6 +45,7 @@ exports.login = (req, res) => {
   
   User.findOne({ email: req.body.email })
   .then(user => {
+    
       if (!user) {
           return res.Status(401).json( { error: 'User not found'});
       }
@@ -150,3 +151,39 @@ exports.deleteUser = (req, res) => {
       });
     });
 };
+
+exports.createUser = (req, res) => {
+
+  if (!req.body.nickname || !req.body.name || !req.body.email || !req.body.password) {
+    res.status(400).send({message: "Content cannot be empty!"});
+    return;
+  }
+
+  bcrypt.hash(req.body.password, 10)
+  .then(hash =>{
+  const user = { 
+     name: req.body.name,
+     nickname: req.body.nickname,
+     email: req.body.email,
+     password: hash,
+     admin: req.body.admin ? req.body.admin : false
+  };
+
+    User.create(user)
+    .then(data => {
+      res.send(data);
+      sequelize.sync({force:false});
+
+      console.log("user " + user.name + " has been added in the database.");
+    })
+    .catch (err => {
+      res.status(500).send({
+      message: 
+      err.message || 'Unable to save user in DBB.'
+   });
+  });
+})
+.catch(error => res.status(500).json({error}));        
+
+};
+
