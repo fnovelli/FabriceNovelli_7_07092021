@@ -105,51 +105,27 @@ exports.getAllUsers = (req, res) => {
 };
 
 exports.updateUser = (req, res) => {
-  const id = req.params.id;
+  try {
 
-  User.update(req.body, {
-    where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "User was updated successfully."
-        });
-      } else {
-        res.send({
-          message: `Cannot update User with id=${id}. User was not found!`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error updating User with id=" + id
-      });
-    });
+    const id = req.params.id;
+    User.update( req.body, { where: { user_id: id } }); 
+    return res.status(200).json({ message: "Successfully updated user!" });
+    
+  } catch (error) {
+    return res.status(500).send({ error: "Error, couldn't update user!" });
+  }
 };
 
 exports.deleteUser = (req, res) => {
-  const id = req.params.id;
 
-  User.destroy({
-    where: { id: id }
-  })
-    .then(num => {
-      if (num == 1) {
-        res.send({
-          message: "User was deleted successfully!"
-        });
-      } else {
-        res.send({
-          message: `Cannot delete user with id=${id}. User not found`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Could not delete User with id=" + id
-      });
-    });
+  try {
+    const id = req.params.id;
+    User.destroy({ where: { user_id: id } }); 
+    return res.status(200).json({ message: "Successfully deleted user!" });
+    
+  } catch (error) {
+    return res.status(500).send({ error: "Error, couldn't delete user!" });
+  }
 };
 
 exports.createUser = (req, res) => {
@@ -179,7 +155,7 @@ exports.createUser = (req, res) => {
     .catch (err => {
       res.status(500).send({
       message: 
-      err.message || 'Unable to save user in DBB.'
+      err.message || 'Unable to save user in DB.'
    });
   });
 })
