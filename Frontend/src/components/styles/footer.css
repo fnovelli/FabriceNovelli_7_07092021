@@ -1,0 +1,28 @@
+#footerBlock {
+    margin-top: 100px;
+    background-color: #131a22;
+    min-height: 200px;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+}
+
+.footMenu {
+    padding: 15px;
+    color: white;
+    display: flex;
+}
+
+.fLine {
+    margin-left: 25px;
+    margin-top: 10px;
+    color: white;
+}
+
+    .fLine:hover, .fLine:active {
+        text-decoration: underline;
+    }
+
+.footBlockLine {
+    margin-top: 10px;
+}

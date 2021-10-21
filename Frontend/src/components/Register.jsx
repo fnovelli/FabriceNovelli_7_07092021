@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './styles/form.css'
 
 let contact = {};
 let url = "http://localhost:3000/api/auth/signup";
@@ -65,12 +65,13 @@ function Register() {
     return (
 
         <div>
+          <h1>Veuillez compléter le formulaire.</h1>
+          <div id="formBlock">
            <form id="Form">
               <div>
                 <label for="firstName">Prénom</label>
                 <input
                   id="firstName"
-                  name="firstName"
                   type="text"
                   className="form-control"
                   placeholder="Jamy"
@@ -81,7 +82,6 @@ function Register() {
                 <label for="nickName">Pseudo</label>
                 <input
                   id="nickName"
-                  name="nickName"
                   type="text"
                   className="form-control"
                   placeholder="Jacky38"
@@ -92,7 +92,6 @@ function Register() {
                 <label for="email">Adresse e-mail</label>
                 <input
                   id="email"
-                  name="email"
                   type="email"
                   className="form-control"
                   aria-describedby="emailHelp"
@@ -106,7 +105,6 @@ function Register() {
                 <label for="password">Mot de Passe</label>
                 <input
                   id="password"
-                  name="password"
                   type="password"
                   className="form-control"
                   placeholder="Password"
@@ -114,12 +112,12 @@ function Register() {
                 />
               </div>
               <div>
-              <button type="submit">
+              <button type="submit" id="btnSignUp">
                 Envoyer
               </button>
               </div>
             </form>
-           
+           </div>
           </div>
   
     );
