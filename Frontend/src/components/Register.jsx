@@ -23,60 +23,66 @@ function Register() {
       
 
     }).then(() => {
-      console.log('new user created! POGGERS!' + FormObject);
+      console.log('new user created!' + FormObject);
 
     })
 }
     return (
 
 
-      <div>
+      <section id="formBlock">
       <h1>Veuillez compléter le formulaire.</h1>
-      <div id="formBlock">
+
        <form onSubmit={handleSubmit}>
 
-      <div>
+       <div class="formClass">
        <label for="name">Prénom</label>
-            <textarea
-              required
+       <input type="text"
+                class="form-control"
               value={name}
               placeholder="Pierre"
               onChange={(e) => setName(e.target.value)}
-              ></textarea>
+              ></input>
       </div>
-
+      <div class="formClass">
        <label for="nickname">Pseudo</label>
-            <textarea
+       <input type="text"
+                class="form-control"
               required
               value={nickname}
               placeholder="Peter"
               onChange={(e) => setNickname(e.target.value)}
-              ></textarea>
-
-    <div>
+              ></input>
+      </div>
+      <div class="formClass">
       <label for="email">E-mail</label>
-            <textarea
+      <input type="mail"
+                class="form-control"
               required
               value={email}
               placeholder="pierre@gmail.com"
               onChange={(e) => setEmail(e.target.value)}
-              ></textarea>
-        </div>
-        <label for="password">Mot de Passe</label>
-            <input type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               ></input>
+        </div>
 
-          <div>
+        <div class="formClass">
+             <label for="password">Mot de Passe</label>
+                <input type="password"
+                  required
+                  class="form-control"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  ></input>
+
+              </div>
+
           <button type="submit" id="btnSignUp">
             Envoyer
           </button>
-        </div>
-        </form>
-        </div>
-      </div>
+    
+          </form>
+      
+      </section>
 
   
     );

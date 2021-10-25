@@ -1,6 +1,18 @@
 #formBlock {
-    display: flex;
-    justify-content: center;
+  display: flex;
 
-  }
-  
+  align-items: center;
+  flex-direction: column;
+}
+
+.formClass {
+  max-width: 400px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+#btnSignUp {
+  margin-top: 10px;
+  font-size: 18px;
+}
