@@ -3,7 +3,7 @@ const sequelize = require('../config/my-sql')
 
 const Posts = sequelize.define('post', {
 
-    Msg_id:{
+    id:{
 
         type:Sequelize.INTEGER,
         autoIncrement: true,

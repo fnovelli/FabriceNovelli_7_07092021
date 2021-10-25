@@ -17,29 +17,47 @@ schema
 .has().not().spaces();
 
 
-exports.signup = (req, res) => {
+exports.createUser = (req, res) => {
 
-    //check if password is strong enough
-  if (!schema.validate(req.body.password)) {
-    throw new error("Error! Password must be stronger. It must have at least one uppercase, one digit, one special character");
+  if (!req.body.nickname || !req.body.name || !req.body.email || !req.body.password) {
+    res.status(400).send({message: "Content cannot be empty!"});
+    return;
   }
 
-  //crypt password 
+      //check if password is strong enough
+      if (!schema.validate(req.body.password)) {
+        throw new error("Error! Password must be stronger. It must have at least one uppercase, one digit, one special character");
+      }
+
   bcrypt.hash(req.body.password, 10)
   .then(hash =>{
-      const user = new User({
-          name: req.body.name,
-          nickname: req.body.nickname,
-          email: req.body.email,
-          password: hash,
-          admin: false,
-      });
-      user.save()
-      .then(() => res.status(201).json({message: 'User created!'}))
-      .catch(error => res.status(400).json({error: 'Couldn\'t create user'}));
-  })
-  .catch(error => res.status(500).json({error}));
+  const user = { 
+     name: req.body.name,
+     nickname: req.body.nickname,
+     email: req.body.email,
+     password: hash,
+     admin: req.body.admin ? req.body.admin : false
+  };
+
+    User.create(user)
+    .then(data => {
+      res.send(data);
+      sequelize.sync({force:false});
+
+      console.log("user " + user.name + " has been added in the database.");
+    })
+    .catch (err => {
+      res.status(500).send({
+      message: 
+      err.message || 'Unable to save user in DB.'
+   });
+  });
+})
+.catch(error => res.status(500).json({error}));        
+
 };
+
+
 
 exports.login = (req, res) => {
   
@@ -126,40 +144,5 @@ exports.deleteUser = (req, res) => {
   } catch (error) {
     return res.status(500).send({ error: "Error, couldn't delete user!" });
   }
-};
-
-exports.createUser = (req, res) => {
-
-  if (!req.body.nickname || !req.body.name || !req.body.email || !req.body.password) {
-    res.status(400).send({message: "Content cannot be empty!"});
-    return;
-  }
-
-  bcrypt.hash(req.body.password, 10)
-  .then(hash =>{
-  const user = { 
-     name: req.body.name,
-     nickname: req.body.nickname,
-     email: req.body.email,
-     password: hash,
-     admin: req.body.admin ? req.body.admin : false
-  };
-
-    User.create(user)
-    .then(data => {
-      res.send(data);
-      sequelize.sync({force:false});
-
-      console.log("user " + user.name + " has been added in the database.");
-    })
-    .catch (err => {
-      res.status(500).send({
-      message: 
-      err.message || 'Unable to save user in DB.'
-   });
-  });
-})
-.catch(error => res.status(500).json({error}));        
-
 };
 
