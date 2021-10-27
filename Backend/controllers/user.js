@@ -44,7 +44,7 @@ exports.createUser = (req, res) => {
     User.create(user)
     .then(user => {
       res.status(201).json({
-          pseudo: user.pseudo,
+          nickname: user.nickname,
           token: jwt.sign({ userId: user.id }, secret, { expiresIn: '24h' })
       });
   })

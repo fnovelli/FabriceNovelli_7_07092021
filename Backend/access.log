@@ -322,3 +322,5 @@
 ::ffff:127.0.0.1 - - [27/Oct/2021:16:51:11 +0000] "POST /api/auth/login HTTP/1.1" 404 27 "http://localhost:8000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0"
 ::1 - - [27/Oct/2021:16:54:25 +0000] "POST /api/auth/login HTTP/1.1" 406 12 "-" "PostmanRuntime/7.28.4"
 ::1 - - [27/Oct/2021:16:54:34 +0000] "POST /api/auth/login HTTP/1.1" 200 174 "-" "PostmanRuntime/7.28.4"
+::1 - - [27/Oct/2021:17:05:30 +0000] "POST /api/auth/login HTTP/1.1" 200 174 "-" "PostmanRuntime/7.28.4"
+::1 - - [27/Oct/2021:17:05:35 +0000] "POST /api/auth/ HTTP/1.1" 201 159 "-" "PostmanRuntime/7.28.4"
