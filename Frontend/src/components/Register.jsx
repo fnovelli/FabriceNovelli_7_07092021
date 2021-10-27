@@ -3,7 +3,41 @@ import React, { useState} from 'react';
 import './styles/form.css'
 
 let url = "http://localhost:3000/api/auth/";
+const userOK = 'successfully created new user!';
 
+function handleError(status) {
+
+  switch (status)
+  {
+    case 200:
+    case 201:
+    console.log(userOK);
+    return alert(userOK);
+    case 409:
+     return alert('Username or E-mail already exist in the database.');
+    default:
+        if (status >= 400 && status <= 499) {
+          return alert('Unexpected error, please try again later.');
+        }
+    break;  
+  }
+}
+
+function formSendData(FormObject) {
+
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(FormObject)
+
+  }).then(response => {
+    handleError(response.status);
+  }).catch(errors => {
+  console.log('BackEnd error:', errors);
+  this.setState({ errors });
+});
+
+}
 
 function Register() {
     
@@ -15,20 +49,9 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const FormObject = { name, nickname, email, password};
-
-    fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(FormObject)
-      
-
-    }).then(() => {
-      console.log('new user created!' + FormObject);
-
-    })
+    formSendData(FormObject);
 }
     return (
-
 
       <section id="formBlock">
       <h1>Veuillez compléter le formulaire.</h1>

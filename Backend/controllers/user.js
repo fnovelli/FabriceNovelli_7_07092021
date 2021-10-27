@@ -23,11 +23,15 @@ exports.createUser = (req, res) => {
     res.status(400).send({message: "Content cannot be empty!"});
     return;
   }
-
-      //check if password is strong enough
-      if (!schema.validate(req.body.password)) {
-        throw new error("Error! Password must be stronger. It must have at least one uppercase, one digit, one special character");
+   
+  User.findOne({ email: req.body.email })
+  .then(user => {
+    
+      if (user) {
+          return res.Status(409).json( { error: 'User or E-mail already exist in the Database!'});
       }
+      })
+
 
   bcrypt.hash(req.body.password, 10)
   .then(hash =>{
@@ -36,7 +40,7 @@ exports.createUser = (req, res) => {
      nickname: req.body.nickname,
      email: req.body.email,
      password: hash,
-     admin: req.body.admin ? req.body.admin : false
+     admin: false
   };
 
     User.create(user)
@@ -47,6 +51,7 @@ exports.createUser = (req, res) => {
       console.log("user " + user.name + " has been added in the database.");
     })
     .catch (err => {
+
       res.status(500).send({
       message: 
       err.message || 'Unable to save user in DB.'

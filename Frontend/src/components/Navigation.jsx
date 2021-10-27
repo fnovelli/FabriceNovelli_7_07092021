@@ -38,7 +38,9 @@ function Navigation(props) {
                   props.location.pathname === "/contact" ? "active" : ""
                 }`}
               >
+                      <div class="nav-link">
                   <a href="mailto:groupomania-support@group.com" class="fLine">Contact</a>
+                  </div>
               </li>
             </ul>
           </div>
