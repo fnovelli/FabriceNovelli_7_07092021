@@ -16,77 +16,68 @@ schema
 .has().symbols(1)                                 
 .has().not().spaces();
 
-
 exports.createUser = (req, res) => {
 
   if (!req.body.nickname || !req.body.name || !req.body.email || !req.body.password) {
     res.status(400).send({message: "Content cannot be empty!"});
     return;
   }
-   
-  User.findOne({ email: req.body.email })
-  .then(user => {
-    
-      if (user) {
-          return res.Status(409).json( { error: 'User or E-mail already exist in the Database!'});
-      }
-      })
 
+  User.findOne({ where : {email: req.body.email }}) 
+  .then(user => {
+
+    if (user) {
+      return res.status(409).send({ error: "User already exist in the DB" });
+    }
+  })
+   
 
   bcrypt.hash(req.body.password, 10)
   .then(hash =>{
-  const user = { 
-     name: req.body.name,
-     nickname: req.body.nickname,
-     email: req.body.email,
-     password: hash,
-     admin: false
+    const user = { 
+      name: req.body.name,
+      nickname: req.body.nickname,
+      email: req.body.email,
+      password: hash,
   };
 
     User.create(user)
-    .then(data => {
-      res.send(data);
-      sequelize.sync({force:false});
-
-      console.log("user " + user.name + " has been added in the database.");
-    })
-    .catch (err => {
-
-      res.status(500).send({
-      message: 
-      err.message || 'Unable to save user in DB.'
-   });
-  });
+    .then(user => {
+      res.status(201).json({
+          pseudo: user.pseudo,
+          token: jwt.sign({ userId: user.id }, secret, { expiresIn: '24h' })
+      });
+  })
+  .catch(error => res.status(400).json({ error }));
 })
-.catch(error => res.status(500).json({error}));        
+.catch(error => res.status(500).json({ error }));      
 
 };
 
-
-
 exports.login = (req, res) => {
-  
-  User.findOne({ email: req.body.email })
+
+  User.findOne({ where : {email: req.body.email }}) 
   .then(user => {
-    
-      if (!user) {
-          return res.Status(401).json( { error: 'User not found'});
-      }
-      bcrypt.compare(req.body.password, user.password)
+
+    if (!user) {
+      return res.status(404).send({ error: "User not found!" });
+    }
+    bcrypt.compare(req.body.password, user.password)
       .then(valid => {
+
           if (!valid) {
-              return res.Status(401).json( { error: 'Incorrect password.'});
+              return res.Status(406).json( { error: 'Incorrect password.'});
           }
-          res.status(200).json({
-              userId: user._id,
-              token: jwt.sign(
-                { userId: user._id },
-                secret,
-                { expiresIn: '24h' }
-              )
+          res.status(200).json({ 
+              userId: user.id,
+              token: jwt.sign({ userId: user.id }, secret, { expiresIn: '24h' }),
+              message: 'Sucessfully Connected'
+
             });
+            console.log("Sucessfully Connected!");
+            return;
           })
-          .catch(error => res.status(500).json({ error }));
+          .catch(error => res.status(406).json({ error }));
       })
       .catch(error => res.status(500).json({ error }));
 };
@@ -131,7 +122,7 @@ exports.updateUser = (req, res) => {
   try {
 
     const id = req.params.id;
-    User.update( req.body, { where: { user_id: id } }); 
+    User.update( req.body, { where: { userId: id } }); 
     return res.status(200).json({ message: "Successfully updated user!" });
     
   } catch (error) {
@@ -143,7 +134,7 @@ exports.deleteUser = (req, res) => {
 
   try {
     const id = req.params.id;
-    User.destroy({ where: { user_id: id } }); 
+    User.destroy({ where: { userId: id } }); 
     return res.status(200).json({ message: "Successfully deleted user!" });
     
   } catch (error) {

@@ -3,7 +3,7 @@ const sequelize = require('../config/my-sql')
 
 const Users = sequelize.define('user', {
 
-   user_id:{
+   userId:{
       // Integer Datatype
       type:Sequelize.INTEGER,
 

@@ -29,7 +29,18 @@ function Navigation(props) {
                 }`}
               >
                 <Link class="nav-link" to="/register">
-                  Register
+                  S'inscrire
+                </Link>
+              </li>
+
+              <li
+                class={`nav-item  ${
+                  props.location.pathname === "/login" ? "active" : ""
+                }`}
+              >
+                <Link class="nav-link" to="/login">
+                  Connexion
+                  
                 </Link>
               </li>
 
