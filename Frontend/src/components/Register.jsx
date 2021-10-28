@@ -1,6 +1,7 @@
 
 import React, { useState} from 'react';
 import './styles/form.css'
+import PasswordChecklist from "react-password-checklist"
 
 let url = "http://localhost:3000/api/auth/";
 const userOK = 'successfully created new user!';
@@ -36,7 +37,19 @@ function formSendData(FormObject) {
   console.log('BackEnd error:', errors);
   this.setState({ errors });
 });
+}
 
+function isPasswordValid(password, passwordAgain) {
+
+  if (password !== "undefined" &&  passwordAgain !== "undefined") {
+      
+    if (password !== passwordAgain) {
+      alert("Les deux mots de passe doivent être identique.");
+      return false;
+    }
+  } 
+
+  return true;
 }
 
 function Register() {
@@ -44,12 +57,17 @@ function Register() {
   const [name, setName] = useState('');
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+	const [password, setPassword] = useState("");
+	const [passwordAgain, setPasswordAgain] = useState("");
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const FormObject = { name, nickname, email, password};
-    formSendData(FormObject);
+
+    if (isPasswordValid(password, passwordAgain)) {
+      const FormObject = { name, nickname, email, password};
+      formSendData(FormObject);
+    }
 }
     return (
 
@@ -59,14 +77,18 @@ function Register() {
        <form onSubmit={handleSubmit}>
 
        <div class="formClass">
-       <label for="name">Prénom</label>
-       <input type="text"
-                class="form-control"
-              value={name}
-              placeholder="Pierre"
-              onChange={(e) => setName(e.target.value)}
-              ></input>
-      </div>
+        <label for="name">Prénom</label>
+        <input type="text"
+           class="form-control"
+         value={name}
+         minlength="4"
+         placeholder="Pierre"
+         pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
+         onChange={(e) => setName(e.target.value)}
+         ></input>
+        </div>
+  
+
       <div class="formClass">
        <label for="nickname">Pseudo</label>
        <input type="text"
@@ -74,6 +96,8 @@ function Register() {
               required
               value={nickname}
               placeholder="Peter"
+              minlength="4"
+              pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
               onChange={(e) => setNickname(e.target.value)}
               ></input>
       </div>
@@ -84,20 +108,33 @@ function Register() {
               required
               value={email}
               placeholder="pierre@gmail.com"
+              pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}"
               onChange={(e) => setEmail(e.target.value)}
               ></input>
         </div>
 
         <div class="formClass">
-             <label for="password">Mot de Passe</label>
-                <input type="password"
-                  required
-                  class="form-control"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  ></input>
+        <label>Mot de Passe:</label>
+			<input name="password" type="password" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" onChange={e => setPassword(e.target.value)} />
+			<label>Entrez le mot de passe à nouveau:</label>
+			<input name="password_repeat" type="password" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" onChange={e => setPasswordAgain(e.target.value)} />
 
-              </div>
+			<PasswordChecklist
+				rules={["minLength","specialChar","number","capital","match"]}
+				minLength={8}
+				value={password}
+				valueAgain={passwordAgain}
+        messages={{
+					minLength: "Le mot de passe doit contenir au moins 8 caractères.",
+					specialChar: "La mot de passe doit contenir au moins un caractère spécial.",
+					number: "Le mot de passe doit contenir au moins un nombre.",
+					capital: "Le mot de passe doit avoir au moins une majuscule.",
+					match: "Les deux mots de passe doivent être identique.",
+				}}
+        
+			/>
+        </div>
+
 
           <button type="submit" id="btnSignUp">
             Envoyer
