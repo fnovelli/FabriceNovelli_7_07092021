@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../config/my-sql')
+const Users = require('../models/User')
 
-const Comments = sequelize.define('post', {
+const Comments = sequelize.define('comment', {
 
     id:{
 
@@ -13,6 +14,9 @@ const Comments = sequelize.define('post', {
 
     message: { type: Sequelize.TEXT },
     imageUrl: { type: Sequelize.STRING, allowNull: true },
+    author: { 
+        type: Sequelize.STRING, 
+        allowNull: false },
 })
 
 

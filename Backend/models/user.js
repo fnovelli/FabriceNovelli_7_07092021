@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../config/my-sql')
+const Posts = require('../Models/Posts')
 
 const Users = sequelize.define('user', {
 
@@ -27,6 +28,12 @@ const Users = sequelize.define('user', {
  
    admin: { type: Sequelize.BOOLEAN, allowNull:false, defaultValue: false },
 })
+
+Users.hasMany(Posts, { as: "posts"});
+Posts.belongsTo(Users, {
+    foreignKey: "userId",
+    as: "user",
+});
 
 
 module.exports = Users
