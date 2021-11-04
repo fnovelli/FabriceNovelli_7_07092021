@@ -11,10 +11,8 @@ const Posts = sequelize.define('post', {
         primaryKey: true
      },
 
-
     message: { type: Sequelize.TEXT },
     imageUrl: { type: Sequelize.STRING, allowNull: true },
-    author: { type: Sequelize.STRING, allowNull: false },
 })
 
 Posts.hasMany(Comments, { as: "comments"});

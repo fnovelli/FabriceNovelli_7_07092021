@@ -6,6 +6,8 @@ require('dotenv').config()
 const path = require('path');
 
 const userRoutes = require('./routes/users');
+const postRoutes = require('./routes/posts');
+
 //init security
 var cors = require('cors');
 const rateLimit = require("express-rate-limit");
@@ -39,5 +41,6 @@ app.get('/', function (req, res) {
   app.use(limiter);
   app.use(morgan('combined'))
   app.use('/api/auth', userRoutes);
+  app.use('/api/posts', postRoutes);
 
   module.exports = app;
