@@ -1,4 +1,4 @@
 
 Frontend/index.html
 
-Backend/access.log
+*.log

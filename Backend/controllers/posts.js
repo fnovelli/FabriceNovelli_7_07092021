@@ -1,11 +1,15 @@
 const Posts = require('../Models/Posts')
+const Users = require('../Models/User')
 const sequelize = require('../config/my-sql')
 
 
 exports.createPost = (req, res) => {
 
+
     const post = { 
       message: req.body.message,
+      imageUrl: req.body.imageUrl,
+      //userId: userID,
   };
 
     Posts.create(post)
@@ -73,8 +77,6 @@ exports.deletePost = (req, res) => {
     return res.status(500).send({ error: "Error, couldn't delete post!" });
   }
 };
-
-
 
 
 async function createPostTable() {

@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../config/my-sql')
 const Posts = require('../Models/Posts')
+const Comments = require('../Models/Comments')
 
 const Users = sequelize.define('user', {
 
@@ -30,10 +31,7 @@ const Users = sequelize.define('user', {
 })
 
 Users.hasMany(Posts, { as: "posts"});
-Posts.belongsTo(Users, {
-    foreignKey: "userId",
-    as: "user",
-});
 
+Users.hasMany(Comments, { as: "comments"});
 
 module.exports = Users

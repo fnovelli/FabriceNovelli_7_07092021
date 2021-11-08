@@ -16,9 +16,5 @@ const Posts = sequelize.define('post', {
 })
 
 Posts.hasMany(Comments, { as: "comments"});
-Comments.belongsTo(Posts, {
-    foreignKey: "postId",
-    as: "post",
-});
 
 module.exports = Posts
