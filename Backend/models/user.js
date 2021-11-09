@@ -1,22 +1,20 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../config/my-sql')
-const Posts = require('../Models/Posts')
-const Comments = require('../Models/Comments')
 
 const Users = sequelize.define('user', {
 
-   userId:{
+   id:{
       // Integer Datatype
       type:Sequelize.INTEGER,
 
       // Increment the value automatically
-      autoIncrement:true,
+      autoIncrement: true,
 
       // user_id can not be null.
-      allowNull:false,
+      allowNull: false,
 
       // To uniquely identify user
-      primaryKey:true
+      primaryKey: true
    },
 
    name: { type: Sequelize.STRING, allowNull:false },
@@ -30,8 +28,32 @@ const Users = sequelize.define('user', {
    admin: { type: Sequelize.BOOLEAN, allowNull:false, defaultValue: false },
 })
 
-Users.hasMany(Posts, { as: "posts"});
 
-Users.hasMany(Comments, { as: "comments"});
+async function createJaneUser() {
+   const jane = Users.build({ 
+      name: 'Jane',
+      nickname: 'Jaja',
+      email: 'jane@gmail.com',
+      password: 'passw0rd',
+      admin: false
+   })
+
+   console.log(jane.name);
+   console.log(jane.nickname);
+   try { 
+   await jane.save();
+   console.log("user " + jane.name + " has been added in the database.");
+   }
+   catch (error) {
+      console.error('Unable to save user in DBB.', error);
+   }
+
+
+  await sequelize.sync({force:false});
+}
+
+//createJaneUser();
+
+
 
 module.exports = Users

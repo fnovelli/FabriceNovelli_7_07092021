@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../config/my-sql')
-const Comments = require('../Models/Comments')
+
 
 const Posts = sequelize.define('post', {
 
@@ -13,8 +13,26 @@ const Posts = sequelize.define('post', {
 
     message: { type: Sequelize.TEXT },
     imageUrl: { type: Sequelize.STRING, allowNull: true },
+
 })
 
-Posts.hasMany(Comments, { as: "comments"});
+
+async function createPostTable() {
+    const post = Posts.create ({ 
+       message: 'test msg',
+    })
+  
+    try { 
+    await post.save();
+  
+    }
+    catch (error) {
+       console.error('Unable to save post in DBB.', error);
+    }
+  
+   await sequelize.sync({force:false});
+  }
+  
+//createPostTable();
 
 module.exports = Posts

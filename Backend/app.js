@@ -14,6 +14,7 @@ const rateLimit = require("express-rate-limit");
 var morgan = require('morgan');
 const sequelize = require('./config/my-sql');
 
+const index = require('./Models/Index');
 const app = express();
 
 // create a write stream (in append mode)
@@ -31,6 +32,7 @@ app.get('/', function (req, res) {
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 1000 // limit each IP to 1000 requests per windowMs
   });
+
 
   //body-parser is outdated, we use this syntax instead, the idea is still the same, analyse and treat body request.
   app.use(express.urlencoded({extended: true})); 

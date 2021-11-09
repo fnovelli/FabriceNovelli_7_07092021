@@ -5,16 +5,15 @@ const sequelize = require('../config/my-sql')
 
 exports.createPost = (req, res) => {
 
-
     const post = { 
+      userId: req.body.userId,
       message: req.body.message,
       imageUrl: req.body.imageUrl,
-      //userId: userID,
   };
 
     Posts.create(post)
     .then(post => {
-      return res.status(201).send({ post: "Message posted!" });
+      return res.status(201).send({ post: "Message sent!" });
   })
   .catch(error => res.status(400).json({ error }));
 };
@@ -79,20 +78,3 @@ exports.deletePost = (req, res) => {
 };
 
 
-async function createPostTable() {
-  const post = Posts.create ({ 
-     message: 'NANIIIIIIIIIIIII TEST',
-  })
-
-  try { 
-  await post.save();
-
-  }
-  catch (error) {
-     console.error('Unable to save post in DBB.', error);
-  }
-
- await sequelize.sync({force:false});
-}
-
-//createPostTable();
