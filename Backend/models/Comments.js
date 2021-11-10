@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize')
 const sequelize = require('../config/my-sql')
-const Users = require('../models/User')
-const Posts = require('../models/Posts')
 
 const Comments = sequelize.define('comment', {
 
@@ -15,13 +13,27 @@ const Comments = sequelize.define('comment', {
 
     comment: { type: Sequelize.TEXT },
     imageUrl: { type: Sequelize.STRING, allowNull: true },
-    author: { 
-        type: Sequelize.STRING, 
-        allowNull: false },
     msgId: { type: Sequelize.INTEGER },
     userId: { type: Sequelize.INTEGER },
 
 })
 
+async function createCommentTable() {
+    const comment = Comments.create ({ 
+       comment: 'test msg',
+    })
+  
+    try { 
+    await comment.save();
+  
+    }
+    catch (error) {
+       console.error('Unable to save comment in DBB.', error);
+    }
+  
+   await sequelize.sync({force:true});
+  }
+  
+createCommentTable();
 
 module.exports = Comments

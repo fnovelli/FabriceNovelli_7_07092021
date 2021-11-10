@@ -6,7 +6,6 @@ const sequelize = require('../config/my-sql')
 exports.createPost = (req, res) => {
 
     const post = { 
-      userId: req.body.userId,
       message: req.body.message,
       imageUrl: req.body.imageUrl,
   };
@@ -64,7 +63,6 @@ exports.updatePost = (req, res) => {
     return res.status(500).send({ error: "Error, couldn't update post!" });
   }
 };
-
 exports.deletePost = (req, res) => {
 
   try {

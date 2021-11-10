@@ -30,7 +30,7 @@ async function createPostTable() {
        console.error('Unable to save post in DBB.', error);
     }
   
-   await sequelize.sync({force:false});
+   await sequelize.sync({force:true});
   }
   
 //createPostTable();
