@@ -1,27 +1,25 @@
-const Posts = require('../Models/Posts')
-const Users = require('../Models/User')
-const sequelize = require('../config/my-sql')
+const db = require('../Models/Index');
+const jwt = require("../middleware/auth");
 
 
-exports.createPost = (req, res) => {
+exports.createPost = async (req, res) => {
 
     const post = { 
+      userId: req.body.userId,
       message: req.body.message,
       imageUrl: req.body.imageUrl,
   };
 
-    Posts.create(post)
-    .then(post => {
-      return res.status(201).send({ post: "Message sent!" });
-  })
-  .catch(error => res.status(400).json({ error }));
+  await db.posts.create(post)
+        .then(() => res.status(201).json({ post: "Message sent" }))
+        .catch(error => res.status(400).json({ error }));
 };
 
 exports.getPost = (req, res) => {
   
   const id = req.params.id;
 
-  Posts.findByPk(id)
+  db.posts.findByPk(id)
     .then(data => {
       if (data) {
         res.send(data);
@@ -40,23 +38,28 @@ exports.getPost = (req, res) => {
 
 exports.getAllPosts = (req, res) => {
 
-  const title = req.query.title;
-  var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
-  
-  Posts.findAll( { where: condition}).
-  then((data) => {
-    res.send(data);
-  })
+  db.posts.findAll( { 
+    attributes: ["id", "message"],
+    include: [
+      {
+      model: db.users, as: "user",
+
+      },
+    ],
+    
+}).then((data) => {
+  res.send(data);
+})
 .catch((error) => {
-    console.log(error);
+  console.log(error);
 });
-};
+}
 
 exports.updatePost = (req, res) => {
   try {
 
     const id = req.params.id;
-    Posts.update( req.body, { where: { id: id } }); 
+    db.posts.update( req.body, { where: { id: id } }); 
     return res.status(200).json({ message: "Successfully updated post!" });
     
   } catch (error) {
@@ -67,7 +70,7 @@ exports.deletePost = (req, res) => {
 
   try {
     const id = req.params.id;
-    Posts.destroy({ where: { id: id } }); 
+    db.posts.destroy({ where: { id: id } }); 
     return res.status(200).json({ message: "Successfully deleted post!" });
     
   } catch (error) {

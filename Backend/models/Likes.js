@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize')
-const sequelize = require('../config/my-sql')
+/*const Sequelize = require('sequelize')
+const db = require('../Models/Index');
 
 const Likes = sequelize.define('like', {
 
@@ -12,4 +12,4 @@ const Likes = sequelize.define('like', {
 })
 
 
-module.exports = Likes
+module.exports = Likes*/

@@ -1,23 +1,24 @@
-const Sequelize = require('sequelize')
-const sequelize = require('../config/my-sql')
 
 
-const Posts = sequelize.define('post', {
+module.exports = (sequelize, Sequelize) => {
+   const Posts = sequelize.define("posts", {
 
-    id:{
-        type:Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-     },
+      id:{
+         type:Sequelize.INTEGER,
+         autoIncrement: true,
+         allowNull: false,
+         primaryKey: true
+      },
+ 
+     message: { type: Sequelize.TEXT },
+     imageUrl: { type: Sequelize.STRING, allowNull: true },
+   });
 
-    message: { type: Sequelize.TEXT },
-    imageUrl: { type: Sequelize.STRING, allowNull: true },
-
-})
+   return Posts;
+};
 
 
-async function createPostTable() {
+/*async function createPostTable() {
     const post = Posts.create ({ 
        message: 'test msg',
     })
@@ -33,6 +34,5 @@ async function createPostTable() {
    await sequelize.sync({force:true});
   }
   
-//createPostTable();
+//createPostTable();*/
 
-module.exports = Posts

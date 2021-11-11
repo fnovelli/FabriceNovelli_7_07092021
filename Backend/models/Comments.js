@@ -34,6 +34,6 @@ async function createCommentTable() {
    await sequelize.sync({force:true});
   }
   
-createCommentTable();
+//createCommentTable();
 
 module.exports = Comments

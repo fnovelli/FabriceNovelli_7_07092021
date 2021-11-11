@@ -1,7 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
 var passwordValidator = require('password-validator');
+const db = require('../Models/Index');
+
+const User = db.users;
 
 //limit inject attack and force user to have strong password.
 var schema = new passwordValidator();

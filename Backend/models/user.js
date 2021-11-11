@@ -1,35 +1,38 @@
-const Sequelize = require('sequelize')
-const sequelize = require('../config/my-sql')
 
-const Users = sequelize.define('user', {
+module.exports = (sequelize, Sequelize) => {
 
-   id:{
-      // Integer Datatype
-      type:Sequelize.INTEGER,
+   const Users = sequelize.define("users", {
 
-      // Increment the value automatically
-      autoIncrement: true,
-
-      // user_id can not be null.
-      allowNull: false,
-
-      // To uniquely identify user
-      primaryKey: true
-   },
-
-   name: { type: Sequelize.STRING, allowNull:false },
-
-   nickname: { type: Sequelize.STRING, allowNull:false },
-
-   email: { type: Sequelize.STRING, allowNull:false, unique: true },
+      id:{
+         // Integer Datatype
+         type:Sequelize.INTEGER,
    
-   password: { type: Sequelize.STRING, allowNull:false },
- 
-   admin: { type: Sequelize.BOOLEAN, allowNull:false, defaultValue: false },
-})
+         // Increment the value automatically
+         autoIncrement: true,
+   
+         // user_id can not be null.
+         allowNull: false,
+   
+         // To uniquely identify user
+         primaryKey: true
+      },
+   
+      name: { type: Sequelize.STRING, allowNull:false },
+   
+      nickname: { type: Sequelize.STRING, allowNull:false },
+   
+      email: { type: Sequelize.STRING, allowNull:false, unique: true },
+      
+      password: { type: Sequelize.STRING, allowNull:false },
+    
+      admin: { type: Sequelize.BOOLEAN, allowNull:false, defaultValue: false },
+   });
+
+   return Users;
+};
 
 
-async function createJaneUser() {
+/*async function createJaneUser() {
    const jane = Users.build({ 
       name: 'Jane',
       nickname: 'Jaja',
@@ -52,8 +55,4 @@ async function createJaneUser() {
   await sequelize.sync({force:false});
 }
 
-//createJaneUser();
-
-
-
-module.exports = Users
+//createJaneUser();*/
