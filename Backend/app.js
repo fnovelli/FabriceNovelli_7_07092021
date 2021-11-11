@@ -7,7 +7,7 @@ const path = require('path');
 
 const userRoutes = require('./routes/users');
 const postRoutes = require('./routes/posts');
-//const commentRoutes = require('./routes/comments');
+const commentRoutes = require('./routes/comments');
 
 //init security
 var cors = require('cors');
@@ -45,6 +45,6 @@ app.get('/', function (req, res) {
   app.use(morgan('combined'))
   app.use('/api/auth', userRoutes);
   app.use('/api/posts', postRoutes);
-  //app.use('/api/posts/comments', commentRoutes);
+  app.use('/api/posts/comments', commentRoutes);
 
   module.exports = app;

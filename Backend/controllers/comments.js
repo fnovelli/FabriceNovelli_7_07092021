@@ -1,17 +1,18 @@
-const Comments = require('../Models/Comments')
+const db = require('../Models/Index');
+const Comments = db.comments;
 
-exports.createComment = (req, res) => {
+exports.createComment = async (req, res) => {
 
-    const comment = { 
-        comment: req.body.message,
-      imageUrl: req.body.imageUrl,
-  };
+  const comment = { 
+    userId: req.body.userId,
+    msgId: req.body.msgId,
+    comment: req.body.comment,
+    imageUrl: req.body.imageUrl,
+};
 
-    Comments.create(comment)
-    .then(comment => {
-      return res.status(201).send({ comment: "Comment sent!" });
-  })
-  .catch(error => res.status(400).json({ error }));
+await Comments.create(comment)
+      .then(() => res.status(201).json({ comment: "Comment sent" }))
+      .catch(error => res.status(400).json({ error }));
 };
 
 exports.getComment = (req, res) => {

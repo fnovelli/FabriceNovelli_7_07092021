@@ -20,15 +20,6 @@ async function DBconnection() {
 
 DBconnection();
 
-//const Comments = require('../Models/Comments')
-//const Users = require('../Models/User')
-
-//Users.hasMany(Posts, {as: 'posts'})
-//Users.hasMany(Comments, {as: 'comments', foreignKey: 'userId'})
-
-//Posts.belongsTo(Users, {foreignKey: 'userId', as: 'user', });
-//Comments.belongsTo(Users, {foreignKey: 'userId', as: 'user', });
-//Comments.belongsTo(Posts, {foreignKey: 'msgId', as: 'post', });
 
 const db = {};
 
@@ -37,14 +28,17 @@ db.sequelize = sequelize;
 
 db.users = require('../Models/User')(sequelize, Sequelize);
 db.posts = require('../Models/Posts')(sequelize, Sequelize);
+db.comments = require('../Models/Comments')(sequelize, Sequelize);
 
-db.users.hasMany(db.posts, {as: 'posts'})
-
-//Users.hasMany(Comments, {as: 'comments', foreignKey: 'userId'})
-//Comments.belongsTo(Users, {foreignKey: 'userId', as: 'user', });
-//Comments.belongsTo(Posts, {foreignKey: 'msgId', as: 'post', });
 
 db.posts.belongsTo(db.users, {foreignKey: 'userId', as: 'user', });
+
+db.comments.belongsTo(db.users, {foreignKey: 'userId', as: 'user', });
+db.comments.belongsTo(db.posts, {foreignKey: 'msgId', as: 'post', });
+
+db.users.hasMany(db.posts, {as: 'post'});
+db.users.hasMany(db.comments, {as: 'comment'});
+
 
 
 module.exports = db;

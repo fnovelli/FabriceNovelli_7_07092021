@@ -1,24 +1,28 @@
-const Sequelize = require('sequelize')
-const sequelize = require('../config/my-sql')
 
-const Comments = sequelize.define('comment', {
 
-    id:{
 
-        type:Sequelize.INTEGER,
-        autoIncrement: true,
-        allowNull: false,
-        primaryKey: true
-     },
 
-    comment: { type: Sequelize.TEXT },
-    imageUrl: { type: Sequelize.STRING, allowNull: true },
-    msgId: { type: Sequelize.INTEGER },
-    userId: { type: Sequelize.INTEGER },
 
-})
+module.exports = (sequelize, Sequelize) => {
+   const Comments = sequelize.define("comment", {
 
-async function createCommentTable() {
+      id:{
+
+         type:Sequelize.INTEGER,
+         autoIncrement: true,
+         allowNull: false,
+         primaryKey: true
+      },
+ 
+     comment: { type: Sequelize.TEXT },
+     imageUrl: { type: Sequelize.STRING, allowNull: true },
+   });
+
+   return Comments;
+};
+
+
+/*async function createCommentTable() {
     const comment = Comments.create ({ 
        comment: 'test msg',
     })
@@ -32,8 +36,7 @@ async function createCommentTable() {
     }
   
    await sequelize.sync({force:true});
-  }
+  }*/
   
 //createCommentTable();
 
-module.exports = Comments
