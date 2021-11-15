@@ -1,11 +1,18 @@
 const db = require('../Models/Index');
-const jwt = require("../middleware/auth");
-
+const jwt = require("../middleware/token");
 
 exports.createPost = async (req, res) => {
 
+
+    const id = jwt.getUserId(req);
+
+    if (id == null)
+    {
+      return res.status(400).json({ error: 'unexpected error, cannot get user token' });
+    }
+
     const post = { 
-      userId: req.body.userId,
+      userId: id,
       message: req.body.message,
       imageUrl: req.body.imageUrl,
   };
@@ -13,6 +20,7 @@ exports.createPost = async (req, res) => {
   await db.posts.create(post)
         .then(() => res.status(201).json({ post: "Message sent" }))
         .catch(error => res.status(400).json({ error }));
+
 };
 
 exports.getPost = (req, res) => {
@@ -36,13 +44,14 @@ exports.getPost = (req, res) => {
     });
 };
 
-exports.getAllPosts = (req, res) => {
+exports.getAllPosts = async (req, res) => {
 
   db.posts.findAll( { 
     attributes: ["id", "message"],
     include: [
       {
       model: db.users, as: "user",
+      attributes: ["nickname"],
 
       },
     ],
