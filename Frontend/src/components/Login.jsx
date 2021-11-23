@@ -1,9 +1,10 @@
-
 import React, { useState} from 'react';
 import './styles/form.css'
 
+
 let url = "http://localhost:3000/api/auth/login";
 const userOK = 'successfully logged!';
+
 
 function handleLoginError(status) {
 
@@ -12,7 +13,7 @@ function handleLoginError(status) {
     case 200:
     case 201:
     console.log(userOK);
-    return alert(userOK);
+    break;
     case 404:
         return alert('Error, user not found in the database.');
     case 406:

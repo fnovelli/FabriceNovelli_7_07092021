@@ -1,8 +1,4 @@
 
-
-
-
-
 module.exports = (sequelize, Sequelize) => {
    const Comments = sequelize.define("comment", {
 

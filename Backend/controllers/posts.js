@@ -3,7 +3,6 @@ const jwt = require("../middleware/token");
 
 exports.createPost = async (req, res) => {
 
-
     const id = jwt.getUserId(req);
 
     if (id == null)
@@ -23,7 +22,7 @@ exports.createPost = async (req, res) => {
 
 };
 
-exports.getPost = (req, res) => {
+exports.getPost = async (req, res) => {
   
   const id = req.params.id;
 
@@ -64,7 +63,7 @@ exports.getAllPosts = async (req, res) => {
 });
 }
 
-exports.updatePost = (req, res) => {
+exports.updatePost = async (req, res) => {
   try {
 
     const id = req.params.id;

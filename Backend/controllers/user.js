@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 var passwordValidator = require('password-validator');
 const db = require('../Models/Index');
+const token = require("../middleware/token");
 
 const User = db.users;
 
@@ -17,6 +18,15 @@ schema
 .has().digits(1)
 .has().symbols(1)                                 
 .has().not().spaces();
+
+
+let cookieOptions = {
+  name: "",
+  expires: new Date(Date.now() + 90 * 24 * 60 * 60),
+  httpOnly: true,
+    // Set the cookie's HttpOnly flag to ensure the cookie is 
+  // not accessible through JS, making it immune to XSS attacks  
+};
 
 exports.createUser = (req, res) => {
 
@@ -73,6 +83,7 @@ exports.login = (req, res) => {
           res.status(200).json({ 
               userId: user.id,
               token: jwt.sign({ userId: user.id }, secret, { expiresIn: '24h' }),
+              cookie: cookieOptions.name = token,
               message: 'Sucessfully Connected'
 
             });
@@ -82,6 +93,18 @@ exports.login = (req, res) => {
           .catch(error => res.status(406).json({ error }));
       })
       .catch(error => res.status(500).json({ error }));
+};
+
+exports.isTokenValid = async (req, res) => {
+
+  const id = token.getUserId(req);
+
+  if (id == null)
+  {
+    return res.status(400).json({ error: 'unexpected error, cannot get user token' });
+  }
+
+  return res.status(200).json({ message: "User connected!" });
 };
 
 

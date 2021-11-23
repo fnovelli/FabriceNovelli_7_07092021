@@ -10,5 +10,6 @@ router.delete('/:id', userCtrl.deleteUser);
 
 
 router.post('/login', userCtrl.login);
+router.get("/logged/:id", userCtrl.isTokenValid);
 
 module.exports = router;
