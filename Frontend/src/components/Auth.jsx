@@ -1,5 +1,5 @@
 
-let urlLogged = "http://localhost:3000/api/auth/logged/";
+let urlLogged = "http://localhost:3000/api/auth/logged";
 
 
 function AuthCheck(status) {
@@ -18,17 +18,18 @@ function AuthCheck(status) {
 //todo add token
 async function isLogged() {
 
-  await fetch(urlLogged + '1', {
+
+  await fetch(urlLogged, {
     method: 'GET',  
-    credentials: 'same-origin',
+    credentials: 'include',
     headers: {
       'Accept': 'application/json',
-      'Authorization': 'Bearer ',
     }
   }).then(response => {
      if (AuthCheck(response.status))
      {
        if (response.ok) {
+
           console.log('sucessfully updated site with logged user.');
             return true;
        }

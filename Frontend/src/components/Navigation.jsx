@@ -4,91 +4,89 @@ import { isLogged } from "./Auth";
 
 
 
-
 function DisplayLoginBar(props) {
 
-let islog = isLogged();
+  let islog = isLogged();
+  
+    if (!islog)  {
+     
+      return (
 
-  if (islog !== true)  {
-
-    
-    return (
-      <div className="navigation">
-      <nav class="navbar navbar-expand navbar-dark bg-dark">
-        <div class="container">
-      <div>
-      <li
-      class={`nav-item  ${
-        props.location.pathname === "/register" ? "active" : ""
-      }`}
-    >
-      <Link class="nav-link" to="/register">
-        S'inscrire
-      </Link>
-    </li>
-
-
-    <li
-      class={`nav-item  ${
-        props.location.pathname === "/login" ? "active" : ""
-      }`}
-    >
-      <Link class="nav-link" to="/login">
-        Connexion
-        
-      </Link>
-    </li>
-    </div>
-    </div>
-    </nav>
-    </div>
-    )
-
-    
-  } else {
-
-    
-    return (
-      <div className="navigation">
-      <nav class="navbar navbar-expand navbar-dark bg-dark">
-        <div class="container">
-      <div>
-      <li
-      class={`nav-item  ${
-        props.location.pathname === "/profile" ? "active" : ""
-      }`}
-    >
-      <Link class="nav-link" to="/profile">
-        Mon Profil
-      </Link>
-    </li>
-
-
-    <li
-      class={`nav-item  ${
-        props.location.pathname === "/logout" ? "active" : ""
-      }`}
-    >
-      <Link class="nav-link" to="/logout">
-        Déconnexion
-        
-      </Link>
+        <div>
+        <li
+        class={`nav-item  ${
+          props.location.pathname === "/register" ? "active" : ""
+        }`}
+      >
+        <Link class="nav-link" to="/register">
+          S'inscrire
+        </Link>
       </li>
-    </div>
-    </div>
-    </nav>
-    </div>
-    )
+  
+  
+      <li
+        class={`nav-item  ${
+          props.location.pathname === "/login" ? "active" : ""
+        }`}
+      >
+        <Link class="nav-link" to="/login">
+          Connexion
+          
+        </Link>
+      </li>
+      </div>
 
-    
+
+      )
+  
+      
+    } else {
+  
+      
+      return (
+        <div className="navigation">
+        <nav class="navbar navbar-expand navbar-dark bg-dark">
+          <div class="container">
+        <div>
+        <li
+        class={`nav-item  ${
+          props.location.pathname === "/profile" ? "active" : ""
+        }`}
+      >
+        <Link class="nav-link" to="/profile">
+          Mon Profil
+        </Link>
+      </li>
+  
+  
+      <li
+        class={`nav-item  ${
+          props.location.pathname === "/logout" ? "active" : ""
+        }`}
+      >
+        <Link class="nav-link" to="/logout">
+          Déconnexion
+          
+        </Link>
+        </li>
+      </div>
+      </div>
+      </nav>
+      </div>
+      )
+  
+      
+    }
   }
-}
+
+class Navigation extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
 
 
-
-function Navigation(props) {
-
-
+  render() {
 
     return (
       <div className="navigation">
@@ -102,7 +100,7 @@ function Navigation(props) {
               <ul class="navbar-nav ml-auto">
                 <li
                   class={`nav-item  ${
-                    props.location.pathname === "/" ? "active" : ""
+                    this.props.location.pathname === "/" ? "active" : ""
                   }`}
                 >
                   <Link class="nav-link" to="/">
@@ -111,13 +109,13 @@ function Navigation(props) {
                   </Link>
                 </li>
 
-                {DisplayLoginBar(props)}
+                {DisplayLoginBar(this.props)}
   
 
   
                 <li
                   class={`nav-item  ${
-                    props.location.pathname === "/contact" ? "active" : ""
+                    this.props.location.pathname === "/contact" ? "active" : ""
                   }`}
                 >
                         <div class="nav-link">
@@ -130,7 +128,8 @@ function Navigation(props) {
         </nav>
       </div>
     );
-                
+
+}
 }
 
 export default withRouter(Navigation);

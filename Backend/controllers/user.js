@@ -76,7 +76,8 @@ exports.login = async (req, res) => {
           }
 
             const tokenJ = jwt.sign({ userId: user.id }, secret, { expiresIn: '24h' });
-            
+    
+            //send cookie to browser, "httpOnly" so the browser cannot read it, "strict" so only our client can use the cookie.
             res.cookie('user_token', tokenJ, { httpOnly: true, sameSite: 'strict' });
             res.status(200).json({ 
             userId: user.id,
@@ -92,14 +93,15 @@ exports.login = async (req, res) => {
 
 exports.isTokenValid = async (req, res) => {
 
-  const id = token.getUserId(req);
+
+  const id = req.cookies['user_token']; //[user_token];
 
   if (id == null)
   {
-    return res.status(400).json({ error: 'unexpected error, cannot get user token' });
+    return res.status(400).json({ error: 'unexpected error, cannot get user token', cookie: req.cookies });
   }
 
-  return res.status(200).json({ message: "User connected!" });
+   return res.status(200).json({ message: "User connected!!!!" , cookie: req.cookies });
 };
 
 
