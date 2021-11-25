@@ -3,46 +3,15 @@ import { Link, withRouter } from "react-router-dom";
 import { isLogged } from "./Auth";
 
 
+
+
 function DisplayLoginBar(props) {
 
 let islog = isLogged();
 
-  if (islog !== false)  {
+  if (islog !== true)  {
 
-    return (
-      <div className="navigation">
-      <nav class="navbar navbar-expand navbar-dark bg-dark">
-        <div class="container">
-      <div>
-      <li
-      class={`nav-item  ${
-        props.location.pathname === "/profile" ? "active" : ""
-      }`}
-    >
-      <Link class="nav-link" to="/profile">
-        Mon Profil
-      </Link>
-    </li>
-
-
-    <li
-      class={`nav-item  ${
-        props.location.pathname === "/logout" ? "active" : ""
-      }`}
-    >
-      <Link class="nav-link" to="/logout">
-        Déconnexion
-        
-      </Link>
-      </li>
-    </div>
-    </div>
-    </nav>
-    </div>
-    )
     
-  } else {
-
     return (
       <div className="navigation">
       <nav class="navbar navbar-expand navbar-dark bg-dark">
@@ -74,6 +43,43 @@ let islog = isLogged();
     </nav>
     </div>
     )
+
+    
+  } else {
+
+    
+    return (
+      <div className="navigation">
+      <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <div class="container">
+      <div>
+      <li
+      class={`nav-item  ${
+        props.location.pathname === "/profile" ? "active" : ""
+      }`}
+    >
+      <Link class="nav-link" to="/profile">
+        Mon Profil
+      </Link>
+    </li>
+
+
+    <li
+      class={`nav-item  ${
+        props.location.pathname === "/logout" ? "active" : ""
+      }`}
+    >
+      <Link class="nav-link" to="/logout">
+        Déconnexion
+        
+      </Link>
+      </li>
+    </div>
+    </div>
+    </nav>
+    </div>
+    )
+
     
   }
 }

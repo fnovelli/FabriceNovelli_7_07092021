@@ -1,4 +1,5 @@
 const express = require('express');
+const cookieParser = require('cookie-parser');
 
 var fs = require('fs')
 require('dotenv').config()
@@ -17,6 +18,7 @@ var morgan = require('morgan');
 const index = require('./Models/Index');
 
 const app = express();
+
 
 // create a write stream (in append mode)
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
@@ -40,7 +42,12 @@ app.get('/', function (req, res) {
   app.use(express.json());
 
   //fix security when doing http request
-  app.use(cors())
+  app.use(cors({
+    origin : 'http://localhost:8000',
+    credentials: true, // <= Accept credentials (cookies) sent by the client
+  }));
+  
+  app.use(cookieParser());
   app.use(limiter);
   app.use(morgan('combined'))
   app.use('/api/auth', userRoutes);
