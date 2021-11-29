@@ -2,6 +2,8 @@
 let urlLogged = "http://localhost:3000/api/auth/logged";
 
 
+let isConnected = false;
+
 function AuthCheck(status) {
 
   switch (status)
@@ -15,38 +17,37 @@ function AuthCheck(status) {
   }
 }
 
-//todo add token
+
 async function isLogged() {
 
-
-  await fetch(urlLogged, {
+  try {
+ const answer = await fetch(urlLogged, {
     method: 'GET',  
     credentials: 'include',
     headers: {
       'Accept': 'application/json',
     }
-  }).then(response => {
-     if (AuthCheck(response.status))
-     {
-       if (response.ok) {
-
-          console.log('sucessfully updated site with logged user.');
-            return true;
-       }
-     }
-
-     return false;
-  }).catch(errors => {
-
-    console.log('BackEnd error:', errors);
+  })
+  if (AuthCheck(answer.status)) {
+    if (answer.ok)
+    {
+      isConnected = true;
+      return true;
+    }
+  } else {
+    isConnected = false;
     return false;
-  
-})
+    
+  }
+} catch (error)
+{
+  isConnected = false;
+  return false;
+}
 
-return false;
 }
 
 
 export {
-    isLogged,
+    isLogged, isConnected
 }
