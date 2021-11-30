@@ -5,7 +5,6 @@ import './styles/form.css'
 let url = "http://localhost:3000/api/auth/login";
 const userOK = 'successfully logged!';
 
-
 function handleLoginError(status) {
 
   switch (status)
@@ -26,9 +25,9 @@ function handleLoginError(status) {
   }
 }
 
-function loginSendData(FormObject) {
+async function loginSendData(FormObject) {
 
-  fetch(url, {
+  await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -36,6 +35,10 @@ function loginSendData(FormObject) {
 
   }).then(response => {
     handleLoginError(response.status);
+    if (response.ok)
+    {
+      
+    }
   }).catch(errors => {
   console.log('BackEnd error:', errors);
   this.setState({ errors });
@@ -43,31 +46,63 @@ function loginSendData(FormObject) {
 
 }
 
-function Login() {
-    
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+
+class Login extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLog: false,
+      email: '',
+      password: '',
+  }
+}
+
+updateEmail(e) {
+
+  this.setState({
+    email: e.target.value,
+  });
+}
+
+updatePassword(e) {
+
+  this.setState({
+    password: e.target.value,
+  });
+}
+
+ handleSubmit = (e) => {
+  var email = this.state.email;
+  var password = this.state.password;
+
     e.preventDefault();
     const FormObject = { email, password};
     loginSendData(FormObject);
 }
-    return (
+  
 
+
+render() {
+    
+  return (
+ 
+    <div>
+      
       <section id="formBlock">
       <h1>Veuillez rentrer vos identifiants.</h1>
 
-       <form onSubmit={handleSubmit}>
+       <form onSubmit={ this.handleSubmit }>
 
       <div class="formClass">
       <label for="email">E-mail</label>
       <input type="mail"
                 class="form-control"
               required
-              value={email}
+              value={this.state.email}
               placeholder="pierre@gmail.com"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={this.updateEmail.bind(this)}
               ></input>
         </div>
 
@@ -76,8 +111,8 @@ function Login() {
                 <input type="password"
                   required
                   class="form-control"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={this.state.password}
+                  onChange={this.updatePassword.bind(this)}
                   ></input>
 
               </div>
@@ -85,13 +120,18 @@ function Login() {
           <button type="submit" id="btnSignUp">
             Connexion
           </button>
-    
+
+
           </form>
       
       </section>
 
-  
-    );
-  };
+
+    </div>
+  )
+
+  }
+}
+
   
   export default Login;

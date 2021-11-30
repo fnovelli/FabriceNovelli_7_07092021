@@ -1,5 +1,6 @@
 import React from "react";
 import { isLogged } from "./Auth";
+import { Message } from "../components";
 
 
 class Home extends React.Component {
@@ -65,6 +66,16 @@ displayHomeMessage() {
       </a>
 
   </div>
+    )
+  }
+  else {
+    return (
+      <div>
+        <Message />
+
+
+
+    </div>
     )
   }
 
