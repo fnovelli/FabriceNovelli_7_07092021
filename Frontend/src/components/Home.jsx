@@ -1,6 +1,7 @@
 import React from "react";
 import { isLogged } from "./Auth";
 import { Message } from "../components";
+import "./styles/home.css"
 
 
 class Home extends React.Component {
@@ -21,16 +22,23 @@ class Home extends React.Component {
     return (
       <div className="home">
       <header class="container">
-        <div class="row align-items-center my-5">
-          <div class="col-lg-7">
+     
+          <div class="title">
         <h2>Welcome to Groupomania</h2>
+        </div>
+        
+          </header>
+   
+
+ 
+    
 
         { this.displayHomeMessage() }
+        </div>
   
-        </div>
-        </div>
-          </header>
-          </div>
+    
+       
+       
     )
 
   }

@@ -1,4 +1,5 @@
 import React from "react";
+import "./styles/message.css"
 
 
 let url = 'http://localhost:3000/api/posts';
@@ -34,7 +35,6 @@ async getMessages() {
 
       if (answer.ok)
       {
-
         return answer.json();
       }
      else {
@@ -52,16 +52,40 @@ async getMessages() {
 displayMessages() {
 
     const { message } = this.state;
+    { console.log(message) }
+
 
     return (
 
-   message.map((message) => (
-        <ol key = { message.id } >
-            message: { message.message }
-            id: { message.id }
+      <div>
+
+   {  message.map((message) => (
+
+   <ol key = { message.id } >
+
+    <div className="post">
+        <div className="postWrapper">
+            <div className="postTop">
+            <div className="postTopLeft">
+            #{ message.id } posté par: { message.nickname }
+   
+            
+            </div>
+            </div>
+                 
+            <div>
+             { message.message }
+            </div>
+            </div>
+              
+    </div>
         </ol>
-    ))  
+    )) }  
+    
+    </div>
+
     )
+      
 }
 
   render() {

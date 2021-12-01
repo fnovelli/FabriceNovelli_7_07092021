@@ -2,8 +2,6 @@ const jwt = require('jsonwebtoken');
 let secret = process.env.JWT_SECRET;
 
 
-
-
 module.exports = (req, res, next) => {
   try {
   
