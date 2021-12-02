@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { isLogged } from "./Auth";
+import "./styles/navigation.css";
 
 
 class Navigation extends React.Component {

@@ -2,5 +2,13 @@
     padding: 20px;
     display: flex;
     align-items: center;
+    color: white;
+
     justify-content: center;
+
+}
+
+.bgHome {
+
+    color: white;
 }

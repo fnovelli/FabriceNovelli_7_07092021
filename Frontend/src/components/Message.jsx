@@ -52,33 +52,35 @@ async getMessages() {
 displayMessages() {
 
     const { message } = this.state;
-    { console.log(message) }
-
 
     return (
 
+      
       <div>
+          
+          { console.log(message) }
 
    {  message.map((message) => (
+     
 
    <ol key = { message.id } >
-
-    <div className="post">
+    
+    <article className="postContainer">
         <div className="postWrapper">
             <div className="postTop">
             <div className="postTopLeft">
-            #{ message.id } posté par: { message.nickname }
+            { message.user.nickname }
    
             
             </div>
             </div>
                  
-            <div>
+            <div className="post">
              { message.message }
             </div>
             </div>
               
-    </div>
+    </article>
         </ol>
     )) }  
     

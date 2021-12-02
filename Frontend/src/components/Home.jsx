@@ -20,7 +20,7 @@ class Home extends React.Component {
   displayWelcomeMessage() {
        
     return (
-      <div className="home">
+      <div className="bgHome">
       <header class="container">
      
           <div class="title">
@@ -28,9 +28,6 @@ class Home extends React.Component {
         </div>
         
           </header>
-   
-
- 
     
 
         { this.displayHomeMessage() }
