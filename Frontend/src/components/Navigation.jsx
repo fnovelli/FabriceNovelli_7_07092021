@@ -16,9 +16,7 @@ class Navigation extends React.Component {
       isLog: await isLogged()
     });
   }
-
   
-
   DisplayLoginBar() {
 
     return (

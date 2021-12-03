@@ -26,33 +26,18 @@ module.exports = (sequelize, Sequelize) => {
       password: { type: Sequelize.STRING, allowNull:false },
     
       admin: { type: Sequelize.BOOLEAN, allowNull:false, defaultValue: false },
+
+      avatar: { type: Sequelize.STRING, allowNull: true },
    });
 
    return Users;
 };
 
 
-/*async function createJaneUser() {
-   const jane = Users.build({ 
-      name: 'Jane',
-      nickname: 'Jaja',
-      email: 'jane@gmail.com',
-      password: 'passw0rd',
-      admin: false
-   })
-
-   console.log(jane.name);
-   console.log(jane.nickname);
-   try { 
-   await jane.save();
-   console.log("user " + jane.name + " has been added in the database.");
-   }
-   catch (error) {
-      console.error('Unable to save user in DBB.', error);
-   }
+async function createJaneUser() {
 
 
-  await sequelize.sync({force:false});
+  await Sequelize.sync({force:true});
 }
 
-//createJaneUser();*/
+createJaneUser();

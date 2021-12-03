@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   background-color: #10171e;
+  color: white;
 
 
 }
@@ -12,7 +13,7 @@
 
 
   font-size: calc(10px + 2vmin);
-  color: white;
+
 }
 
 .App-logo {

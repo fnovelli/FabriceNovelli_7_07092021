@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 var passwordValidator = require('password-validator');
 const db = require('../Models/Index');
 const token = require("../middleware/token");
-
+const fs = require('fs'); //allow to edit or remove files
+const ava = `/images/default.png`;
 const User = db.users;
 
 //limit inject attack and force user to have strong password.
@@ -43,10 +44,14 @@ exports.createUser = async (req, res) => {
       nickname: req.body.nickname,
       email: req.body.email,
       password: hash,
+      avatar: `${req.protocol}://${req.get('host')}` + ava,
   };
 
     User.create(user)
     .then(user => {
+
+
+      
       res.status(201).json({
           nickname: user.nickname,
           token: jwt.sign({ userId: user.id }, secret, { expiresIn: '24h' })
@@ -57,7 +62,6 @@ exports.createUser = async (req, res) => {
 .catch(error => res.status(500).json({ error }));      
 
 };
-
 
 
 exports.login = async (req, res) => {

@@ -46,6 +46,8 @@ app.get('/', function (req, res) {
     origin : 'http://localhost:8000',
     credentials: true, // <= Accept credentials (cookies) sent by the client
   }));
+
+  app.use('/images', express.static(path.join(__dirname, 'images')));
   
   app.use(cookieParser());
   app.use(limiter);

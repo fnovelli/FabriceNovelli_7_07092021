@@ -50,7 +50,7 @@ exports.getAllPosts = async (req, res) => {
     include: [
       {
       model: db.users, as: "user",
-      attributes: ["nickname"],
+      attributes: ["nickname", "avatar"],
 
       },
     ],

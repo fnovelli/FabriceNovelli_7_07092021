@@ -69,14 +69,20 @@ displayMessages() {
         <div className="postWrapper">
             <div className="postTop">
             <div className="postTopLeft">
+              
+              <img className="postProfileImg"
+              src={ message.user.avatar }>
+                </img>
+                <div className="postUsername">
             { message.user.nickname }
-   
-            
+            </div>
+
             </div>
             </div>
                  
             <div className="post">
              { message.message }
+           
             </div>
             </div>
               
