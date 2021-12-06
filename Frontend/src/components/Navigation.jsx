@@ -60,11 +60,11 @@ class Navigation extends React.Component {
       <div>
       <li
       class={`nav-item  ${
-        this.props.location.pathname === "/profile" ? "active" : ""
+        this.props.location.pathname === "/account" ? "active" : ""
       }`}
     >
-      <Link class="nav-link" to="/profile">
-        Mon Profil
+      <Link class="nav-link" to="/account">
+        Mon Compte
       </Link>
     </li>
   

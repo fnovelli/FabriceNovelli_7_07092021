@@ -1,7 +1,7 @@
 import logo from  './icons/icon-left-font-monochrome-white.png';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Navigation, Footer, Home, Register, Login } from "./components/";
+import { Navigation, Footer, Home, Register, Login, Account } from "./components/";
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
           <Route path="/" exact component={() => <Home />} />
           <Route path="/register" exact component={() => <Register />} />
           <Route path="/login" exact component={() => <Login />} />
+          <Route path="/account" exact component={() => <Account />} />
         </Switch>
         <Footer />
       </Router>
