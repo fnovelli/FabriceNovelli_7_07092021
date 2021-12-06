@@ -19,7 +19,6 @@ exports.createPost = async (req, res) => {
   await db.posts.create(post)
         .then(() => res.status(201).json({ post: "Message sent" }))
         .catch(error => res.status(400).json({ error }));
-
 };
 
 exports.getPost = async (req, res) => {

@@ -5,15 +5,15 @@ function Footer() {
   return (
 
     <div id="footerBlock">
-                <div class="footMenu">
+                <div className="footMenu">
 
-                    <div class="footBlockLine">
+                    <div className="footBlockLine">
 
-                        <a href='#' class="fLine">Conditions of Use</a></div>
-                    <div class="footBlockLine">
+                        <a href='#' className="fLine">Conditions of Use</a></div>
+                    <div className="footBlockLine">
 
-                        <a href='#' class="fLine">Privacy Notice</a>
-                        <a href="mailto:Groupomania-support@group.com" class="fLine">Contact us</a>
+                        <a href='#' className="fLine">Privacy Notice</a>
+                        <a href="mailto:Groupomania-support@group.com" className="fLine">Contact us</a>
                         
                     </div>  
                 </div>    

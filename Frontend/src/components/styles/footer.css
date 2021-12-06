@@ -4,12 +4,13 @@
     min-height: 200px;
     width: 100%;
     justify-content: center;
+
     display: flex;
 }
 
 .footMenu {
     padding: 15px;
-    color: white;
+
     display: flex;
 }
 
@@ -24,5 +25,6 @@
     }
 
 .footBlockLine {
+    
     margin-top: 10px;
 }

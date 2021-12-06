@@ -2,6 +2,8 @@ import React from "react";
 import { Link, withRouter } from "react-router-dom";
 import { isLogged } from "./Auth";
 import "./styles/navigation.css";
+import { Logout } from "./Logout";
+
 
 
 class Navigation extends React.Component {
@@ -72,9 +74,8 @@ class Navigation extends React.Component {
         this.props.location.pathname === "/logout" ? "active" : ""
       }`}
     >
-      <Link class="nav-link" to="/logout">
+      <Link class="nav-link" to="/logout" onClick={ Logout }>
         Déconnexion
-        
       </Link>
       </li>
     </div>

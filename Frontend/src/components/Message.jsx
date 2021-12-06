@@ -66,8 +66,10 @@ displayMessages() {
    <ol key = { message.id } >
     
     <article className="postContainer">
+
         <div className="postWrapper">
             <div className="postTop">
+              
             <div className="postTopLeft">
               
               <img className="postProfileImg"
