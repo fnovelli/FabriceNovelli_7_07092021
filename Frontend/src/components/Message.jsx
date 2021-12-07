@@ -72,7 +72,7 @@ displayMessages() {
               
             <div className="postTopLeft">
               
-              <img className="postProfileImg"
+              <img className="postProfileImg" alt="avatar"
               src={ message.user.avatar }>
                 </img>
                 <div className="postUsername">

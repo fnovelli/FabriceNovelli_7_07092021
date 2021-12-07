@@ -42,7 +42,7 @@ class Home extends React.Component {
 
 displayHomeMessage() {
 
-  if (this.state.isLog == false)  {
+  if (this.state.isLog === false)  {
    
     return (
     <div>

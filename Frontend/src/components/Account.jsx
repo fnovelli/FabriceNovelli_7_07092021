@@ -27,7 +27,7 @@ function handleError(status) {
 }
 
   
-function formSendData(FormObject) {
+function formAccountSendData(FormObject) {
   
     fetch(url, {
       method: 'POST',
@@ -149,10 +149,14 @@ updateEmail(e) {
     var nickname = this.state.nickname;
     var email = this.state.email;
     var password = this.state.password;
+    var passwordAgain = this.state.passwordAgain;
   
       e.preventDefault();
       const FormObject = { name, nickname, email, password};
-      formSendData(FormObject);
+
+      if (isPasswordValid(password, passwordAgain)) {
+        formAccountSendData(FormObject);
+      }
   }
     
 
@@ -175,7 +179,7 @@ EditAccount() {
       
   
         <div class="formClass">
-         <label for="nickname">Pseudo</label>
+         <label for="nickname">Pseudo</label>c
          <input type="text"
                   class="form-control"
                 required

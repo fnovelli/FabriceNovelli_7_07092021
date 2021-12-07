@@ -9,10 +9,10 @@ function Footer() {
 
                     <div className="footBlockLine">
 
-                        <a href='#' className="fLine">Conditions of Use</a></div>
+                        <a href='/#' className="fLine">Conditions of Use</a></div>
                     <div className="footBlockLine">
 
-                        <a href='#' className="fLine">Privacy Notice</a>
+                        <a href='/#' className="fLine">Privacy Notice</a>
                         <a href="mailto:Groupomania-support@group.com" className="fLine">Contact us</a>
                         
                     </div>  
