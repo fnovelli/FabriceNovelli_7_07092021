@@ -4,7 +4,7 @@ import "./styles/account.css"
 import PasswordChecklist from "react-password-checklist"
 import { Logout } from './Logout';
 
-let url = "http://localhost:3000/api/auth/";
+let url = "http://localhost:3000/api/auth";
 
 const userOK = 'Compte édité avec succès!';
 const userDelOK = 'Compte supprimé avec succès!';
@@ -149,16 +149,25 @@ updateEmail(e) {
     if (window.confirm("Etes vous sur de vouloir supprimer votre compte? Cette action est irreversible.")) {
 
         e.preventDefault();
-        Logout();
+
+       if(Logout()) {
+
+
       fetch(url, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
       
         }).then(response => {
           handleErrorDel(response.status);
+          return;
         }).catch(errors => {
         console.log('BackEnd error:', errors);
+        return;
       });
+
+
+
+    }
   }
   }
 

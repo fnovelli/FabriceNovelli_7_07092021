@@ -24,20 +24,15 @@ class Home extends React.Component {
       <header class="container">
      
           <div class="title">
-        <h2>Welcome to Groupomania</h2>
+        <h2>Bienvenue chez Groupomania</h2>
         </div>
         
           </header>
     
 
         { this.displayHomeMessage() }
-        </div>
-  
-    
-       
-       
+        </div>     
     )
-
   }
 
 displayHomeMessage() {
