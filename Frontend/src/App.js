@@ -18,12 +18,15 @@ function App() {
           <Route path="/login" exact component={() => <Login />} />
           <Route path="/account" exact component={() => <Account />} />
         </Switch>
-        <Footer />
+
       </Router>
 
 
+    
+      <Footer />
 
     </div>
+
   );
 }
 

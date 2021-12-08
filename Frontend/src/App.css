@@ -4,12 +4,13 @@
   color: white;
 }
 
+body {
+  color: #10171e;
+}
+
 .App-header {
   background-color: #282c34;
-
   display: flex;
-
-
   font-size: calc(10px + 2vmin);
 
 }

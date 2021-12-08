@@ -2,12 +2,14 @@ import React from 'react';
 import './styles/form.css'
 import "./styles/account.css"
 import PasswordChecklist from "react-password-checklist"
+import { Logout } from './Logout';
 
 let url = "http://localhost:3000/api/auth/";
 
 const userOK = 'Compte édité avec succès!';
+const userDelOK = 'Compte supprimé avec succès!';
 
-  
+
 function handleError(status) {
 
     switch (status)
@@ -26,21 +28,22 @@ function handleError(status) {
     }
 }
 
-  
-function formAccountSendData(FormObject) {
-  
-    fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(FormObject)
-  
-    }).then(response => {
-      handleError(response.status);
-    }).catch(errors => {
-    console.log('BackEnd error:', errors);
-    this.setState({ errors });
-  });
+function handleErrorDel(status) {
+
+  switch (status)
+  {
+    case 200:
+    case 201:
+    console.log(userDelOK);
+    return alert(userDelOK);
+    default:
+        if (status >= 400 && status <= 599) {
+          return alert('Unexpected error, please try again later.');
+        }
+    break;  
+  }
 }
+
 
 function isPasswordValid(password, passwordAgain) {
   
@@ -62,7 +65,6 @@ class Account extends React.Component {
         super(props);
 
         this.state = {
-            user: [],
             name: '',
             nickname: '',
             email: '',
@@ -72,39 +74,21 @@ class Account extends React.Component {
     }
 
 
-async componentDidMount() {
-  await this.getFormData()
-}
+async formAccountPutData(FormObject) {
 
-async getFormData() {
+  await fetch(url, {
+    method: 'PUT',
+    headers: { 
+      'Content-Type': 'application/console' },
+    body: JSON.stringify(FormObject)
 
-    try {
-   const answer = await fetch(url, {
-      method: 'GET',  
-      credentials: 'include',
-      headers: {
-        'Accept': 'application/json',
-      }
-    })
-
-      if (answer.ok)
-      {
-        this.setState({ 
-          user: await answer.json(),
-        });
-
-      }
-     else {
-
-         return "NULL";
-
-      
-    }
-  } catch (error)
-  {
-    return "NULL";
-  }
-  
+  }).then(response => {
+    console.log(FormObject);
+    handleError(response.status);
+  }).catch(errors => {
+  console.log('BackEnd error:', errors);
+  this.setState({ errors });
+});
 }
 
 updateName(e) {
@@ -152,36 +136,50 @@ updateEmail(e) {
     var passwordAgain = this.state.passwordAgain;
   
       e.preventDefault();
-      const FormObject = { name, nickname, email, password};
+      const FormObject = {nickname, email };
 
       if (isPasswordValid(password, passwordAgain)) {
-        formAccountSendData(FormObject);
+        this.formAccountPutData(FormObject);
       }
   }
     
+  
+  deleteSubmit = (e) => {
 
+    if (window.confirm("Etes vous sur de vouloir supprimer votre compte? Cette action est irreversible.")) {
+
+        e.preventDefault();
+        Logout();
+      fetch(url, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      
+        }).then(response => {
+          handleErrorDel(response.status);
+        }).catch(errors => {
+        console.log('BackEnd error:', errors);
+      });
+  }
+  }
 
 
 EditAccount() {
     
       return (
   
+        <div>
+          <article id="accountBlock">
         <section id="formBlock">
-        <h1>Paramètres du compte.</h1>
+        <h1>Paramètres du compte</h1>
 
-        <div class="formClass">
-         <label for="nickname">Prénom</label>
-         
-        </div>
 
-  
          <form onSubmit={this.handleSubmit}>
       
   
         <div class="formClass">
-         <label for="nickname">Pseudo</label>c
+         <label for="nickname">Pseudo</label>
          <input type="text"
-                  class="form-control"
+            class="form-control"
                 required
                 value={this.state.nickname}
                 placeholder="Peter"
@@ -202,28 +200,7 @@ EditAccount() {
                 ></input>
           </div>
   
-          <div class="formClass">
-          <label>Mot de Passe:</label>
-              <input name="password" type="password" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"  onChange={this.updatePassword.bind(this)} />
-              <label>Entrez le mot de passe à nouveau:</label>
-              <input name="password_repeat" type="password" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"  onChange={this.updatePasswordAgain.bind(this)} />
-  
-              <PasswordChecklist
-                  rules={["minLength","specialChar","number","capital","match"]}
-                  minLength={8}
-                  value={this.state.password}
-                  valueAgain={this.state.passwordAgain}
-         
-          messages={{
-                      minLength: "Le mot de passe doit contenir au moins 8 caractères.",
-                      specialChar: "La mot de passe doit contenir au moins un caractère spécial.",
-                      number: "Le mot de passe doit contenir au moins un nombre.",
-                      capital: "Le mot de passe doit avoir au moins une majuscule.",
-                      match: "Les deux mots de passe doivent être identique.",
-                  }}
-          
-              />
-          </div>
+
   
   
             <button type="submit" id="btnSignUp">
@@ -231,8 +208,21 @@ EditAccount() {
             </button>
       
             </form>
-        
+            <br/>
+                    
         </section>
+
+      
+            <div id="delete">
+            <button type="submit" id="btnDelete" onClick= { this.deleteSubmit }>
+              SUPPRIMER LE COMPTE
+            </button>
+            </div>
+            </article>
+            </div>
+           
+            
+
   
     
       );

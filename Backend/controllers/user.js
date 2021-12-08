@@ -20,7 +20,6 @@ schema
 .has().symbols(1)                                 
 .has().not().spaces();
 
-
 exports.createUser = async (req, res) => {
 
   if (!req.body.nickname || !req.body.name || !req.body.email || !req.body.password) {
@@ -36,7 +35,6 @@ exports.createUser = async (req, res) => {
     }
   })
    
-
   bcrypt.hash(req.body.password, 10)
   .then(hash =>{
     const user = { 
@@ -48,10 +46,7 @@ exports.createUser = async (req, res) => {
   };
 
     User.create(user)
-    .then(user => {
-
-
-      
+    .then(user => {    
       res.status(201).json({
           nickname: user.nickname,
           token: jwt.sign({ userId: user.id }, secret, { expiresIn: '24h' })
@@ -115,38 +110,47 @@ exports.logout = async (req, res) => {
 
 exports.isTokenValid = async (req, res) => {
 
+  let cookie = req.cookies['user_token'];
+  if (cookie) {
+    return res.status(200).json({ message: "User connected!!!!" , cookie: req.cookies });
+  } 
 
-  const id = req.cookies['user_token']; //[user_token];
+  return res.status(400).json({ error: 'unexpected error, cannot get user token'});
+};
 
-  if (id == null)
-  {
-    return res.status(400).json({ error: 'unexpected error, cannot get user token'});
+async function getUser(req, res) {
+  try {
+
+    let cookie = req.cookies['user_token'];
+    if (cookie) {
+
+      const id = token.getUserId(req);
+
+      if (id == null)
+      {
+        return res.status(400).json({ error: 'unexpected error, cannot get user token' });
+      }
+
+      const user = await User.findOne({
+        where: { id: id },
+      })
+      return res.status(200).send(user);   
   }
 
-   return res.status(200).json({ message: "User connected!!!!" , cookie: req.cookies });
+    return res.status(500).send({ error: "Error, couldn't get user! (not logged)" });
+    
+  }
+  catch (error) {
+    return res.status(500).send({ error: "Error, couldn't get user!" });
+  }
+
+}
+
+
+exports.getUserInformation = async (req, res) => {
+  return await getUser(req, res);
 };
 
-
-exports.getUserAccount = async (req, res) => {
-  
-  const id = req.params.id;
-
-  User.findByPk(id)
-    .then(data => {
-      if (data) {
-        res.send(data);
-      } else {
-        res.status(404).send({
-          message: `Cannot find User with id=${id}.`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error retrieving User with id=" + id
-      });
-    });
-};
 
 exports.getAllUsers = async (req, res) => {
 
@@ -164,12 +168,25 @@ exports.getAllUsers = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
+  
+    let cookie = req.cookies['user_token'];
+    if (cookie) {
 
-    const id = req.params.id;
-    User.update( req.body, { where: { userId: id } }); 
-    return res.status(200).json({ message: "Successfully updated user!" });
-    
-  } catch (error) {
+      const id = token.getUserId(req);
+
+      if (id === null)
+      {
+        return res.status(400).json({ error: 'unexpected error, cannot get user ID' });
+      }
+
+      User.update( req.body, { where: { id: id } }); 
+      return res.status(200).json({ message: "Successfully updated user!" });
+    }
+
+    return res.status(500).send({ error: "Error, couldn't get the ID to update user." });
+
+} 
+  catch (error) {
     return res.status(500).send({ error: "Error, couldn't update user!" });
   }
 };
@@ -177,9 +194,19 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async(req, res) => {
 
   try {
-    const id = req.params.id;
-    User.destroy({ where: { userId: id } }); 
-    return res.status(200).json({ message: "Successfully deleted user!" });
+    let cookie = req.cookies['user_token'];
+    if (cookie) {
+
+      const id = token.getUserId(req);
+
+      if (id === null)
+      {
+        return res.status(500).send({ error: "Error, couldn't delete user! Cannot get ID." });
+      }
+      
+      User.destroy({ where: { id: id } }); 
+      return res.status(200).json({ message: "Successfully deleted user!" });
+    }
     
   } catch (error) {
     return res.status(500).send({ error: "Error, couldn't delete user!" });

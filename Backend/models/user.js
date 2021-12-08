@@ -34,27 +34,3 @@ module.exports = (sequelize, Sequelize) => {
 };
 
 
-/*async function createJaneUser() {
-   const jane = Users.build({ 
-      name: 'Jane',
-      nickname: 'Jaja',
-      email: 'jane@gmail.com',
-      password: 'passw0rd',
-      admin: false
-   })
-
-   console.log(jane.name);
-   console.log(jane.nickname);
-   try { 
-   await jane.save();
-   console.log("user " + jane.name + " has been added in the database.");
-   }
-   catch (error) {
-      console.error('Unable to save user in DBB.', error);
-   }
-
-
-  await sequelize.sync({force:false});
-}
-
-//createJaneUser();*/

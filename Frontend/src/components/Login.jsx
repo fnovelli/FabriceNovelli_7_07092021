@@ -35,10 +35,7 @@ async function loginSendData(FormObject) {
 
   }).then(response => {
     handleLoginError(response.status);
-    if (response.ok)
-    {
-      
-    }
+    return;
   }).catch(errors => {
   console.log('BackEnd error:', errors);
   this.setState({ errors });

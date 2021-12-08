@@ -29,16 +29,50 @@ db.sequelize = sequelize;
 db.users = require('../Models/User')(sequelize, Sequelize);
 db.posts = require('../Models/Posts')(sequelize, Sequelize);
 db.comments = require('../Models/Comments')(sequelize, Sequelize);
-
+db.likes = require('../Models/Likes')(sequelize, Sequelize);
 
 db.posts.belongsTo(db.users, {foreignKey: 'userId', as: 'user', });
 
 db.comments.belongsTo(db.users, {foreignKey: 'userId', as: 'user', });
 db.comments.belongsTo(db.posts, {foreignKey: 'msgId', as: 'post', });
 
+db.likes.belongsTo(db.users, {foreignKey: 'userId', as: 'user', });
+db.likes.belongsTo(db.posts, {foreignKey: 'msgId', as: 'post', });
+db.likes.belongsTo(db.comments, {foreignKey: 'commentId', as: 'comment', });
+
 db.users.hasMany(db.posts, {as: 'post'});
 db.users.hasMany(db.comments, {as: 'comment'});
+db.users.hasMany(db.likes, {as: 'like' });
 
+
+
+const Users = db.users;
+
+
+/*async function createJaneUser() {
+   const jane = Users.build({ 
+      name: 'Jane',
+      nickname: 'Jaja',
+      email: 'jane@gmail.com',
+      password: 'passw0rd',
+      admin: false
+   })
+
+   console.log(jane.name);
+   console.log(jane.nickname);
+   try { 
+   await jane.save();
+   console.log("user " + jane.name + " has been added in the database.");
+   }
+   catch (error) {
+      console.error('Unable to save user in DBB.', error);
+   }
+
+
+  await sequelize.sync({force:true});
+}
+
+createJaneUser();*/
 
 
 module.exports = db;
