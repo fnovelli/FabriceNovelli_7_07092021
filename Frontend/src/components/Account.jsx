@@ -1,10 +1,11 @@
 import React from 'react';
 import './styles/form.css'
 import "./styles/account.css"
-import PasswordChecklist from "react-password-checklist"
 import { Logout } from './Logout';
 
 let url = "http://localhost:3000/api/users";
+let urlUpdate = "http://localhost:3000/api/users/update";
+let urlDelete = "http://localhost:3000/api/users/delete";
 
 const userOK = 'Compte édité avec succès!';
 const userDelOK = 'Compte supprimé avec succès!';
@@ -18,15 +19,17 @@ function handleError(status) {
       case 201:
       console.log(userOK);
       return alert(userOK);
-      case 409:
-       return alert('Username or E-mail already exist in the database.');
+      case 501:
+        return alert('error when trying to get cookie!');
       default:
-          if (status >= 400 && status <= 499) {
+        
+          if (status >= 400 && status <= 599) {
             return alert('Unexpected error, please try again later.');
           }
       break;  
     }
 }
+
 
 function handleErrorDel(status) {
 
@@ -45,20 +48,6 @@ function handleErrorDel(status) {
 }
 
 
-function isPasswordValid(password, passwordAgain) {
-  
-    if (password !== "undefined" &&  passwordAgain !== "undefined") {
-        
-      if (password !== passwordAgain) {
-        alert("Les deux mots de passe doivent être identique.");
-        return false;
-      }
-    } 
-  
-    return true;
-}
-
-
 class Account extends React.Component {
 
     constructor(props) {
@@ -70,14 +59,22 @@ class Account extends React.Component {
             email: '',
             password: '',
             passwordAgain: '',
+            userinfo: []
       };
     }
 
+    async componentDidMount() {
+      this.setState({
+        userinfo: await this.getUser()
+     
+      });
+    }  
 
 async formAccountPutData(FormObject) {
 
-  await fetch(url, {
+  await fetch(urlUpdate, {
     method: 'PUT',
+    credentials: 'include',
     headers: { 
       'Content-Type': 'application/console' },
     body: JSON.stringify(FormObject)
@@ -85,11 +82,41 @@ async formAccountPutData(FormObject) {
   }).then(response => {
     console.log(FormObject);
     handleError(response.status);
+    return;
   }).catch(errors => {
   console.log('BackEnd error:', errors);
-  this.setState({ errors });
+  return;
 });
 }
+
+
+async getUser() {
+
+  try {
+ const answer = await fetch(url, {
+    method: 'GET',  
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+    }
+  })
+
+    if (answer.ok)
+    {
+      return answer.json();
+    }
+   else {
+       return "NULL";
+
+    
+  }
+} catch (error)
+{
+  return "NULL";
+}
+
+}
+
 
 updateName(e) {
   
@@ -129,18 +156,13 @@ updateEmail(e) {
   
   
    handleSubmit = (e) => {
-    var name = this.state.name;
     var nickname = this.state.nickname;
     var email = this.state.email;
-    var password = this.state.password;
-    var passwordAgain = this.state.passwordAgain;
   
     e.preventDefault();
     const FormObject = {nickname, email };
-
-      if (isPasswordValid(password, passwordAgain)) {
-        this.formAccountPutData(FormObject);
-      }
+    this.formAccountPutData(FormObject);
+      
   }
     
   
@@ -150,15 +172,14 @@ updateEmail(e) {
 
         e.preventDefault();
 
-    if (Logout()) {
-
-      fetch(url, {
+      fetch(urlDelete, {
         method: 'DELETE',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
       
         }).then(response => {
-          handleErrorDel(response.status);
-          return;
+          handleErrorDel(response.status);  
+        return;
         }).catch(errors => {
         console.log('BackEnd error:', errors);
         return;
@@ -166,11 +187,13 @@ updateEmail(e) {
 
     }
   }
-  }
 
 
 EditAccount() {
-    
+
+
+  const { userinfo } = this.state;
+
       return (
   
         <div>
@@ -188,7 +211,7 @@ EditAccount() {
             class="form-control"
                 required
                 value={this.state.nickname}
-                placeholder="Peter"
+                placeholder={userinfo.nickname}
                 minlength="4"
                 pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
                 onChange={this.updateNickname.bind(this)}
@@ -200,14 +223,12 @@ EditAccount() {
                   class="form-control"
                 required
                 value={this.state.email}
-                placeholder="pierre@gmail.com"
+                placeholder= {userinfo.email}
                 pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}"
                 onChange={this.updateEmail.bind(this)}
                 ></input>
           </div>
-  
 
-  
   
             <button type="submit" id="btnSignUp">
               Mettre à jour
@@ -227,9 +248,6 @@ EditAccount() {
             </article>
             </div>
            
-            
-
-  
     
       );
     };

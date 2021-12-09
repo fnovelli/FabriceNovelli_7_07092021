@@ -80,7 +80,8 @@ handlePostNewMSG = (e) => {
 
     fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin':'*' },
       credentials: 'include',
       body: JSON.stringify(msg)
   
@@ -151,8 +152,6 @@ createNewPost() {
   
   const { user } = this.state;
 
-  console.log('user =', user);
-
   return (
 
     <div className="newPostWrapper">
@@ -160,9 +159,9 @@ createNewPost() {
           
         <div className="postTopLeft">
           
-          <img className="postProfileImg" alt="avatar"
-          src={ user.avatar }>
-            </img>
+        <img className="postProfileImg" alt="avatar"
+              src={ user.avatar }>
+                </img>
             <div className="postUsername">
 
         </div>
@@ -205,21 +204,16 @@ displayMessages() {
       )
     }
 
-    return (
+    return (   
 
-      
-      <div className="postWrapper">
-          
-          { console.log(message.length) }
+    <article id ="messageBlock">
 
    {  message.map((message) => (
      
-
+     <div className="postWrapper">
      
    <ol key = { message.id } >
   
-
-
             <div className="postTop">
               
             <div className="postTopLeft">
@@ -238,12 +232,12 @@ displayMessages() {
              { message.message }
            
             </div>
-
-              
+      
         </ol>
+        </div>
     )) }  
-    
-    </div>
+ 
+    </article>
 
     )
       

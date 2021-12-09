@@ -1,24 +1,48 @@
 const db = require('../Models/Index');
-const jwt = require("../middleware/token");
+const token = require("../middleware/token");
 
 exports.createPost = async (req, res) => {
 
-    const id = jwt.getUserId(req);
+  try {
 
-    if (id == null)
-    {
-      return res.status(400).json({ error: 'unexpected error, cannot get user token' });
-    }
+    let cookie = req.cookies['user_token'];
 
-    const post = { 
-      userId: id,
-      message: req.body.message,
-      imageUrl: req.body.imageUrl,
-  };
+    if (cookie) {
 
-  await db.posts.create(post)
-        .then(() => res.status(201).json({ post: "Message sent" }))
-        .catch(error => res.status(400).json({ error }));
+      const id = token.getUserId(cookie);
+  
+      if (id === null)
+      {
+        return res.status(400).json({ error: 'unexpected error, cannot get user ID' });
+      }
+
+      const post = { 
+        userId: id,
+        message: req.body.message,
+        imageUrl: req.body.imageUrl,
+    };
+  
+    await db.posts.create(post)
+          .then(() => res.status(201).json({ post: "Message sent" }))
+          .catch(error => res.status(400).json({ error }));
+    
+  } else {
+     return res.status(500).send({ error: "Error, couldn't get cookie!" });
+  }
+
+  }
+  catch (error) {
+
+    
+    let cookie2 = req.cookies['user_token'];
+    const id2 = token.getUserId(cookie2);
+  
+
+
+    return res.status(500).send({ id2, error: "Error, couldn't get user! Message cannot be send." });
+  }
+
+
 };
 
 exports.getPost = async (req, res) => {

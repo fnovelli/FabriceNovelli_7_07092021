@@ -25,22 +25,22 @@ class Navigation extends React.Component {
   
       <div>
       <li
-      class={`nav-item  ${
+      className={`nav-item  ${
         this.props.location.pathname === "/register" ? "active" : ""
       }`}
     >
-      <Link class="nav-link" to="/register">
+      <Link className="nav-link" to="/register">
         S'inscrire
       </Link>
     </li>
   
   
     <li
-      class={`nav-item  ${
+      className={`nav-item  ${
         this.props.location.pathname === "/login" ? "active" : ""
       }`}
     >
-      <Link class="nav-link" to="/login">
+      <Link className="nav-link" to="/login">
         Connexion
         
       </Link>
@@ -55,26 +55,26 @@ class Navigation extends React.Component {
   {
     return (
       <div className="navigation">
-      <nav class="navbar navbar-expand navbar-dark bg-dark">
-        <div class="container">
+      <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <div className="container">
       <div>
       <li
-      class={`nav-item  ${
+      className={`nav-item  ${
         this.props.location.pathname === "/account" ? "active" : ""
       }`}
     >
-      <Link class="nav-link" to="/account">
+      <Link className="nav-link" to="/account">
         Mon Compte
       </Link>
     </li>
   
   
     <li
-      class={`nav-item  ${
+      className={`nav-item  ${
         this.props.location.pathname === "/logout" ? "active" : ""
       }`}
     >
-      <Link class="nav-link" to="/logout" onClick={ Logout }>
+      <Link className="nav-link" to="/logout" onClick={ Logout }>
         Déconnexion
       </Link>
       </li>
@@ -112,22 +112,22 @@ class Navigation extends React.Component {
   
       
         <div className="navigation">
-          <nav class="navbar navbar-expand navbar-dark bg-dark">
-            <div class="container">
-              <Link class="navbar-brand" to="/">
+          <nav className="navbar navbar-expand navbar-dark bg-dark">
+            <div className="container">
+              <Link className="navbar-brand" to="/">
                 
               </Link>
     
               <div>
-                <ul class="navbar-nav ml-auto">
+                <ul className="navbar-nav ml-auto">
                   <li
-                    class={`nav-item  ${
+                    className={`nav-item  ${
                       this.props.location.pathname === "/" ? "active" : ""
                     }`}
                   >
-                    <Link class="nav-link" to="/">
+                    <Link className="nav-link" to="/">
                       Accueil
-                      <span class="sr-only">(current)</span>
+                      <span className="sr-only">(current)</span>
                     </Link>
                   </li>
   
@@ -137,12 +137,12 @@ class Navigation extends React.Component {
   
     
                   <li
-                    class={`nav-item  ${
+                    className={`nav-item  ${
                       this.props.location.pathname === "/contact" ? "active" : ""
                     }`}
                   >
-                          <div class="nav-link">
-                      <a href="mailto:date-app@support.com" class="fLine">Contact</a>
+                          <div className="nav-link">
+                      <a href="mailto:date-app@support.com" className="fLine">Contact</a>
                       </div>
                   </li>
                 </ul>

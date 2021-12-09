@@ -90,9 +90,10 @@ exports.login = async (req, res) => {
       .catch(error => res.status(500).json({ error }));
 };
 
-exports.logout = async (req, res) => {
+function logoutUser(req, res) {
 
   cookie = req.cookies;
+
   for (var prop in cookie) {
       if (!cookie.hasOwnProperty(prop)) {
           continue;
@@ -100,9 +101,20 @@ exports.logout = async (req, res) => {
       res.cookie(prop, '', {expires: new Date(0)});
         
       res.status(200).json({ message: "User logout!"});
-      return res.redirect('/');
+      return true;
   }
 
+  return false;
+
+}
+
+exports.logout = async (req, res) => {
+
+  if (logoutUser(req, res)) {
+
+      return res.redirect('/');
+  }
+  
   res.status(200).json({ message: "No user connected."});
   return res.redirect('/');
 };
@@ -124,9 +136,9 @@ async function getUser(req, res) {
     let cookie = req.cookies['user_token'];
     if (cookie) {
 
-      const id = token.getUserId(req);
-
-      if (id == null)
+      const id = token.getUserId(cookie);
+  
+      if (id === null)
       {
         return res.status(400).json({ error: 'unexpected error, cannot get user token' });
       }
@@ -141,6 +153,7 @@ async function getUser(req, res) {
     
   }
   catch (error) {
+
     return res.status(500).send({ error: "Error, couldn't get user!" });
   }
 
@@ -167,12 +180,13 @@ exports.getAllUsers = async (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
+
   try {
   
     let cookie = req.cookies['user_token'];
     if (cookie) {
 
-      const id = token.getUserId(req);
+      const id = token.getUserId(cookie);
 
       if (id === null)
       {
@@ -183,8 +197,7 @@ exports.updateUser = async (req, res) => {
       return res.status(200).json({ message: "Successfully updated user!" });
     }
 
-    return res.status(500).send({ error: "Error, couldn't get the ID to update user." });
-
+    return res.status(501).send({ error: "Error, couldn't get the ID to update user." });
 } 
   catch (error) {
     return res.status(500).send({ error: "Error, couldn't update user!" });
@@ -194,16 +207,18 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async(req, res) => {
 
   try {
+
     let cookie = req.cookies['user_token'];
     if (cookie) {
 
-      const id = token.getUserId(req);
-
+      const id = token.getUserId(cookie);
+  
       if (id === null)
       {
         return res.status(500).send({ error: "Error, couldn't delete user! Cannot get ID." });
       }
       
+      logoutUser(req, res);
       User.destroy({ where: { id: id } }); 
       return res.status(200).json({ message: "Successfully deleted user!" });
     }
