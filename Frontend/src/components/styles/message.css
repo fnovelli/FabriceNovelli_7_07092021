@@ -1,37 +1,48 @@
 .postContainer{
     margin: 10px 0;
 
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+
 
 }
 
 .postWrapper {
+    margin-top: 20px;
     border: 1px solid #38444d;
     -webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
     box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
     min-height: 120px;
     width: 598px;
     display: flex;
-    align-items: stretch;
-    flex-direction: column;
+
     background-color: #202c3c;
     color: white;
 }
 
-.post{
+.post {
     display: flex;
-    padding: 7px 16px 4px 16px;
+    padding: 7px 16px 4px 40px;  
 }
 
+.newpostTop {
+    margin-top: 15px;
+    margin-left: 25px;
+    display: flex;
+    
+}
 
 .postTop {
     margin-top: 15px;
-    margin-left: 15px;
-    display: flex;
+    
 }
 
 .postTopLeft {
-
+    margin-left: -10px;
     display: flex;
+ 
 
 }
 
@@ -54,11 +65,6 @@
     font-size: 12px;
 }
 
-ol {
-
-    display: flex;
-    justify-content: center;
-}
 
 #newpost {
     max-width: 598px;
@@ -90,6 +96,7 @@ ol {
 }
 
 #btnNewPost {
+    margin-bottom: 10px;
     border: 0;
     line-height: 2.5;
     padding: 0 20px;
@@ -110,3 +117,18 @@ ol {
 #btnNewPost:hover {
     background-color: rgb(7, 99, 204);
 }
+
+.formTextArea {
+    width: 90%;
+    margin-left: 10px;
+    background: transparent;
+    color: white;
+    border: 0 none;
+    display: flex;
+  }
+
+  .formTextArea:active {
+      border: none;
+      outline: none;
+      
+  }

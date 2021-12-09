@@ -3,7 +3,7 @@ import React, { useState} from 'react';
 import './styles/form.css'
 import PasswordChecklist from "react-password-checklist"
 
-let url = "http://localhost:3000/api/auth";
+let url = "http://localhost:3000/api/users";
 const userOK = 'successfully created new user!';
 
 function handleError(status) {

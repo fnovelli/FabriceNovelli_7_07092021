@@ -4,7 +4,7 @@ import "./styles/account.css"
 import PasswordChecklist from "react-password-checklist"
 import { Logout } from './Logout';
 
-let url = "http://localhost:3000/api/auth";
+let url = "http://localhost:3000/api/users";
 
 const userOK = 'Compte édité avec succès!';
 const userDelOK = 'Compte supprimé avec succès!';
@@ -135,8 +135,8 @@ updateEmail(e) {
     var password = this.state.password;
     var passwordAgain = this.state.passwordAgain;
   
-      e.preventDefault();
-      const FormObject = {nickname, email };
+    e.preventDefault();
+    const FormObject = {nickname, email };
 
       if (isPasswordValid(password, passwordAgain)) {
         this.formAccountPutData(FormObject);
@@ -150,8 +150,7 @@ updateEmail(e) {
 
         e.preventDefault();
 
-       if(Logout()) {
-
+    if (Logout()) {
 
       fetch(url, {
         method: 'DELETE',
@@ -164,8 +163,6 @@ updateEmail(e) {
         console.log('BackEnd error:', errors);
         return;
       });
-
-
 
     }
   }

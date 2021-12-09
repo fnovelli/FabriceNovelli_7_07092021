@@ -1,5 +1,5 @@
 
-let urlLogout= "http://localhost:3000/api/auth/logout";
+let urlLogout= "http://localhost:3000/api/users/logout";
 
 
 function LogoutCheck(status) {

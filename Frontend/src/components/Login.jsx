@@ -2,7 +2,7 @@ import React from 'react';
 import './styles/form.css'
 
 
-let url = "http://localhost:3000/api/auth/login";
+let url = "http://localhost:3000/api/users/login";
 const userOK = 'successfully logged!';
 
 function handleLoginError(status) {

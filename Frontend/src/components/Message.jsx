@@ -2,8 +2,8 @@ import React from "react";
 import "./styles/message.css"
 
 
-let url = 'http://localhost:3000/api/auth/posts';
-let urlUser = 'http://localhost:3000/api/auth';
+let url = 'http://localhost:3000/api/posts';
+let urlUser = 'http://localhost:3000/api/users';
 
 
 class Message extends React.Component {
@@ -154,10 +154,9 @@ createNewPost() {
   console.log('user =', user);
 
   return (
-    <article className="postContainer">
 
     <div className="newPostWrapper">
-        <div className="postTop">
+        <div className="newpostTop">
           
         <div className="postTopLeft">
           
@@ -173,7 +172,7 @@ createNewPost() {
         
         <form onSubmit={ this.handlePostNewMSG }>
          <input type="textarea"
-            className="form-control"
+            className="formTextArea"
                 required
                 value={this.state.newPost}
                 placeholder="Quoi de neuf?"
@@ -189,8 +188,7 @@ createNewPost() {
 </form>
 
        </div>
-         
-</article>
+
   )
 }
 
@@ -210,18 +208,18 @@ displayMessages() {
     return (
 
       
-      <div>
+      <div className="postWrapper">
           
           { console.log(message.length) }
 
    {  message.map((message) => (
      
 
+     
    <ol key = { message.id } >
-    
-    <article className="postContainer">
+  
 
-        <div className="postWrapper">
+
             <div className="postTop">
               
             <div className="postTopLeft">
@@ -240,9 +238,8 @@ displayMessages() {
              { message.message }
            
             </div>
-            </div>
+
               
-    </article>
         </ol>
     )) }  
     
@@ -256,12 +253,12 @@ displayMessages() {
 
     
     return (
-        <div id="messageBlock">
+      <article className="postContainer">
           { this.createNewPost() }
             { this.displayMessages() }
   
 
-        </div>
+        </article>
 
     )
   
