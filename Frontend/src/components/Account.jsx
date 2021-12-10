@@ -156,11 +156,16 @@ updateEmail(e) {
   
   
    handleSubmit = (e) => {
-    var nickname = this.state.nickname;
-    var email = this.state.email;
+    var nicknameV = this.state.nickname;
+    var emailV = this.state.email;
   
     e.preventDefault();
-    const FormObject = {nickname, email };
+
+    let FormObject = { 
+      nickname: nicknameV, 
+      email: emailV };
+
+      console.log('form', FormObject);
     this.formAccountPutData(FormObject);
       
   }
@@ -205,22 +210,22 @@ EditAccount() {
          <form onSubmit={this.handleSubmit}>
       
   
-        <div class="formClass">
+        <div className="formClass">
          <label for="nickname">Pseudo</label>
          <input type="text"
-            class="form-control"
+            className="form-control"
                 required
                 value={this.state.nickname}
                 placeholder={userinfo.nickname}
-                minlength="4"
+                minLength="4"
                 pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
                 onChange={this.updateNickname.bind(this)}
                 ></input>
         </div>
-        <div class="formClass">
+        <div className="formClass">
         <label for="email">E-mail</label>
         <input type="mail"
-                  class="form-control"
+                  className="form-control"
                 required
                 value={this.state.email}
                 placeholder= {userinfo.email}

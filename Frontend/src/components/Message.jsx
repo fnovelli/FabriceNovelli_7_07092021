@@ -74,16 +74,20 @@ async postMessage(FormObject) {
 
 
 handlePostNewMSG = (e) => {
+
     var msg = this.state.newPost;
+    let objJS = { message: msg};
+
+  //  console.log('toto', objJS);
 
     e.preventDefault();
 
     fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin':'*' },
+       },
       credentials: 'include',
-      body: JSON.stringify(msg)
+      body: JSON.stringify(objJS)
   
     }).then(response => {
   
@@ -218,12 +222,16 @@ displayMessages() {
               
             <div className="postTopLeft">
               
+           
               <img className="postProfileImg" alt="avatar"
               src={ message.user.avatar }>
                 </img>
                 <div className="postUsername">
             { message.user.nickname }
+          
+       
             </div>
+         
 
             </div>
             </div>

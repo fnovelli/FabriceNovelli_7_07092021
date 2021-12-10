@@ -47,6 +47,8 @@ app.get('/', function (req, res) {
     credentials: true, // <= Accept credentials (cookies) sent by the client
   }));
 
+  app.options('*', cors())
+
   app.use('/images', express.static(path.join(__dirname, 'images')));
   
   app.use(cookieParser());
