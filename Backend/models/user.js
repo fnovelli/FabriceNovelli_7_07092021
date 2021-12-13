@@ -28,6 +28,8 @@ module.exports = (sequelize, Sequelize) => {
       admin: { type: Sequelize.BOOLEAN, allowNull:false, defaultValue: false },
 
       avatar: { type: Sequelize.STRING, allowNull: true },
+
+      bio: { type: Sequelize.TEXT, allowNull: true },
    });
 
    return Users;

@@ -1,12 +1,9 @@
 import React from 'react';
 import './styles/form.css'
 import "./styles/account.css"
-import { Logout } from './Logout';
 
 let url = "http://localhost:3000/api/users";
-let urlUpdate = "http://localhost:3000/api/users/update";
-let urlDelete = "http://localhost:3000/api/users/delete";
-
+;
 const userOK = 'Compte édité avec succès!';
 const userDelOK = 'Compte supprimé avec succès!';
 
@@ -72,7 +69,7 @@ class Account extends React.Component {
 
 async formAccountPutData(FormObject) {
 
-  await fetch(urlUpdate, {
+  await fetch(url, {
     method: 'PUT',
     credentials: 'include',
     headers: { 
@@ -114,9 +111,7 @@ async getUser() {
 {
   return "NULL";
 }
-
 }
-
 
 updateName(e) {
   
@@ -156,6 +151,7 @@ updateEmail(e) {
   
   
    handleSubmit = (e) => {
+
     var nicknameV = this.state.nickname;
     var emailV = this.state.email;
   
@@ -165,7 +161,7 @@ updateEmail(e) {
       nickname: nicknameV, 
       email: emailV };
 
-      console.log('form', FormObject);
+    console.log('form', FormObject);
     this.formAccountPutData(FormObject);
       
   }
@@ -177,7 +173,7 @@ updateEmail(e) {
 
         e.preventDefault();
 
-      fetch(urlDelete, {
+      fetch(url, {
         method: 'DELETE',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },

@@ -21,9 +21,9 @@ class Home extends React.Component {
        
     return (
       <div className="bgHome">
-      <header class="container">
+      <header className="container">
      
-          <div class="title">
+          <div className="title">
         <h2>Bienvenue chez Groupomania</h2>
         </div>
         

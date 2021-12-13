@@ -76,10 +76,10 @@ function Register() {
 
        <form onSubmit={handleSubmit}>
 
-       <div class="formClass">
+       <div className="formClass">
         <label for="name">Prénom</label>
         <input type="text"
-           class="form-control"
+           className="form-control"
          value={name}
          minlength="4"
          placeholder="Pierre"
@@ -89,10 +89,10 @@ function Register() {
         </div>
   
 
-      <div class="formClass">
+      <div className="formClass">
        <label for="nickname">Pseudo</label>
        <input type="text"
-                class="form-control"
+                className="form-control"
               required
               value={nickname}
               placeholder="Peter"
@@ -101,10 +101,10 @@ function Register() {
               onChange={(e) => setNickname(e.target.value)}
               ></input>
       </div>
-      <div class="formClass">
+      <div className="formClass">
       <label for="email">E-mail</label>
       <input type="mail"
-                class="form-control"
+                className="form-control"
               required
               value={email}
               placeholder="pierre@gmail.com"
@@ -113,7 +113,7 @@ function Register() {
               ></input>
         </div>
 
-        <div class="formClass">
+        <div className="formClass">
         <label>Mot de Passe:</label>
 			<input name="password" type="password" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" onChange={e => setPassword(e.target.value)} />
 			<label>Entrez le mot de passe à nouveau:</label>

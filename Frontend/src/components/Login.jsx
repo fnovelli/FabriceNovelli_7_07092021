@@ -40,10 +40,7 @@ async function loginSendData(FormObject) {
   console.log('BackEnd error:', errors);
   this.setState({ errors });
 });
-
 }
-
-
 
 class Login extends React.Component {
 
@@ -92,10 +89,10 @@ render() {
 
        <form onSubmit={ this.handleSubmit }>
 
-      <div class="formClass">
+      <div className="formClass">
       <label for="email">E-mail</label>
       <input type="mail"
-                class="form-control"
+                className="form-control"
               required
               value={this.state.email}
               placeholder="pierre@gmail.com"
@@ -103,11 +100,11 @@ render() {
               ></input>
         </div>
 
-        <div class="formClass">
+        <div className="formClass">
              <label for="password">Mot de Passe</label>
                 <input type="password"
                   required
-                  class="form-control"
+                  className="form-control"
                   value={this.state.password}
                   onChange={this.updatePassword.bind(this)}
                   ></input>
