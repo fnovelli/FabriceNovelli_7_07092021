@@ -6,7 +6,8 @@ const multer = require("../middleware/multer-config");
 
 router.post("/", userCtrl.createUser);
 router.get('/', userCtrl.getAllUsers);
-router.get('/:id', userCtrl.getUserInformation);
+//router.get('/:id', userCtrl.getUserInformation);
+router.get('/@me', userCtrl.getUserInformation);
 router.put('/', userCtrl.updateUser);
 router.delete('/', userCtrl.deleteUser);
 

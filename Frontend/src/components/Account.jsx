@@ -3,7 +3,8 @@ import './styles/form.css'
 import "./styles/account.css"
 
 let url = "http://localhost:3000/api/users";
-;
+let urlUser = "http://localhost:3000/api/users/@me";
+
 const userOK = 'Compte édité avec succès!';
 const userDelOK = 'Compte supprimé avec succès!';
 
@@ -44,21 +45,23 @@ function handleErrorDel(status) {
   }
 }
 
-
 class Account extends React.Component {
+
 
     constructor(props) {
         super(props);
 
+      
         this.state = {
-            name: '',
-            nickname: '',
-            email: '',
-            password: '',
-            passwordAgain: '',
-            userinfo: []
-      };
-    }
+          name: '',
+          nickname: '',
+          email: '',
+          password: '',
+          passwordAgain: '',
+          bio: '',
+          userinfo: [],
+          }
+    };
 
     async componentDidMount() {
       this.setState({
@@ -72,8 +75,6 @@ async formAccountPutData(FormObject) {
   await fetch(url, {
     method: 'PUT',
     credentials: 'include',
-    headers: { 
-      'Content-Type': 'application/console' },
     body: JSON.stringify(FormObject)
 
   }).then(response => {
@@ -86,11 +87,10 @@ async formAccountPutData(FormObject) {
 });
 }
 
-
 async getUser() {
 
   try {
- const answer = await fetch(url, {
+ const answer = await fetch(urlUser, {
     method: 'GET',  
     credentials: 'include',
     headers: {
@@ -111,7 +111,9 @@ async getUser() {
 {
   return "NULL";
 }
+
 }
+
 
 updateName(e) {
   
@@ -148,21 +150,33 @@ updateEmail(e) {
       passwordAgain: e.target.value,
     });
   }
+
+  updateBio(e) {
+  
+    this.setState({
+      bio: e.target.value,
+    });
+  }
+  
   
   
    handleSubmit = (e) => {
+    
+    e.preventDefault();
 
     var nicknameV = this.state.nickname;
     var emailV = this.state.email;
-  
-    e.preventDefault();
+    var bioV = this.state.bio;
 
-    let FormObject = { 
-      nickname: nicknameV, 
-      email: emailV };
+    let obj =
+    {
+      "username": nicknameV,
+      "email": emailV,
+      "bio": bioV
+    };
 
-    console.log('form', FormObject);
-    this.formAccountPutData(FormObject);
+    console.log('form', obj);
+    this.formAccountPutData(obj);
       
   }
     
@@ -195,7 +209,10 @@ EditAccount() {
 
   const { userinfo } = this.state;
 
+  console.log('cur user: ', userinfo);
+
       return (
+
   
         <div>
           <article id="accountBlock">
@@ -212,7 +229,7 @@ EditAccount() {
             className="form-control"
                 required
                 value={this.state.nickname}
-                placeholder={userinfo.nickname}
+                placeholder={userinfo.nickname }
                 minLength="4"
                 pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
                 onChange={this.updateNickname.bind(this)}
@@ -224,9 +241,31 @@ EditAccount() {
                   className="form-control"
                 required
                 value={this.state.email}
-                placeholder= {userinfo.email}
+                placeholder={userinfo.email}
+
                 pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}"
                 onChange={this.updateEmail.bind(this)}
+                ></input>
+          </div>
+          <div className="formClass">
+          <label for="bio">bio</label>
+        <textarea
+                  className="formBioClass"
+                value={this.state.bio}
+                placeholder={userinfo.bio}
+
+                pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,40}"
+                onChange={this.updateBio.bind(this)}>
+                </textarea>
+          </div>
+
+          <div className="formClass">
+        <label for="avatar">Avatar</label>
+        <input type="file"
+        accept=".jpeg, .jpg, .png, .webp"
+                
+                required
+
                 ></input>
           </div>
 

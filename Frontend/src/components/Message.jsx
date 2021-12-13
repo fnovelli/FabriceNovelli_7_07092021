@@ -174,14 +174,15 @@ createNewPost() {
         </div>
         
         <form onSubmit={ this.handlePostNewMSG }>
-         <input type="textarea"
+        <textarea
             className="formTextArea"
                 required
                 value={this.state.newPost}
                 placeholder="Quoi de neuf?"
                 minLength="4"
                 onChange={this.updatePost.bind(this)}
-                ></input>
+                >
+                  </textarea>
                 <br/>
     
 

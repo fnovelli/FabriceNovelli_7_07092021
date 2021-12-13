@@ -12,7 +12,19 @@
   flex-direction: column;
 }
 
+.formBioClass {
+  max-width: 400px;
+  min-height: 100px;
+
+  display: flex;
+  flex-direction: column;
+}
+
 #btnSignUp {
   margin-top: 10px;
   font-size: 18px;
+}
+
+textarea {
+  resize: none;
 }
