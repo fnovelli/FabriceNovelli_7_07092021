@@ -1,5 +1,5 @@
 
-let urlLogged = "http://localhost:3000/api/users/logged";
+let urlLogged = "http://localhost:3000/api/users/@me";
 
 
 let isConnected = false;

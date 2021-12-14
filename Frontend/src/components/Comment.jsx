@@ -1,28 +1,28 @@
 import React from "react";
 import "./styles/message.css"
-import {Link} from 'react-router-dom';
 
 
 let url = "http://localhost:3000/api/posts";
 let urlUser = "http://localhost:3000/api/users/@me";
 
 
-class Message extends React.Component {
+class Comment extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             user: [],
             message: [],
-            newPost: ''
+            comment: [],
+            newComment: ''
        
       }
     }
 
-    updatePost(e) {
+    updateComment(e) {
 
       this.setState({
-        newPost: e.target.value,
+        newComment: e.target.value,
       });
     }
 
@@ -52,7 +52,7 @@ class Message extends React.Component {
   }
 
 
-async postMessage(FormObject) {
+async postComment(FormObject) {
 
   await fetch(url, {
     method: 'POST',
@@ -73,7 +73,7 @@ async postMessage(FormObject) {
 }
 
 
-handlePostNewMSG = (e) => {
+handleNewComment = (e) => {
 
     var msg = this.state.newPost;
     let objJS = { message: msg};
@@ -96,7 +96,7 @@ handlePostNewMSG = (e) => {
   });
 }
 
-async getMessages() {
+async getComments() {
 
     try {
    const answer = await fetch(url, {
@@ -113,44 +113,14 @@ async getMessages() {
       }
      else {
          return "NULL";
+
       
     }
   } catch (error)
   {
     return "NULL";
   }
- 
-}
-
-
-async getMessageID() {
-
-  try {
-
-    const urlID = new URL(window.location.href).searchParams.get('id');
-    const newURL = url + "/" + urlID;
-
- const answer = await fetch(newURL, {
-    method: 'GET',  
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-    }
-  })
-
-    if (answer.ok)
-    {
-      return answer.json();
-    }
-   else {
-       return "NULL";
-    
-  }
-} catch (error)
-{
-  return "NULL";
-}
-
+  
 }
 
 async getUser() {
@@ -180,7 +150,7 @@ async getUser() {
 
 }
 
-createNewPost() {
+createNewComment() {
   
   const { user } = this.state;
 
@@ -224,28 +194,19 @@ createNewPost() {
   )
 }
 
-displayMessages() {
+displayComments() {
 
-    const { message } = this.state;
-
-    if (message.length === 0)
-    {
-      return (
-      <div>
-          Pas de messages. Soyez le premier à poster!
-      </div>
-      )
-    }
+    const { comment } = this.state;
 
     return (   
 
     <article id ="messageBlock">
 
-   {  message.map((message) => (
+   {  comment.map((comment) => (
      
-     <Link className="postWrapper" to={ "message/" + message.id }>
+     <div className="postWrapper">
      
-   <ol key = { message.id } >
+   <ol key = { comment.id } >
   
             <div className="postTop">
               
@@ -253,10 +214,10 @@ displayMessages() {
               
            
               <img className="postProfileImg" alt="avatar"
-              src={ message.user.avatar }>
+              src={ comment.user.avatar }>
                 </img>
                 <div className="postUsername">
-            { message.user.nickname }
+            { comment.user.nickname }
           
        
             </div>
@@ -266,12 +227,12 @@ displayMessages() {
             </div>
                  
             <div className="post">
-             { message.message }
+             { comment.comment }
            
             </div>
       
         </ol>
-        </Link>
+        </div>
     )) }  
  
     </article>
@@ -285,8 +246,8 @@ displayMessages() {
     
     return (
       <article className="postContainer">
-          { this.createNewPost() }
-            { this.displayMessages() }
+          { this.createNewComment() }
+            { this.displayComments() }
   
 
         </article>
@@ -297,4 +258,4 @@ displayMessages() {
 }
 }
   
-export default Message;
+export default Comment;

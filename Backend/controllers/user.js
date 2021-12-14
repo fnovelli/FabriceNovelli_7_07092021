@@ -120,17 +120,8 @@ exports.logout = async (req, res) => {
 };
 
 
-exports.isTokenValid = async (req, res) => {
+async function getLoggedUser(req, res) {
 
-  let cookie = req.cookies['user_token'];
-  if (cookie) {
-    return res.status(200).json({ message: "User connected!!!!" , cookie: req.cookies });
-  } 
-
-  return res.status(400).json({ error: 'unexpected error, cannot get user token'});
-};
-
-async function getUser(req, res) {
   try {
 
     let cookie = req.cookies['user_token'];
@@ -160,9 +151,33 @@ async function getUser(req, res) {
 }
 
 
-exports.getUserInformation = async (req, res) => {
-  return await getUser(req, res);
-};
+exports.getUser = async (req, res) => {
+
+  const id = req.params.id;
+
+  if (id === "@me") {
+    return getLoggedUser(req, res);
+  }
+
+
+  User.findByPk(id)
+    .then(data => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.status(404).send({
+          message: `Cannot find User with id=${id}.`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Error retrieving user with id=" + id
+      });
+    });
+
+}
+
 
 
 exports.getAllUsers = async (req, res) => {

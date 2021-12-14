@@ -164,15 +164,12 @@ updateEmail(e) {
     
     e.preventDefault();
 
-    var nicknameV = this.state.nickname;
-    var emailV = this.state.email;
-    var bioV = this.state.bio;
 
     let obj =
     {
-      "username": nicknameV,
-      "email": emailV,
-      "bio": bioV
+      "username": this.state.nickname,
+      "email": this.state.email,
+      "bio": this.state.bio,
     };
 
     console.log('form', obj);

@@ -31,14 +31,24 @@ db.posts = require('../Models/Posts')(sequelize, Sequelize);
 db.comments = require('../Models/Comments')(sequelize, Sequelize);
 db.likes = require('../Models/Likes')(sequelize, Sequelize);
 
-db.posts.belongsTo(db.users, {foreignKey: 'userId', as: 'user', });
+db.posts.belongsTo(db.users, {
+  foreignKey: 'userId', as: 'user', allowNull: false }, 
+  { onDelete:'CASCADE'});
 
-db.comments.belongsTo(db.users, {foreignKey: 'userId', as: 'user', });
-db.comments.belongsTo(db.posts, {foreignKey: 'msgId', as: 'post', });
+db.comments.belongsTo(db.users, {
+  foreignKey: 'userId', as: 'user', allowNull: false }, 
+  { onDelete:'CASCADE'});
+db.comments.belongsTo(db.posts, {
+  foreignKey: 'msgId', as: 'post', allowNull: false }, 
+  { onDelete:'CASCADE'});
 
-db.likes.belongsTo(db.users, {foreignKey: 'userId', as: 'user', });
-db.likes.belongsTo(db.posts, {foreignKey: 'msgId', as: 'post', });
-db.likes.belongsTo(db.comments, {foreignKey: 'commentId', as: 'comment', });
+
+db.likes.belongsTo(db.users, {
+  foreignKey: 'userId', as: 'user', allowNull: false }, 
+  { onDelete:'CASCADE'});
+db.likes.belongsTo(db.posts, {
+  foreignKey: 'msgId', as: 'post', allowNull: false }, 
+  { onDelete:'CASCADE'});
 
 db.users.hasMany(db.posts, {as: 'post'});
 db.users.hasMany(db.comments, {as: 'comment'});
