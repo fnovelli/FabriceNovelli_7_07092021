@@ -4,20 +4,20 @@ let secret = process.env.JWT_SECRET;
 
 module.exports = (req, res, next) => {
   try {
-  
-    const token = req.headers.authorization.split(' ')[1];
-    const decodedToken = jwt.verify(token, secret);
-    const userId = decodedToken.userId;
-    
-    if (req.body.userId && req.body.userId !== userId) {
-      throw 'Invalid user ID';
-    } 
-    else {
+
+    let cookie = req.cookies['user_token'];
+    if (cookie) {
+
       next();
-    }
-  } catch {
-    res.status(401).json({
-      error: new Error('Invalid request!')
-    });
+      return;
   }
+
+    return res.status(500).send({ error: "Error, couldn't get user! (not logged)" });
+    
+  }
+  catch (error) {
+
+    return res.status(500).send({ error: "Error, couldn't get user!" });
+  }
+
 };

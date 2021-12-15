@@ -5,3 +5,5 @@ export { default as Register } from "./Register";
 export { default as Login } from "./Login";
 export { default as Message } from "./Message";
 export { default as Account } from "./Account";
+export { default as Comment } from "./Comment";
+export { default as Error } from "./Error";

@@ -39,20 +39,21 @@ db.comments.belongsTo(db.users, {
   foreignKey: 'userId', as: 'user', allowNull: false }, 
   { onDelete:'CASCADE'});
 db.comments.belongsTo(db.posts, {
-  foreignKey: 'msgId', as: 'post', allowNull: false }, 
+  foreignKey: 'msgId', as: 'post', }, 
   { onDelete:'CASCADE'});
 
 
 db.likes.belongsTo(db.users, {
-  foreignKey: 'userId', as: 'user', allowNull: false }, 
+  foreignKey: 'userId', as: 'user', }, 
   { onDelete:'CASCADE'});
 db.likes.belongsTo(db.posts, {
-  foreignKey: 'msgId', as: 'post', allowNull: false }, 
+  foreignKey: 'msgId', as: 'post', }, 
   { onDelete:'CASCADE'});
 
 db.users.hasMany(db.posts, {as: 'post'});
 db.users.hasMany(db.comments, {as: 'comment'});
 db.users.hasMany(db.likes, {as: 'like' });
+db.posts.hasMany(db.comments, {as: 'comment'});
 
 
 

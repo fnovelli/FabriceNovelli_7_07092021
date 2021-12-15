@@ -1,6 +1,5 @@
 import React from "react";
 import "./styles/message.css"
-import {Link} from 'react-router-dom';
 
 
 let url = "http://localhost:3000/api/posts";
@@ -123,35 +122,6 @@ async getMessages() {
 }
 
 
-async getMessageID() {
-
-  try {
-
-    const urlID = new URL(window.location.href).searchParams.get('id');
-    const newURL = url + "/" + urlID;
-
- const answer = await fetch(newURL, {
-    method: 'GET',  
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-    }
-  })
-
-    if (answer.ok)
-    {
-      return answer.json();
-    }
-   else {
-       return "NULL";
-    
-  }
-} catch (error)
-{
-  return "NULL";
-}
-
-}
 
 async getUser() {
 
@@ -228,7 +198,7 @@ displayMessages() {
 
     const { message } = this.state;
 
-    if (message.length === 0)
+    if (message === "NULL")
     {
       return (
       <div>
@@ -242,8 +212,9 @@ displayMessages() {
     <article id ="messageBlock">
 
    {  message.map((message) => (
+
      
-     <Link className="postWrapper" to={ "message/" + message.id }>
+     <div className="postWrapper">
      
    <ol key = { message.id } >
   
@@ -265,13 +236,13 @@ displayMessages() {
             </div>
             </div>
                  
-            <div className="post">
+            <a className="post"  href={ "/message/?id=" + message.id }>
              { message.message }
            
-            </div>
+            </a>
       
         </ol>
-        </Link>
+        </div>
     )) }  
  
     </article>

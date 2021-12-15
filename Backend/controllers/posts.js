@@ -65,7 +65,6 @@ exports.getPost = async (req, res) => {
       });
     });
 };
-
 exports.getAllPosts = async (req, res) => {
 
   db.posts.findAll( { 
@@ -76,6 +75,10 @@ exports.getAllPosts = async (req, res) => {
       attributes: ["nickname", "avatar"],
 
       },
+      {
+        model: db.comments, as: "comment",
+        attributes: ["comment", "id"]
+      }
     ],
     
 }).then((data) => {

@@ -1,5 +1,6 @@
 import React from "react";
 import "./styles/message.css"
+import { Error} from '../components';
 
 
 let url = "http://localhost:3000/api/posts";
@@ -12,7 +13,7 @@ class Comment extends React.Component {
         super(props);
         this.state = {
             user: [],
-            message: [],
+            message: '',
             comment: [],
             newComment: ''
        
@@ -29,19 +30,19 @@ class Comment extends React.Component {
   async componentDidMount() {
     this.setState({
       user: await this.getUser(),
-        message: await this.getMessages()
+      message: await this.getMessageID()
    
     });
   }
 
 
- handleMSGError(status) {
+ handleCommentStatus(status) {
 
     switch (status)
     {
       case 200:
       case 201:
-      alert('msg envoyé!');
+      alert('comment envoyé!');
       break;
       default:
           if (status >= 400 && status <= 599) {
@@ -49,7 +50,7 @@ class Comment extends React.Component {
           }
       break;  
     }
-  }
+}
 
 
 async postComment(FormObject) {
@@ -71,7 +72,6 @@ async postComment(FormObject) {
 });
 
 }
-
 
 handleNewComment = (e) => {
 
@@ -98,29 +98,32 @@ handleNewComment = (e) => {
 
 async getComments() {
 
-    try {
-   const answer = await fetch(url, {
-      method: 'GET',  
-      credentials: 'include',
-      headers: {
-        'Accept': 'application/json',
-      }
-    })
+  try {
 
-      if (answer.ok)
-      {
-        return answer.json();
-      }
-     else {
-         return "NULL";
+    const urlID = new URL(window.location.href).searchParams.get('id');
+    const newURL = url + "/" + urlID;
 
-      
+ const answer = await fetch(newURL, {
+    method: 'GET',  
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
     }
-  } catch (error)
-  {
-    return "NULL";
+  })
+
+    if (answer.ok)
+    {
+      return answer.json();
+    }
+   else {
+       return "NULL";
+    
   }
-  
+} catch (error)
+{
+  return "NULL";
+}
+
 }
 
 async getUser() {
@@ -238,24 +241,90 @@ displayComments() {
     </article>
 
     )
-      
+     
 }
 
-  render() {
 
+async getMessageID() {
+
+  try {
+
+    const urlID = new URL(window.location.href).searchParams.get('id');
+
+    if (urlID === null)
+    {
+      return "NULL";
+    }
+    const newURL = url + "/" + urlID;
+
+
+    console.log('url is ' + newURL);
+
+  
+ const answer = await fetch(newURL, {
+    method: 'GET',  
+    credentials: 'include',
+    headers: {
+      'Accept': 'application/json',
+    }
+  })
+
+    if (answer.ok)
+    {
+      return answer.json();
+    }
+   else {
+       return "NULL";
     
+  }
+} catch (error)
+{
+  return "NULL";
+}
+}
+
+displayMessageID() {
+
+  const { message } = this.state;
+  console.log('comment message iD ', message);
+
+
+  
+  if (message === "NULL")
+  {
     return (
-      <article className="postContainer">
-          { this.createNewComment() }
-            { this.displayComments() }
-  
+      <div>
 
-        </article>
-
-    )
-  
+    <Error />
+    </div>
+    ) 
     
+  }
+
+  return (  
+   <div className="postWrapper">
+
+   { message.message }
+ 
+    </div>
+  )
+  }
+
+
+
+render() {
+
+    
+  return (
+    <article className="postContainer">
+
+        { this.displayMessageID() }
+
+      </article>
+
+  )  
 }
+
 }
   
 export default Comment;
