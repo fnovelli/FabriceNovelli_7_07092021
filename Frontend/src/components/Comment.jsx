@@ -5,7 +5,7 @@ import { Error} from '../components';
 
 let url = "http://localhost:3000/api/posts";
 let urlUser = "http://localhost:3000/api/users/@me";
-
+let urlCom = "http://localhost:3000/api/posts/comments";
 
 class Comment extends React.Component {
 
@@ -13,7 +13,7 @@ class Comment extends React.Component {
         super(props);
         this.state = {
             user: [],
-            message: '',
+            message: [],
             comment: [],
             newComment: ''
        
@@ -53,34 +53,18 @@ class Comment extends React.Component {
 }
 
 
-async postComment(FormObject) {
 
-  await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify(FormObject)
-
-  }).then(response => {
-
-    this.handleMSGError(response.status);
-    return;
-  }).catch(errors => {
-
-  console.log('BackEnd error:', errors);
-  return;
-});
-
-}
 
 handleNewComment = (e) => {
 
-    var msg = this.state.newPost;
-    let objJS = { message: msg};
+    var com = this.state.newComment;
+    var msgID = this.state.message.id;
+    let objJS = { msgId: msgID, comment: com};
 
     e.preventDefault();
+    console.log('allo: ', objJS);
 
-    fetch(url, {
+    fetch(urlCom, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json',
        },
@@ -89,7 +73,7 @@ handleNewComment = (e) => {
   
     }).then(response => {
   
-      this.handleMSGError(response.status);
+      this.handleCommentStatus(response.status);
     }).catch(errors => {
   
     console.log('BackEnd error:', errors);
@@ -174,21 +158,21 @@ createNewComment() {
         </div>
         </div>
         
-        <form onSubmit={ this.handlePostNewMSG }>
+        <form onSubmit={ this.handleNewComment }>
         <textarea
             className="formTextArea"
                 required
-                value={this.state.newPost}
-                placeholder="Quoi de neuf?"
+                value={this.state.newComment }
+                placeholder="Répondre..."
                 minLength="4"
-                onChange={this.updatePost.bind(this)}
+                onChange={this.updateComment.bind(this)}
                 >
                   </textarea>
                 <br/>
     
 
 <button type="submit" id="btnNewPost">
-            Poster
+            Répondre
           </button>
 </form>
 
@@ -286,14 +270,17 @@ async getMessageID() {
 displayMessageID() {
 
   const { message } = this.state;
-  console.log('comment message iD ', message);
 
 
-  
+  console.log('comment message iD ', message.user);
+
+
+
   if (message === "NULL")
   {
     return (
       <div>
+
 
     <Error />
     </div>
@@ -301,14 +288,45 @@ displayMessageID() {
     
   }
 
-  return (  
-   <div className="postWrapper">
+  return (
 
-   { message.message }
+    <article id ="messageBlock">
+
+      <div className="postWrapper">
+      
+    <ol key = { message.id } >
+   
+             <div className="postTop">
+               
+             <div className="postTopLeft">
+               
+            
+               <img className="postProfileImg" alt="avatar"
+               src="">
+                 </img>
+                 <div className="postUsername">
+            
+           
+        
+             </div>
+          
  
-    </div>
-  )
-  }
+             </div>
+             </div>
+                  
+             <div className="post">
+              { message.message }
+            
+             </div>
+       
+         </ol>
+         </div>
+
+    </article>
+
+    )
+}
+  
 
 
 
@@ -319,6 +337,7 @@ render() {
     <article className="postContainer">
 
         { this.displayMessageID() }
+        { this.createNewComment() }
 
       </article>
 

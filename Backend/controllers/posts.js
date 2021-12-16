@@ -38,10 +38,8 @@ exports.createPost = async (req, res) => {
     const id2 = token.getUserId(cookie2);
   
 
-
     return res.status(500).send({ id2, error: "Error, couldn't get user! Message cannot be send." });
   }
-
 
 };
 
@@ -49,8 +47,23 @@ exports.getPost = async (req, res) => {
   
   const id = req.params.id;
 
-  db.posts.findByPk(id)
-    .then(data => {
+  await db.posts.findOne( {
+    where: { id: id },
+    attributes: ["id", "message"],
+    include: [
+      {
+      model: db.users, as: "user",
+      attributes: ["nickname", "avatar"],
+
+      },
+      {
+        model: db.comments, as: "com",
+        attributes: ["comment", "id"]
+      }
+    ],
+  }
+  )
+  .then(data => {
       if (data) {
         res.send(data);
       } else {
@@ -65,6 +78,7 @@ exports.getPost = async (req, res) => {
       });
     });
 };
+
 exports.getAllPosts = async (req, res) => {
 
   db.posts.findAll( { 
@@ -76,7 +90,7 @@ exports.getAllPosts = async (req, res) => {
 
       },
       {
-        model: db.comments, as: "comment",
+        model: db.comments, as: "com",
         attributes: ["comment", "id"]
       }
     ],

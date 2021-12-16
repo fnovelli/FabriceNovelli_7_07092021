@@ -1,54 +1,112 @@
 const db = require('../Models/Index');
 const Comments = db.comments;
+const token = require("../middleware/token");
 
 exports.createComment = async (req, res) => {
 
-  const comment = { 
-    userId: req.body.userId,
-    msgId: req.body.msgId,
-    comment: req.body.comment,
-    imageUrl: req.body.imageUrl,
+  try {
+
+    let cookie = req.cookies['user_token'];
+
+    if (cookie) {
+
+      const id = token.getUserId(cookie);
+  
+      if (id === null)
+      {
+        return res.status(400).json({ error: 'unexpected error, cannot get user ID' });
+      }
+
+      const comment = { 
+        userId: id,
+        msgId: req.body.msgId,
+        comment: req.body.comment,
+        imageUrl: req.body.imageUrl,
+    };
+  
+    await Comments.create(comment)
+          .then(() => res.status(201).json({ post: "Comment sent" }))
+          .catch(error => res.status(400).json({ error }));
+    
+    } 
+    else {
+      return res.status(500).send({ error: "Error, couldn't get cookie!" });
+  }
+
+  }
+  catch (error) {
+
+    
+    let cookie2 = req.cookies['user_token'];
+    const id2 = token.getUserId(cookie2);
+  
+
+    return res.status(500).send({ id2, error: "Error, couldn't get user! Comment cannot be send." });
+  }
+
+  return res.status(500).send({ id2, error: "Error, couldn't get user! Comment cannot be send." });
+
 };
 
-await Comments.create(comment)
-      .then(() => res.status(201).json({ comment: "Comment sent" }))
-      .catch(error => res.status(400).json({ error }));
-};
-
-exports.getComment = (req, res) => {
+exports.getComment = async (req, res) => {
   
   const id = req.params.id;
 
-  Comments.findByPk(id)
-    .then(data => {
+  await Comments.findOne( {
+    where: { id: id },
+    attributes: ["id", "comment"],
+    include: [
+      {
+      model: db.users, as: "user",
+      attributes: ["nickname", "avatar"],
+
+      },
+      {
+        model: db.posts, as: "post",
+        attributes: ["message", "id"]
+      }
+    ],
+  }
+  )
+  .then(data => {
       if (data) {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find comment with id=${id}.`
+          message: `Cannot find Comment with id=${id}.`
         });
       }
     })
     .catch(err => {
       res.status(500).send({
-        message: "Error retrieving comment with id=" + id
+        message: "Error retrieving Comment with id=" + id
       });
     });
 };
 
-exports.getAllComments = (req, res) => {
+exports.getAllComments = async (req, res) => {
 
-  const title = req.query.title;
-  var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
-  
-  Comments.findAll( { where: condition}).
-  then((data) => {
-    res.send(data);
-  })
+  Comments.findAll( { 
+    attributes: ["id", "comment"],
+    include: [
+      {
+      model: db.users, as: "user",
+      attributes: ["nickname", "avatar"],
+
+      },
+      {
+        model: db.posts, as: "post",
+        attributes: ["message", "id"]
+      }
+    ],
+    
+}).then((data) => {
+  res.send(data);
+})
 .catch((error) => {
-    console.log(error);
+  console.log(error);
 });
-};
+}
 
 exports.updateComment = (req, res) => {
 

@@ -56,6 +56,6 @@ app.get('/', function (req, res) {
   app.use(morgan('combined'))
   app.use('/api/users', userRoutes);
   app.use('/api/posts', postRoutes);
-  app.use('/api/posts/comments', commentRoutes);
+  app.use('/api/comments', commentRoutes);
 
   module.exports = app;
