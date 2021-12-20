@@ -39,7 +39,7 @@ db.comments.belongsTo(db.users, {
   foreignKey: 'userId', as: 'user', allowNull: false }, 
   { onDelete:'CASCADE'});
 db.comments.belongsTo(db.posts, {
-  foreignKey: 'msgId', as: 'post', }, 
+  foreignKey: 'postId', as: 'post', }, 
   { onDelete:'CASCADE'});
 
 
@@ -47,7 +47,7 @@ db.likes.belongsTo(db.users, {
   foreignKey: 'userId', as: 'user', }, 
   { onDelete:'CASCADE'});
 db.likes.belongsTo(db.posts, {
-  foreignKey: 'msgId', as: 'post', }, 
+  foreignKey: 'postId', as: 'post', }, 
   { onDelete:'CASCADE'});
 
 db.users.hasMany(db.posts, {as: 'post'});
@@ -82,6 +82,7 @@ const Users = db.users;
 
   await sequelize.sync({force:true});
 }
+
 
 createJaneUser();*/
 

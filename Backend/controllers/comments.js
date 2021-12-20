@@ -17,9 +17,11 @@ exports.createComment = async (req, res) => {
         return res.status(400).json({ error: 'unexpected error, cannot get user ID' });
       }
 
+      console.log('Req Body: ', req.body);
+
       const comment = { 
         userId: id,
-        msgId: req.body.msgId,
+        postId: req.body.postId,
         comment: req.body.comment,
         imageUrl: req.body.imageUrl,
     };

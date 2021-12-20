@@ -5,7 +5,7 @@ import './styles/form.css'
 let url = "http://localhost:3000/api/users/login";
 const userOK = 'successfully logged!';
 
-function handleLoginError(status) {
+function handleLoginStatus(status) {
 
   switch (status)
   {
@@ -34,7 +34,7 @@ async function loginSendData(FormObject) {
     body: JSON.stringify(FormObject)
 
   }).then(response => {
-    handleLoginError(response.status);
+    handleLoginStatus(response.status);
     return;
   }).catch(errors => {
   console.log('BackEnd error:', errors);
