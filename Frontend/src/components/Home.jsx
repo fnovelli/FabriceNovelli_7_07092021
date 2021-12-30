@@ -1,5 +1,4 @@
 import React from "react";
-import { isLogged } from "./Auth";
 import { Message } from "../components";
 import "./styles/home.css"
 
@@ -11,11 +10,6 @@ class Home extends React.Component {
     this.state = {isLog: false};
   }
 
-  async componentDidMount() {
-    this.setState({
-      isLog: await isLogged()
-    });
-  }
 
   displayWelcomeMessage() {
        
@@ -82,14 +76,11 @@ displayHomeMessage() {
 }
 
 render() {
-
-    
+   
   return (
  
-    <div>
-      
+    <div>      
       { this.displayWelcomeMessage() }
-
     </div>
   )
 

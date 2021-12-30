@@ -1,8 +1,10 @@
 
+
+
 let urlLogged = "http://localhost:3000/api/users/@me";
-
-
 let isConnected = false;
+
+
 
 function AuthCheck(status) {
 
@@ -20,6 +22,7 @@ function AuthCheck(status) {
 
 async function isLogged() {
 
+
   try {
  const answer = await fetch(urlLogged, {
     method: 'GET',  
@@ -28,20 +31,18 @@ async function isLogged() {
       'Accept': 'application/json',
     }
   })
+
   if (AuthCheck(answer.status)) {
     if (answer.ok)
     {
-      isConnected = true;
       return true;
     }
   } else {
-    isConnected = false;
     return false;
     
   }
 } catch (error)
 {
-  isConnected = false;
   return false;
 }
 
@@ -49,5 +50,5 @@ async function isLogged() {
 
 
 export {
-    isLogged, isConnected
+    isConnected
 }

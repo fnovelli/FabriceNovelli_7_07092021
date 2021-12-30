@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
 import './styles/form.css'
-
+import { AuthContext } from "../context"
 
 let url = "http://localhost:3000/api/users/login";
 const userOK = 'successfully logged!';
 
-function handleLoginStatus(status) {
+
+function HandleLoginStatus(status) {
 
   switch (status)
   {
@@ -34,13 +35,15 @@ async function loginSendData(FormObject) {
     body: JSON.stringify(FormObject)
 
   }).then(response => {
-    handleLoginStatus(response.status);
+    HandleLoginStatus(response.status);
     return;
   }).catch(errors => {
   console.log('BackEnd error:', errors);
   this.setState({ errors });
 });
 }
+
+
 
 class Login extends React.Component {
 
@@ -52,6 +55,8 @@ class Login extends React.Component {
       password: '',
   }
 }
+
+
 
 updateEmail(e) {
 
@@ -128,4 +133,5 @@ render() {
 }
 
   
-  export default Login;
+export default Login;
+

@@ -50,7 +50,6 @@ class Message extends React.Component {
     }
   }
 
-
 async postMessage(FormObject) {
 
   await fetch(url, {
@@ -70,7 +69,6 @@ async postMessage(FormObject) {
 });
 
 }
-
 
 handlePostNewMSG = (e) => {
 
@@ -120,8 +118,6 @@ async getMessages() {
   }
  
 }
-
-
 
 async getUser() {
 
@@ -212,8 +208,7 @@ displayMessages() {
     <article id ="messageBlock">
 
    {  message.map((message) => (
-
-     
+   
      <div className="postWrapper">
      
    <ol key = { message.id } >
@@ -221,24 +216,19 @@ displayMessages() {
             <div className="postTop">
               
             <div className="postTopLeft">
-              
-           
+                
               <img className="postProfileImg" alt="avatar"
               src={ message.user.avatar }>
                 </img>
                 <div className="postUsername">
             { message.user.nickname }
-          
-       
-            </div>
-         
-
+               
             </div>
             </div>
-                 
+            </div>
+                
             <a className="post"  href={ "/message/?id=" + message.id }>
-             { message.message }
-           
+             { message.message }         
             </a>
       
         </ol>

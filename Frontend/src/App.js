@@ -2,48 +2,19 @@ import logo from  './icons/icon-left-font-monochrome-white.png';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Navigation, Footer, Home, Register, Login, Account, Comment } from "./components/";
-import { isLogged } from './components/Auth';
-import React, { Component } from 'react'
-import { Redirect } from 'react-router';
+import React, { useState } from "react";
+import { hasAuthenticated } from './services/AuthApi';
+import Auth from './contexts/Auth';
+import AuthenticatedRoute from './components/AuthenticatedRoute';
 
 
+export default function App()  {
 
-class App extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      isLoggedIn: false,
-    }
-  }
+  const [isAuthenticated, setIsAuthenticated] = useState(hasAuthenticated());
 
-  async componentDidMount() {
-
-    const logged = await isLogged()
-
-    if (logged) {
-    this.setState({
-      "isLoggedIn": true 
-    });
-  }
-}
-
-  globalLogin = () => {
-    this.setState({ "isLoggedIn": true });
-  }
-
-  globalLogout = () => {
-    this.setState( { "isLoggedIn": false });
-  }
-
- GuardedRoute = ({loggedIn, ...props}) => {
-    if (loggedIn) {
-      return <Route {...props} />;
-    }
-    return <Redirect to="/login" />
-  }
-
-  render() {
   return (
+
+    <Auth.Provider value={{isAuthenticated}}>
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -56,21 +27,19 @@ class App extends Component {
           <Route path="/" exact component={() => <Home />} />
           <Route path="/register" exact component={() => <Register />} />
           <Route path="/login" exact component={() => <Login />} />
-          <Redirect strict from="/account" to="/login" />
+       
           <Route path="/account" exact component={() => <Account />} />
           <Route path="/message" exact component={() => <Comment />} />
+        <AuthenticatedRoute path="/account" component={() => <Account />} />
         </Switch>
 
       </Router>
-
-
-    
+   
       <Footer />
 
     </div>
-
+    </Auth.Provider>
   );
 }
-}
 
-export default App;
+
