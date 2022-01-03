@@ -27,18 +27,19 @@ export default function App()  {
           <Route path="/" exact component={() => <Home />} />
           <Route path="/register" exact component={() => <Register />} />
           <Route path="/login" exact component={() => <Login />} />
-       
-          <Route path="/account" exact component={() => <Account />} />
+
           <Route path="/message" exact component={() => <Comment />} />
         <AuthenticatedRoute path="/account" component={() => <Account />} />
         </Switch>
 
       </Router>
-   
+
       <Footer />
 
-    </div>
+      </div>
+
     </Auth.Provider>
+  
   );
 }
 

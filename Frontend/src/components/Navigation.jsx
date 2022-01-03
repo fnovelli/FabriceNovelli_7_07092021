@@ -4,32 +4,22 @@ import "./styles/navigation.css";
 import { Logout } from "./Logout";
 import Auth from "../contexts/Auth";
 
-function DisplayNavBar() {
+function DisplayNavBar(isAuthenticated) {
 
- // const { isAuthenticated } = useContext(Auth);
- const { isAuthenticated } = false;
 
   return (
 
     <div>
       { (!isAuthenticated && (
         <>
-    <li
-    className={`nav-item  ${
-      this.props.location.pathname === "/register" ? "active" : ""
-    }`}
-  >
+    <li>
     <Link className="nav-link" to="/register">
       S'inscrire
     </Link>
   </li>
 
 
-  <li
-    className={`nav-item  ${
-      this.props.location.pathname === "/login" ? "active" : ""
-    }`}
-  >
+  <li>
     <Link className="nav-link" to="/login">
       Connexion
       
@@ -42,22 +32,14 @@ function DisplayNavBar() {
     <nav className="navbar navbar-expand navbar-dark bg-dark">
       <div className="container">
     <div>
-    <li
-    className={`nav-item  ${
-      this.props.location.pathname === "/account" ? "active" : ""
-    }`}
-  >
+    <li>
     <Link className="nav-link" to="/account">
       Mon Compte
     </Link>
   </li>
 
 
-  <li
-    className={`nav-item  ${
-      this.props.location.pathname === "/logout" ? "active" : ""
-    }`}
-  >
+  <li>
     <Link className="nav-link" to="/logout" onClick={ Logout }>
       Déconnexion
     </Link>
@@ -75,59 +57,46 @@ function DisplayNavBar() {
 }
 
 
-class Navigation extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {isLog: false};
-  }
 
 
- 
-  
-    render() {
+  const NavBar = () => {
 
-      return ( 
       
-        <div className="navigation">
-          <nav className="navbar navbar-expand navbar-dark bg-dark">
-            <div className="container">
-              <Link className="navbar-brand" to="/">
-                
-              </Link>
-    
-              <div>
-                <ul className="navbar-nav ml-auto">
-                  <li
-                    className={`nav-item  ${
-                      this.props.location.pathname === "/" ? "active" : ""
-                    }`}
-                  >
-                    <Link className="nav-link" to="/">
-                      Accueil
-                      <span className="sr-only">(current)</span>
-                    </Link>
-                  </li>
-  
-                  { DisplayNavBar() } 
-  
-    
-                  <li
-                    className={`nav-item  ${
-                      this.props.location.pathname === "/contact" ? "active" : ""
-                    }`}
-                  >
-                          <div className="nav-link">
-                      <a href="mailto:groupomania@support.com" className="fLine">Contact</a>
-                      </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
+  const { isAuthenticated } = useContext(Auth);
+
+  return (
+
+
+<div className="navigation">
+      <nav className="navbar navbar-expand navbar-dark bg-dark">
+        <div className="container">
+          <Link className="navbar-brand" to="/">
+            
+          </Link>
+
+          <div>
+            <ul className="navbar-nav ml-auto">
+              <li>
+                  <Link className="nav-link" to="/">
+                  Accueil
+                  <span className="sr-only">(current)</span>
+                </Link>
+              </li>
+
+              { DisplayNavBar(isAuthenticated) }
+
+
+              <li>
+                      <div className="nav-link">
+                  <a href="mailto:groupomania@support.com" className="fLine">Contact</a>
+                  </div>
+              </li>
+            </ul>
+          </div>
         </div>
-      );
-  
-  }
-  }
-export default withRouter(Navigation);
+      </nav>
+    </div>
+  )
+  };
+
+export default withRouter(NavBar);
