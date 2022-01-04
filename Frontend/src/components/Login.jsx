@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import './styles/form.css'
-import { AuthContext } from "../context"
+import Auth from "../contexts/Auth"
 
 let url = "http://localhost:3000/api/users/login";
 const userOK = 'successfully logged!';
@@ -44,8 +44,86 @@ async function loginSendData(FormObject) {
 }
 
 
+const Login = ({ history}) => {
 
-class Login extends React.Component {
+const { isAuthenticated } = useContext(Auth);
+const [user, setUser] = useState({
+  email: "",
+  password: ""
+})
+
+const handleChange = ({currentTarget}) => {
+  const { name, value } = currentTarget;
+
+  setUser({...user, [name]: value})
+}
+
+
+const handleSubmit = (e) => {
+  var email = this.state.email;
+  var password = this.state.password;
+
+    e.preventDefault();
+    const FormObject = { email, password};
+    loginSendData(FormObject);
+}
+
+useEffect(() => {
+  if (isAuthenticated)
+  {
+    history.replace('/account');
+  }
+}, [history, isAuthenticated]
+);
+
+return (
+ 
+  <div>
+    
+    <section id="formBlock">
+    <h1>Veuillez rentrer vos identifiants.</h1>
+
+     <form onSubmit={ handleSubmit }>
+
+    <div className="formClass">
+    <label for="email">E-mail</label>
+    <input type="mail"
+              className="form-control"
+            required
+            placeholder="pierre@gmail.com"
+            onChange={handleChange}
+            ></input>
+      </div>
+
+      <div className="formClass">
+           <label for="password">Mot de Passe</label>
+              <input type="password"
+                required
+                className="form-control"
+                onChange={handleChange}
+                ></input>
+
+            </div>
+
+        <button type="submit" id="btnSignUp">
+          Connexion
+        </button>
+
+
+        </form>
+    
+    </section>
+
+
+  </div>
+)
+
+}
+
+
+
+
+/*class Login extends React.Component {
 
   constructor(props) {
     super(props);
@@ -130,7 +208,7 @@ render() {
   )
 
   }
-}
+}*/
 
   
 export default Login;

@@ -6,7 +6,6 @@ import Auth from "../contexts/Auth";
 
 function DisplayNavBar(isAuthenticated) {
 
-
   return (
 
     <div>
@@ -48,15 +47,13 @@ function DisplayNavBar(isAuthenticated) {
   </div>
   </nav>
   </div>
-  )
+
         </>)
 }
   </div>
 
   )
 }
-
-
 
 
   const NavBar = () => {
