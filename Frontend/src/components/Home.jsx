@@ -1,38 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Message } from "../components";
 import "./styles/home.css"
+import Auth from "../contexts/Auth";
+
+function DisplayHomeMessage() {
 
 
-class Home extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {isLog: false};
-  }
-
-
-  displayWelcomeMessage() {
-       
-    return (
-      <div className="bgHome">
-      <header className="container">
-     
-          <div className="title">
-        <h2>Bienvenue chez Groupomania</h2>
-        </div>
-        
-          </header>
-    
-
-        { this.displayHomeMessage() }
-        </div>     
-    )
-  }
-
-displayHomeMessage() {
-
-  if (this.state.isLog === false)  {
-   
     return (
     <div>
 
@@ -62,7 +35,7 @@ displayHomeMessage() {
   </div>
     )
   }
-  else {
+ /* else {
     return (
       <div>
         <Message />
@@ -73,7 +46,35 @@ displayHomeMessage() {
     )
   }
 
-}
+}*/
+
+class Home extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {isLog: false};
+  }
+
+
+  displayWelcomeMessage() {
+       
+    return (
+      <div className="bgHome">
+      <header className="container">
+     
+          <div className="title">
+        <h2>Bienvenue chez Groupomania</h2>
+        </div>
+        
+          </header>
+    
+
+        { DisplayHomeMessage() }
+        </div>     
+    )
+  }
+
+
 
 render() {
    

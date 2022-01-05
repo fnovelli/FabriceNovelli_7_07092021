@@ -1,52 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
 import './styles/form.css'
 import Auth from "../contexts/Auth"
-
-let url = "http://localhost:3000/api/users/login";
-const userOK = 'successfully logged!';
-
-
-function HandleLoginStatus(status) {
-
-  switch (status)
-  {
-    case 200:
-    case 201:
-    console.log(userOK);
-    break;
-    case 404:
-        return alert('Error, user not found in the database.');
-    case 406:
-     return alert('Incorrect Password!');
-    default:
-        if (status >= 400 && status <= 499) {
-          return alert('Unexpected error, please try again later.');
-        }
-    break;  
-  }
-}
-
-async function loginSendData(FormObject) {
-
-  await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify(FormObject)
-
-  }).then(response => {
-    HandleLoginStatus(response.status);
-    return;
-  }).catch(errors => {
-  console.log('BackEnd error:', errors);
-  this.setState({ errors });
-});
-}
-
+import { login } from "../services/AuthApi";
 
 const Login = ({ history}) => {
 
-const { isAuthenticated } = useContext(Auth);
+const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
+
 const [user, setUser] = useState({
   email: "",
   password: ""
@@ -59,22 +19,30 @@ const handleChange = ({currentTarget}) => {
 }
 
 
-const handleSubmit = (e) => {
-  var email = this.state.email;
-  var password = this.state.password;
+const handleSubmit = async e => {
 
     e.preventDefault();
-    const FormObject = { email, password};
-    loginSendData(FormObject);
+
+    try {
+
+    console.log(user);
+    const response = await login(user);
+    console.log('answer is: ', response);
+    setIsAuthenticated(response);
+    
+  }
+ catch ({ response}) {
+   console.log(response);
+ }
+
 }
 
-useEffect(() => {
+/*useEffect(() => {
   if (isAuthenticated)
   {
-    history.replace('/account');
+    history.location.replace('/account');
   }
-}, [history, isAuthenticated]
-);
+}, [history, isAuthenticated]);*/
 
 return (
  
@@ -89,6 +57,7 @@ return (
     <label for="email">E-mail</label>
     <input type="mail"
               className="form-control"
+              name="email"
             required
             placeholder="pierre@gmail.com"
             onChange={handleChange}
@@ -98,6 +67,7 @@ return (
       <div className="formClass">
            <label for="password">Mot de Passe</label>
               <input type="password"
+              name="password"
                 required
                 className="form-control"
                 onChange={handleChange}

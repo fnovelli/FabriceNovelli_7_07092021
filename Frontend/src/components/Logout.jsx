@@ -1,6 +1,4 @@
-
 let urlLogout= "http://localhost:3000/api/users/logout";
-
 
 function LogoutCheck(status) {
 

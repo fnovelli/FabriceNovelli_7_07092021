@@ -59,7 +59,7 @@ function DisplayNavBar(isAuthenticated) {
   const NavBar = () => {
 
       
-  const { isAuthenticated } = useContext(Auth);
+  const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
 
   return (
 

@@ -12,11 +12,9 @@ export default function App()  {
 
   const [isAuthenticated, setIsAuthenticated] = useState(hasAuthenticated());
 
-
   return (
 
-
-    <Auth.Provider value={{isAuthenticated}, setIsAuthenticated}>
+    <Auth.Provider value={{isAuthenticated, setIsAuthenticated}} >
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
