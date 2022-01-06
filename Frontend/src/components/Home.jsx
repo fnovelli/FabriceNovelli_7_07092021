@@ -3,13 +3,15 @@ import { Message } from "../components";
 import "./styles/home.css"
 import Auth from "../contexts/Auth";
 
-function DisplayHomeMessage() {
+function DisplayHomeMessage(isAuthenticated) {
 
+  return (
 
-    return (
     <div>
-
-      <p>
+      { (!isAuthenticated && (
+        <>
+    <li>
+    <p>
         <a
         className="App-link"
         href="/login/"
@@ -32,60 +34,52 @@ function DisplayHomeMessage() {
         Créer un compte maintenant!
       </a>
 
+  </li>
+  </>
+      )) || (
+        <>
+    <Message />
+
+        </>)
+}
   </div>
-    )
-  }
- /* else {
-    return (
-      <div>
-        <Message />
+
+  )
+}
 
 
 
-    </div>
-    )
-  }
-
-}*/
-
-class Home extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {isLog: false};
-  }
-
-
-  displayWelcomeMessage() {
+function DisplayWelcomeMessage(isAuthenticated) {
        
-    return (
-      <div className="bgHome">
-      <header className="container">
-     
-          <div className="title">
-        <h2>Bienvenue chez Groupomania</h2>
-        </div>
-        
-          </header>
-    
-
-        { DisplayHomeMessage() }
-        </div>     
-    )
-  }
-
-
-
-render() {
+  return (
+    <div className="bgHome">
+    <header className="container">
    
+        <div className="title">
+      <h2>Bienvenue chez Groupomania</h2>
+      </div>
+      
+        </header>
+  
+
+      { DisplayHomeMessage(isAuthenticated) }
+      </div>     
+  )
+}
+
+const Home = () => {
+  
+  const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
+
+
   return (
  
     <div>      
-      { this.displayWelcomeMessage() }
+      { DisplayWelcomeMessage(isAuthenticated) }
     </div>
   )
 
-}
+
 }
 
 export default Home;

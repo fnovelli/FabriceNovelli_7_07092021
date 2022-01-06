@@ -55,14 +55,13 @@ function DisplayNavBar(isAuthenticated) {
   )
 }
 
-
   const NavBar = () => {
-
-      
+  
   const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
 
-  return (
+  
 
+  return (
 
 <div className="navigation">
       <nav className="navbar navbar-expand navbar-dark bg-dark">

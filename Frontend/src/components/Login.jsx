@@ -37,12 +37,12 @@ const handleSubmit = async e => {
 
 }
 
-/*useEffect(() => {
+useEffect(() => {
   if (isAuthenticated)
   {
     history.location.replace('/account');
   }
-}, [history, isAuthenticated]);*/
+}, [history, isAuthenticated]);
 
 return (
  
