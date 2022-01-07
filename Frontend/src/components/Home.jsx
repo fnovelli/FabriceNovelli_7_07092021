@@ -67,7 +67,7 @@ function DisplayWelcomeMessage(isAuthenticated) {
 
 const Home = () => {
   
-  const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
+  const { isAuthenticated } = useContext(Auth);
 
   return (
  

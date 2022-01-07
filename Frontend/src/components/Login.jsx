@@ -41,12 +41,14 @@ const handleSubmit = async e => {
 
 }
 
-
+useEffect(() => {
+  if (isAuthenticated) {
+    history.replace('/');
+  }
+}, [history, isAuthenticated]);
 
 return (
 
-  
- 
   <div>
     
     <section id="formBlock">
