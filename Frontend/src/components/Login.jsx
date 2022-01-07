@@ -2,8 +2,12 @@ import React, { useState, useContext, useEffect } from "react";
 import './styles/form.css'
 import Auth from "../contexts/Auth"
 import { login } from "../services/AuthApi";
+import { useHistory } from "react-router-dom";
 
-const Login = ({ history}) => {
+const Login = () => {
+
+ 
+const history = useHistory();
 
 const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
 
@@ -37,14 +41,11 @@ const handleSubmit = async e => {
 
 }
 
-useEffect(() => {
-  if (isAuthenticated)
-  {
-    history.location.replace('/account');
-  }
-}, [history, isAuthenticated]);
+
 
 return (
+
+  
  
   <div>
     

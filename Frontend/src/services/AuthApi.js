@@ -15,9 +15,9 @@ function AuthCheck(status) {
 }
 
 
-export function login(user) {
+export async function login(user) {
 
-    return fetch(url , {
+    return await fetch(url , {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -35,6 +35,7 @@ export function login(user) {
 }
 
 export async function hasAuthenticated() {
+  
 
   try {
    const answer = await fetch(urlLogged, {

@@ -1,67 +1,21 @@
 import React, { useContext } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { NavLink, Link, withRouter } from "react-router-dom";
 import "./styles/navigation.css";
 import { Logout } from "./Logout";
 import Auth from "../contexts/Auth";
 
-function DisplayNavBar(isAuthenticated) {
 
-  return (
-
-    <div>
-      { (!isAuthenticated && (
-        <>
-    <li>
-    <Link className="nav-link" to="/register">
-      S'inscrire
-    </Link>
-  </li>
-
-
-  <li>
-    <Link className="nav-link" to="/login">
-      Connexion
-      
-    </Link>
-  </li>
-  </>
-      )) || (
-        <>
-        <div className="navigation">
-    <nav className="navbar navbar-expand navbar-dark bg-dark">
-      <div className="container">
-    <div>
-    <li>
-    <Link className="nav-link" to="/account">
-      Mon Compte
-    </Link>
-  </li>
-
-
-  <li>
-    <Link className="nav-link" to="/logout" onClick={ Logout }>
-      Déconnexion
-    </Link>
-    </li>
-  </div>
-  </div>
-  </nav>
-  </div>
-
-        </>)
-}
-  </div>
-
-  )
-}
-
-  const NavBar = () => {
+const NavBar = () => {
   
   const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
 
-  
+  const handleLogout = () => {
+    Logout();
+    setIsAuthenticated(false);
+  }
 
-  return (
+  
+return (
 
 <div className="navigation">
       <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -79,9 +33,50 @@ function DisplayNavBar(isAuthenticated) {
                 </Link>
               </li>
 
-              { DisplayNavBar(isAuthenticated) }
+
+                  <div>
+                    { (!isAuthenticated && (
+                      <>
+                  <li>
+                  <Link className="nav-link" to="/register">
+                    S'inscrire
+                  </Link>
+                  </li>
 
 
+                  <li>
+                  <Link className="nav-link" to="/login">
+                    Connexion
+                    
+                  </Link>
+                  </li>
+                  </>
+                    )) || (
+                      <>
+                      <div className="navigation">
+                  <nav className="navbar navbar-expand navbar-dark bg-dark">
+                    <div className="container">
+                  <div>
+                  <li>
+                  <NavLink className="nav-link" to="/account">
+                    Mon Compte
+                  </NavLink>
+                  </li>
+
+
+                  <li>
+                  <Link className="nav-link" to="/logout" onClick={ handleLogout }>
+                    Déconnexion
+                  </Link>
+                  </li>
+                  </div>
+                  </div>
+                  </nav>
+                  </div>
+
+                      </>)
+                  }
+                  </div>
               <li>
                       <div className="nav-link">
                   <a href="mailto:groupomania@support.com" className="fLine">Contact</a>

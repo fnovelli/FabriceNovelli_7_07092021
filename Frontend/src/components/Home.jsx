@@ -5,6 +5,7 @@ import Auth from "../contexts/Auth";
 
 function DisplayHomeMessage(isAuthenticated) {
 
+
   return (
 
     <div>
@@ -33,7 +34,6 @@ function DisplayHomeMessage(isAuthenticated) {
       >
         Créer un compte maintenant!
       </a>
-
   </li>
   </>
       )) || (
@@ -43,10 +43,8 @@ function DisplayHomeMessage(isAuthenticated) {
         </>)
 }
   </div>
-
   )
 }
-
 
 
 function DisplayWelcomeMessage(isAuthenticated) {
@@ -70,7 +68,6 @@ function DisplayWelcomeMessage(isAuthenticated) {
 const Home = () => {
   
   const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
-
 
   return (
  
