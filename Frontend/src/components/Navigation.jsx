@@ -65,7 +65,7 @@ return (
 
 
                   <li>
-                  <Link className="nav-link" to="/logout" onClick={ handleLogout }>
+                  <Link className="nav-link" to="/" onClick={ handleLogout }>
                     Déconnexion
                   </Link>
                   </li>
