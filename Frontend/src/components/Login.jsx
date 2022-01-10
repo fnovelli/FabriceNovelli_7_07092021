@@ -31,7 +31,9 @@ const handleSubmit = async e => {
 
     console.log(user);
     const response = await login(user);
-    console.log('answer is: ', response);
+    console.log('anwser of the form is: ', response);
+    if (!response)
+      alert("E-mail ou mot de passe incorrect!");
     setIsAuthenticated(response);
     
   }

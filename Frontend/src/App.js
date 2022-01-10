@@ -29,7 +29,7 @@ export default function App()  {
           <Route path="/login" exact component={() => <Login />} />
 
           <Route path="/message" exact component={() => <Comment />} />
-          <AuthenticatedRoute authed={isAuthenticated} path="/account" component={Account} />
+          <AuthenticatedRoute path="/account" component={() => <Account />} />
         </Switch>
 
       </Router>

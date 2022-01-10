@@ -3,17 +3,15 @@ import { Redirect } from "react-router-dom";
 import Auth from "../contexts/Auth"
 import {Route} from "react-router-dom"
 
-function AuthenticatedRoute ({component: Component, authed, ...rest}) {
+const AuthenticatedRoute = ({ path, component}) => {
 
+  const { isAuthenticated } = useContext(Auth);
 
-    return (
-      <Route
-        {...rest}
-        render={(props) => authed === true
-          ? <Component {...props} />
-          : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
-      />
-    )
-  }
+  return isAuthenticated ? (
+      <Route exact path={path} component={component} />
+  ) : ( 
+      <Redirect to="login" />
+  )
+}
 
 export default AuthenticatedRoute;

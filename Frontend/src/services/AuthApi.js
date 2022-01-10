@@ -15,30 +15,30 @@ function AuthCheck(status) {
 }
 
 
-export async function login(user) {
+export function login(user) {
 
-    return await fetch(url , {
+    return fetch(url , {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify(user)
+
     
       }).then(response => {
-        AuthCheck(response.status);
-        console.log('status login: ', response.status);
-        return true;
+        const result = AuthCheck(response.status);        
+        console.log('status login: ', result);
+        return result;
       }).catch(errors => {
       console.log('BackEnd error:', errors);
       return false;
     });
 
+
 }
 
-export async function hasAuthenticated() {
+export function hasAuthenticated() {
   
-
-  try {
-   const answer = await fetch(urlLogged, {
+   const answer = fetch(urlLogged, {
            method: 'GET',  
            credentials: 'include',
            headers: {
@@ -46,17 +46,9 @@ export async function hasAuthenticated() {
            }
          })
 
-         console.log('status login: ', answer);
-       
-         if (AuthCheck(answer.status)) {
 
-           if (answer.ok)
-             return true;
-         }
-        }
-        catch {
-         return false;
-        }
+         const result = AuthCheck(answer.status);
+         console.log('result is: ', result);
+         return result;
 
-    return false;
 }

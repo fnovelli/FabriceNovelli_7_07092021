@@ -3,12 +3,23 @@ import { Message } from "../components";
 import "./styles/home.css"
 import Auth from "../contexts/Auth";
 
-function DisplayHomeMessage(isAuthenticated) {
+
+const Home = () => {
+  
+  const { isAuthenticated } = useContext(Auth);
 
 
   return (
+    <div className="bgHome">
+    <header className="container">
+   
+        <div className="title">
+      <h2>Bienvenue chez Groupomania</h2>
+      </div>
+      
+        </header>
 
-    <div>
+        <div>
       { (!isAuthenticated && (
         <>
     <li>
@@ -43,40 +54,9 @@ function DisplayHomeMessage(isAuthenticated) {
         </>)
 }
   </div>
-  )
-}
-
-
-function DisplayWelcomeMessage(isAuthenticated) {
-       
-  return (
-    <div className="bgHome">
-    <header className="container">
-   
-        <div className="title">
-      <h2>Bienvenue chez Groupomania</h2>
-      </div>
-      
-        </header>
+  </div>
   
-
-      { DisplayHomeMessage(isAuthenticated) }
-      </div>     
   )
-}
-
-const Home = () => {
-  
-  const { isAuthenticated } = useContext(Auth);
-
-  return (
- 
-    <div>      
-      { DisplayWelcomeMessage(isAuthenticated) }
-    </div>
-  )
-
-
 }
 
 export default Home;
