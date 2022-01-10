@@ -1,10 +1,8 @@
 import React from "react";
 import "./styles/message.css"
 
-
 let url = "http://localhost:3000/api/posts";
 let urlUser = "http://localhost:3000/api/users/@me";
-
 
 class Message extends React.Component {
 
@@ -40,7 +38,7 @@ class Message extends React.Component {
     {
       case 200:
       case 201:
-      alert('msg envoyé!');
+        window.location.reload();
       break;
       default:
           if (status >= 400 && status <= 599) {

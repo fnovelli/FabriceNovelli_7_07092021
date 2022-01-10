@@ -27,6 +27,8 @@ export function login(user) {
       }).then(response => {
         const result = AuthCheck(response.status);        
         console.log('status login: ', result);
+        localStorage.setItem("isLog", JSON.stringify(result));
+        console.log('localstorage:', localStorage.getItem("isLog"));
         return result;
       }).catch(errors => {
       console.log('BackEnd error:', errors);
@@ -37,18 +39,8 @@ export function login(user) {
 }
 
 export function hasAuthenticated() {
-  
-   const answer = fetch(urlLogged, {
-           method: 'GET',  
-           credentials: 'include',
-           headers: {
-             'Accept': 'application/json',
-           }
-         })
 
-
-         const result = AuthCheck(answer.status);
-         console.log('result is: ', result);
-         return result;
+    
+    return localStorage.getItem("isLog");
 
 }

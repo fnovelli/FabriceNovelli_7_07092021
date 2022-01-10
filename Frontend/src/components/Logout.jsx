@@ -28,6 +28,8 @@ async function Logout() {
   if (LogoutCheck(answer.status)) {
     if (answer.ok)
     {
+      localStorage.removeItem("isLog");
+
       return true;
     }
   } else {
