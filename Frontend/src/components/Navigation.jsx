@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { NavLink, Link, withRouter } from "react-router-dom";
-import "./styles/navigation.css";
 import { Logout } from "./Logout";
 import Auth from "../contexts/Auth";
 
@@ -18,6 +17,7 @@ const NavBar = () => {
 return (
 
 <div className="navigation">
+    <div className=" navbar-dark">
       <nav className="navbar navbar-expand navbar-dark bg-dark">
         <div className="container">
           <Link className="navbar-brand" to="/">
@@ -53,10 +53,8 @@ return (
                   </>
                     )) || (
                       <>
-                      <div className="navigation">
-                  <nav className="navbar navbar-expand navbar-dark bg-dark">
-                    <div className="container">
-                  <div>
+             
+          
                   <li>
                   <NavLink className="nav-link" to="/account">
                     Mon Compte
@@ -69,23 +67,21 @@ return (
                     Déconnexion
                   </Link>
                   </li>
-                  </div>
-                  </div>
-                  </nav>
-                  </div>
+
 
                       </>)
                   }
                   </div>
               <li>
-                      <div className="nav-link">
-                  <a href="mailto:groupomania@support.com" className="fLine">Contact</a>
-                  </div>
+           
+                  <a className="nav-link" href="mailto:groupomania@support.com">Contact</a>
+     
               </li>
             </ul>
           </div>
         </div>
       </nav>
+    </div>
     </div>
   )
   };

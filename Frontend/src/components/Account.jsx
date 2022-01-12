@@ -16,16 +16,20 @@ function handleError(status) {
       case 200:
       case 201:
       console.log(userOK);
-      return alert(userOK);
+      alert(userOK);
+      return true;
       case 501:
-        return alert('error when trying to get cookie!');
+        alert('error when trying to get cookie!');
+        break;
       default:
         
           if (status >= 400 && status <= 599) {
-            return alert('Unexpected error, please try again later.');
+            alert('Unexpected error, please try again later.');
           }
-      break;  
+          break;
     }
+
+    return false;
 }
 
 
@@ -53,12 +57,12 @@ class Account extends React.Component {
 
       
         this.state = {
-          name: '',
-          nickname: '',
-          email: '',
-          password: '',
-          passwordAgain: '',
-          bio: '',
+          name: "",
+          nickname: "",
+          email: "",
+          password: "",
+          passwordAgain: "",
+          bio: "",
           userinfo: [],
           }
     };
@@ -72,19 +76,19 @@ class Account extends React.Component {
 
 async formAccountPutData(FormObject) {
 
-  await fetch(url, {
-    method: 'PUT',
-    credentials: 'include',
-    body: JSON.stringify(FormObject)
-
-  }).then(response => {
-    console.log(FormObject);
-    handleError(response.status);
-    return;
-  }).catch(errors => {
-  console.log('BackEnd error:', errors);
-  return;
-});
+    return fetch(url , {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(FormObject)
+    
+      }).then(response => {
+        const result = handleError(response.status);        
+        return result;
+      }).catch(errors => {
+      console.log('BackEnd error:', errors);
+      return false;
+    });
 }
 
 async getUser() {
@@ -159,7 +163,6 @@ updateEmail(e) {
   }
   
   
-  
    handleSubmit = (e) => {
     
     e.preventDefault();
@@ -216,16 +219,13 @@ EditAccount() {
         <section id="formBlock">
         <h1>Paramètres du compte</h1>
 
-
          <form onSubmit={this.handleSubmit}>
       
-  
         <div className="formClass">
          <label for="nickname">Pseudo</label>
          <input type="text"
             className="form-control"
                 required
-                value={this.state.nickname}
                 placeholder={userinfo.nickname }
                 minLength="4"
                 pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
@@ -237,7 +237,6 @@ EditAccount() {
         <input type="mail"
                   className="form-control"
                 required
-                value={this.state.email}
                 placeholder={userinfo.email}
 
                 pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}"
@@ -248,7 +247,7 @@ EditAccount() {
           <label for="bio">bio</label>
         <textarea
                   className="formBioClass"
-                value={this.state.bio}
+
                 placeholder={userinfo.bio}
 
                 pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,40}"
@@ -261,7 +260,6 @@ EditAccount() {
         <input type="file"
         accept=".jpeg, .jpg, .png, .webp"
                 
-                required
 
                 ></input>
           </div>

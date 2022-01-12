@@ -1,4 +1,3 @@
-let urlLogged = "http://localhost:3000/api/users/@me";
 let url = "http://localhost:3000/api/users/login";
 
 function AuthCheck(status) {
@@ -15,7 +14,7 @@ function AuthCheck(status) {
 }
 
 
-export function login(user) {
+export async function login(user) {
 
     return fetch(url , {
         method: 'POST',
@@ -38,9 +37,6 @@ export function login(user) {
 
 }
 
-export function hasAuthenticated() {
-
-    
+export function hasAuthenticated() {  
     return localStorage.getItem("isLog");
-
 }
