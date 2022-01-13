@@ -2,7 +2,6 @@ import React from "react";
 import "./styles/message.css"
 import { Error } from '../components';
 
-
 let url = "http://localhost:3000/api/posts";
 let urlUser = "http://localhost:3000/api/users/@me";
 let urlCom = "http://localhost:3000/api/posts/comments";
@@ -12,7 +11,7 @@ class Comment extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: [],
+      user: {},
       message: [],
       comment: [],
       newComment: ''
@@ -119,7 +118,6 @@ class Comment extends React.Component {
       else {
         return "NULL";
 
-
       }
     } catch (error) {
       return "NULL";
@@ -171,12 +169,19 @@ class Comment extends React.Component {
 
     const { message } = this.state;
 
+    const j = this.state.message;
+    const obj = j['com'];
+    console.log(obj);
+    
+
+
     return (
-
       <article id="messageBlock">
-        {message.com.map((comment) => (
-          <div className="postWrapper">
 
+        {message.com.map((comment) => (
+
+          <div className="postWrapper">
+            
             <ol key={comment.id} >
 
               <div className="postTop">
@@ -204,7 +209,6 @@ class Comment extends React.Component {
 
     )
   }
-
 
   async getMessage() {
 
@@ -237,10 +241,10 @@ class Comment extends React.Component {
     }
   }
 
-  displayMessage() {
+
+  render() {
 
     const { message } = this.state;
-    console.log('comment message iD ', message);
 
     if (message === "NULL") {
       return (
@@ -250,43 +254,48 @@ class Comment extends React.Component {
       )
     }
 
+    const j = this.state.message;
+    const obj = j['user'];
+
+    const obj2 = j['com'];
+
+
+    
     return (
 
-      <article id="messageBlock">
+<article id ="messageBlock">
+<div className="postWrapper">
 
-        <div className="postWrapper">
-            <div className="postTop">
-              <div className="postTopLeft">
+  <div> 
 
-                <div className="postUsername">
+    <div className="postTop">
+         <div className="postTopLeft">
+             
+           <img className="postProfileImg" alt="avatar"
+           src= { obj ? obj['avatar'] : null }>
+             </img>
+             <div className="postUsername">
+         {  obj ? obj['nickname'] : null  }
+            
+         </div>
+         </div>
+         </div>
+
+         <div className="post">
         
-                </div>
-              </div>
-            </div>
-            <div className="post">
-              {message.message}
-            </div>
+         { j["message"]  }    
+        </div>
 
-          </div>
-      </article>
+        </div>
+      
+</div>
 
+    { this.createNewComment() }
+
+    </article>
     )
-  }
 
-
-  render() {
-
-    return (
-      <article className="postContainer">
-
-        {this.displayMessage()}
-        {this.createNewComment()}
-
-      </article>
-
-    )
-  }
-
+}
 }
 
 export default Comment;

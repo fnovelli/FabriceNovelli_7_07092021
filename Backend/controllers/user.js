@@ -147,7 +147,6 @@ async function getLoggedUser(req, res) {
 
     return res.status(500).send({ error: "Error, couldn't get user!" });
   }
-
 }
 
 
@@ -177,7 +176,6 @@ exports.getUser = async (req, res) => {
     });
 
 }
-
 
 
 exports.getAllUsers = async (req, res) => {

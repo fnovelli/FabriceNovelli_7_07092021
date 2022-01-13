@@ -33,8 +33,6 @@ export async function login(user) {
       console.log('BackEnd error:', errors);
       return false;
     });
-
-
 }
 
 export function hasAuthenticated() {  

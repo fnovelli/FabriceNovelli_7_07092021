@@ -8,7 +8,6 @@ const Home = () => {
   
   const { isAuthenticated } = useContext(Auth);
 
-
   return (
     <div className="bgHome">
     <header className="container">

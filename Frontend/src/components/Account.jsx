@@ -17,6 +17,7 @@ function handleError(status) {
       case 201:
       console.log(userOK);
       alert(userOK);
+      
       return true;
       case 501:
         alert('error when trying to get cookie!');
