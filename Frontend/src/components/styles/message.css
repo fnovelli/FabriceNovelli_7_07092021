@@ -4,9 +4,6 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-
-
-
 }
 
 .postWrapper {
@@ -44,9 +41,13 @@
 .postTopLeft {
     margin-left: -10px;
     display: flex;
- 
-
 }
+
+.comTopLeft {
+    margin-left: 10px;
+    display: flex;
+}
+
 
 .postProfileImg {
 

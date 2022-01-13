@@ -168,17 +168,27 @@ class Comment extends React.Component {
   displayComments() {
 
     const { message } = this.state;
-
     const j = this.state.message;
-    const obj = j['com'];
-    console.log(obj);
+    const obj = j['user'];
+    const obj2 = j['com'];
+
     
+    
+    if (!obj2) {
+      return (
+        <div>
+          <Error />
+        </div>
+      )
+    }
+
+    console.log(obj2);
 
 
     return (
       <article id="messageBlock">
 
-        {message.com.map((comment) => (
+        {obj2.map((comment) => (
 
           <div className="postWrapper">
             
@@ -187,17 +197,18 @@ class Comment extends React.Component {
               <div className="postTop">
                 <div className="postTopLeft">
                   <img className="postProfileImg" alt="avatar"
-                    src={comment.user.avatar}>
+                    src="avatar">
                   </img>
+                  </div>
                   <div className="postUsername">
-                    {comment.user.nickname}
+        
                   </div>
 
-                </div>
+               
               </div>
 
               <div className="post">
-                {comment.comment}
+              { obj2 ? obj2[0].comment : null}
 
               </div>
 
@@ -245,8 +256,10 @@ class Comment extends React.Component {
   render() {
 
     const { message } = this.state;
+    const j = this.state.message;
+    const obj = j['user'];
 
-    if (message === "NULL") {
+    if (message === "NULL" || !obj) {
       return (
         <div>
           <Error />
@@ -254,13 +267,7 @@ class Comment extends React.Component {
       )
     }
 
-    const j = this.state.message;
-    const obj = j['user'];
 
-    const obj2 = j['com'];
-
-
-    
     return (
 
 <article id ="messageBlock">
@@ -269,13 +276,13 @@ class Comment extends React.Component {
   <div> 
 
     <div className="postTop">
-         <div className="postTopLeft">
+         <div className="comTopLeft">
              
            <img className="postProfileImg" alt="avatar"
-           src= { obj ? obj['avatar'] : null }>
+           src= { obj['avatar']}>
              </img>
              <div className="postUsername">
-         {  obj ? obj['nickname'] : null  }
+         {  obj['nickname']  }
             
          </div>
          </div>
@@ -283,14 +290,17 @@ class Comment extends React.Component {
 
          <div className="post">
         
-         { j["message"]  }    
-        </div>
+         { j["message"]  }  
+     
+                 </div>
 
         </div>
       
 </div>
 
+
     { this.createNewComment() }
+    { this.displayComments() }
 
     </article>
     )
