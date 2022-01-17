@@ -28,7 +28,8 @@ class Comment extends React.Component {
   async componentDidMount() {
     this.setState({
       user: await this.getUser(),
-      message: await this.getMessage()
+      message: await this.getMessage(),
+      comment: await this.getComments()
 
     });
   }
@@ -38,7 +39,7 @@ class Comment extends React.Component {
     switch (status) {
       case 200:
       case 201:
-        alert('comment envoyé!');
+        window.location.reload();
         break;
       default:
         if (status >= 400 && status <= 599) {
@@ -167,20 +168,25 @@ class Comment extends React.Component {
 
   displayComments() {
 
-    const { message } = this.state;
+
+
     const j = this.state.message;
+
+    console.log(j);
     const obj = j['user'];
     const obj2 = j['com'];
 
     
     
-    if (!obj2) {
+    if (!obj || !obj2) {
       return (
         <div>
           <Error />
         </div>
       )
     }
+
+    console.log(obj);
 
     console.log(obj2);
 
@@ -208,7 +214,7 @@ class Comment extends React.Component {
               </div>
 
               <div className="post">
-              { obj2 ? obj2[0].comment : null}
+              { obj2[0].comment }
 
               </div>
 

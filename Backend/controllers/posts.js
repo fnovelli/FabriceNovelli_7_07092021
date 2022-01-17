@@ -58,7 +58,13 @@ exports.getPost = async (req, res) => {
       },
       {
         model: db.comments, as: "com",
-        attributes: ["comment", "id"]
+        attributes: ["comment", "id"],
+        include: [
+          {
+            model: db.users, as: "user",
+            attributes: ["nickname", "avatar"],
+          },
+        ],
       }
     ],
   }
@@ -91,7 +97,13 @@ exports.getAllPosts = async (req, res) => {
       },
       {
         model: db.comments, as: "com",
-        attributes: ["comment", "id"]
+        attributes: ["comment", "id"],
+        include: [
+          {
+            model: db.users,  as: "user",
+            attributes: ["nickname", "avatar"],
+          },
+        ],
       }
     ],
     
