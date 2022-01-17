@@ -4,7 +4,7 @@ import { Error } from '../components';
 
 let url = "http://localhost:3000/api/posts";
 let urlUser = "http://localhost:3000/api/users/@me";
-let urlCom = "http://localhost:3000/api/posts/comments";
+let urlCom = "http://localhost:3000/api/comments";
 
 class Comment extends React.Component {
 
@@ -157,7 +157,6 @@ class Comment extends React.Component {
       )
     }
 
-
     return (
       <article id="messageBlock">
 
@@ -179,7 +178,7 @@ class Comment extends React.Component {
               </div>
               
               <div className="post">
-              { obj2[0].comment }
+              { comment.comment }
 
               </div>
 
