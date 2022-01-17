@@ -13,7 +13,6 @@ class Comment extends React.Component {
     this.state = {
       user: {},
       message: [],
-      comment: [],
       newComment: ''
     }
   }
@@ -29,7 +28,6 @@ class Comment extends React.Component {
     this.setState({
       user: await this.getUser(),
       message: await this.getMessage(),
-      comment: await this.getComments()
 
     });
   }
@@ -73,33 +71,6 @@ class Comment extends React.Component {
 
       console.log('BackEnd error:', errors);
     });
-  }
-
-  async getComments() {
-
-    try {
-
-      const urlID = new URL(window.location.href).searchParams.get('id');
-      const newURL = url + "/" + urlID;
-
-      const answer = await fetch(newURL, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Accept': 'application/json',
-        }
-      })
-
-      if (answer.ok) {
-        return answer.json();
-      }
-      else {
-        return "NULL";
-
-      }
-    } catch (error) {
-      return "NULL";
-    }
   }
 
   async getUser() {
@@ -169,10 +140,10 @@ class Comment extends React.Component {
   displayComments() {
 
 
-
     const j = this.state.message;
 
-    console.log(j);
+    console.log('j: ', j);
+
     const obj = j['user'];
     const obj2 = j['com'];
 
@@ -186,10 +157,6 @@ class Comment extends React.Component {
       )
     }
 
-    console.log(obj);
-
-    console.log(obj2);
-
 
     return (
       <article id="messageBlock">
@@ -197,31 +164,28 @@ class Comment extends React.Component {
         {obj2.map((comment) => (
 
           <div className="postWrapper">
-            
-            <ol key={comment.id} >
+    
+        <ol key={comment.id} >
 
               <div className="postTop">
                 <div className="postTopLeft">
                   <img className="postProfileImg" alt="avatar"
-                    src="avatar">
+                    src= {comment.user.avatar }>
                   </img>
-                  </div>
                   <div className="postUsername">
-        
-                  </div>
-
-               
+                  {comment.user.nickname }           
               </div>
-
+              </div>
+              </div>
+              
               <div className="post">
               { obj2[0].comment }
 
               </div>
 
-            </ol>
-          </div>
-        ))}
-
+              </ol>
+        </div>
+    )) }  
       </article>
 
     )
