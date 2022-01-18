@@ -36,10 +36,14 @@
 .postTop {
     margin-top: 15px;
     
+    display: flex;
+
+    width: 598px;
+    
 }
 
 .postTopLeft {
-    margin-left: -10px;
+
     display: flex;
 }
 
@@ -66,6 +70,49 @@
 
 .postDate {
     font-size: 12px;
+}
+
+.postButtonsGroup {
+    display: flex;
+    width: 400px;
+    justify-content: flex-end;
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+
+#postEditButton {
+
+    margin-right: 20px;
+    font-size: 15px;
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 10px;
+    background-color: rgb(53, 159, 247);
+    background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0));
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
+}
+
+#postDeleteButton {
+
+ 
+    font-size: 15px;
+    text-align: center;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+    border-radius: 10px;
+    background-color: rgba(220, 0, 0, 1);
+    background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0));
+    box-shadow: inset 2px 2px 3px rgba(255, 255, 255, .6),
+                inset -2px -2px 3px rgba(0, 0, 0, .6);
 }
 
 

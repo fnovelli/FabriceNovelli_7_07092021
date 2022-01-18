@@ -11,8 +11,7 @@ class Message extends React.Component {
         this.state = {
             user: [],
             message: [],
-            newPost: ''
-       
+            newPost: '' 
       }
     }
 
@@ -151,15 +150,13 @@ createNewPost() {
   return (
 
     <div className="newPostWrapper">
-        <div className="newpostTop">
-          
+        <div className="newpostTop">     
         <div className="postTopLeft">
           
         <img className="postProfileImg" alt="avatar"
               src={ user.avatar }>
                 </img>
             <div className="postUsername">
-
         </div>
 
         </div>
@@ -188,8 +185,30 @@ createNewPost() {
   )
 }
 
+displayEditDeleteButton(pseudoA, pseudoB)
+{
+  if (pseudoA === pseudoB)
+  {
+
+    return (
+    
+    <div className="postButtonsGroup">
+    <button type="submit" id="postEditButton">
+          Editer
+        </button>
+
+        <button type="submit" id="postDeleteButton">
+          Supprimer
+        </button>
+        </div>
+    )
+  } 
+}
+
+
 displayMessages() {
 
+    const { user } = this.state;
     const { message } = this.state;
 
     if (message === "NULL")
@@ -208,23 +227,26 @@ displayMessages() {
    {  message.map((message) => (
    
      <div className="postWrapper">
+       
      
    <ol key = { message.id } >
-  
-            <div className="postTop">
-              
-            <div className="postTopLeft">
-                
+
+
+<div className="postTop">  
+      <div className="postTopLeft"> 
               <img className="postProfileImg" alt="avatar"
               src={ message.user.avatar }>
                 </img>
                 <div className="postUsername">
             { message.user.nickname }
-               
+            </div>        
+            </div> 
+
+            { this.displayEditDeleteButton(user.nickname, message.user.nickname) }
+
+  
             </div>
-            </div>
-            </div>
-                
+
             <a className="post"  href={ "/message/?id=" + message.id }>
              { message.message }         
             </a>
