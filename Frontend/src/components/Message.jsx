@@ -244,7 +244,6 @@ displayMessages() {
 
             { this.displayEditDeleteButton(user.nickname, message.user.nickname) }
 
-  
             </div>
 
             <a className="post"  href={ "/message/?id=" + message.id }>

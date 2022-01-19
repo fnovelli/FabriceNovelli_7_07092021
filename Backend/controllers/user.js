@@ -27,7 +27,7 @@ exports.createUser = async (req, res) => {
     return;
   }
 
-  User.findOne({ where : {email: req.body.email }}) 
+  await User.findOne({ where : {email: req.body.email }}) 
   .then(user => {
 
     if (user) {
@@ -206,8 +206,26 @@ exports.updateUser = async (req, res) => {
         return res.status(400).json({ error: 'unexpected error, cannot get user ID' });
       }
 
+      await User.findOne({ where : {nickname: req.body.nickname }}) 
+      .then(user => {
+
+        if (user.nickname !== req.body.nickname ) {
+          return res.status(409).send({ error: "Nickname already exist in the DB" });
+        }
+      })
+    
+    
+  await User.findOne({ where : {email: req.body.email }}) 
+  .then(user => {
+    
+    if (user) {
+      return res.status(409).send({ error: "E-mail already exist in the DB" });
+    }
+  })
+
       User.update( req.body, { where: { id: id } }); 
       return res.status(200).json({ message: "Successfully updated user!" });
+    
     }
 
     return res.status(501).send({ error: "Error, couldn't get the ID to update user." });
