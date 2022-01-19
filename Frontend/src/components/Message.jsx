@@ -37,7 +37,7 @@ class Message extends React.Component {
     {
       case 200:
       case 201:
-        window.location.reload();
+        window.location.reload(); //refresh window after a post
       break;
       default:
           if (status >= 400 && status <= 599) {
@@ -113,7 +113,6 @@ async getMessages() {
   {
     return "NULL";
   }
- 
 }
 
 async getUser() {
@@ -185,11 +184,35 @@ createNewPost() {
   )
 }
 
-displayEditDeleteButton(pseudoA, pseudoB)
+
+deleteMessage = (id) => {
+
+  let fullURL = url + "/" + id;
+
+  if (window.confirm("Etes vous sur de vouloir supprimer ce message? Cette action est irreversible.")) {
+
+    fetch(fullURL, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    
+      }).then(response => {
+        if (response.status == 200 || response.status == 201) {
+          window.location.reload(); //force refresh
+        }
+      }).catch(errors => {
+      console.log('BackEnd error:', errors);
+      return;
+    });
+
+  }
+}
+
+displayEditDeleteButton(pseudoA, pseudoB, idd)
 {
+
   if (pseudoA === pseudoB)
   {
-
     return (
     
     <div className="postButtonsGroup">
@@ -197,7 +220,7 @@ displayEditDeleteButton(pseudoA, pseudoB)
           Editer
         </button>
 
-        <button type="submit" id="postDeleteButton">
+        <button type="submit" id="postDeleteButton" onClick= {() => { this.deleteMessage(idd) } }>
           Supprimer
         </button>
         </div>
@@ -242,7 +265,7 @@ displayMessages() {
             </div>        
             </div> 
 
-            { this.displayEditDeleteButton(user.nickname, message.user.nickname) }
+            { this.displayEditDeleteButton(user.nickname, message.user.nickname, message.id) }
 
             </div>
 
