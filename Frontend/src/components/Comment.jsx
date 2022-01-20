@@ -141,6 +141,7 @@ class Comment extends React.Component {
 
 
     const j = this.state.message;
+    const { user } = this.state;
 
     console.log('j: ', j);
 
@@ -175,6 +176,8 @@ class Comment extends React.Component {
                   {comment.user.nickname }           
               </div>
               </div>
+
+              { this.displayEditDeleteButton(user, comment) }
               </div>
               
               <div className="post">
@@ -189,6 +192,54 @@ class Comment extends React.Component {
 
     )
   }
+
+  deleteCom = (id) => {
+
+    let fullURL = urlCom + "/" + id;
+  
+    if (window.confirm("Etes vous sur de vouloir supprimer ce commentaire? Cette action est irreversible.")) {
+  
+      fetch(fullURL, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+      
+        }).then(response => {
+          if (response.ok) {
+            window.location.reload(); //force refresh
+          }
+        }).catch(errors => {
+        console.log('BackEnd error:', errors);
+        return;
+      });
+    }
+  }
+  
+
+  displayEditDeleteButton(user, message)
+{
+
+  let pseudoA = user.nickname;
+  let pseudoB = message.user.nickname
+  const idd = message.id;
+
+  if (pseudoA === pseudoB || user.admin === true)
+  {
+    return (
+    
+    <div className="postButtonsGroup">
+    <button type="submit" id="postEditButton">
+          Editer
+        </button>
+
+        <button type="submit" id="postDeleteButton" onClick= {() => { this.deleteCom(idd) } }>
+          Supprimer
+        </button>
+        </div>
+    )
+  } 
+}
+
 
   async getMessage() {
 
@@ -256,6 +307,7 @@ class Comment extends React.Component {
          </div>
          </div>
          </div>
+
 
          <div className="post">
         

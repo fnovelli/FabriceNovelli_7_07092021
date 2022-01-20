@@ -33,11 +33,9 @@ exports.createPost = async (req, res) => {
   }
   catch (error) {
 
-    
     let cookie2 = req.cookies['user_token'];
     const id2 = token.getUserId(cookie2);
   
-
     return res.status(500).send({ id2, error: "Error, couldn't get user! Message cannot be send." });
   }
 
@@ -116,9 +114,29 @@ exports.getAllPosts = async (req, res) => {
 }
 
 exports.updatePost = async (req, res) => {
+ 
   try {
 
+    let cookie = req.cookies['user_token'];
+    const userid = token.getUserId(cookie);
+    let post = await db.posts.findOne({ where: { id: req.params.id } });
+    let isAdmin = false;
+
+    db.users.findByPk(userid)
+    .then(data => {
+      if (data) {
+
+        res.send(data);
+      }
+    });
+
+    if (userid !== post.userId && !isAdmin)
+    {
+      return res.status(403).send({ error: "Error, you don't have the permission to do that." });
+    }
+  
     const id = req.params.id;
+
     db.posts.update( req.body, { where: { id: id } }); 
     return res.status(200).json({ message: "Successfully updated post!" });
     
@@ -126,9 +144,28 @@ exports.updatePost = async (req, res) => {
     return res.status(500).send({ error: "Error, couldn't update post!" });
   }
 };
-exports.deletePost = (req, res) => {
+
+exports.deletePost = async (req, res) => {
 
   try {
+
+    let cookie = req.cookies['user_token'];
+    const userid = token.getUserId(cookie);
+    let post = await db.posts.findOne({ where: { id: req.params.id } });
+    let isAdmin = false;
+
+    db.users.findByPk(userid)
+    .then(data => {
+      if (data) {
+        isAdmin = data.admin;
+      }
+    });
+
+    if (userid !== post.userId && !isAdmin)
+    {
+      return res.status(403).send({ error: "Error, you don't have the permission to do that." });
+    }
+
     const id = req.params.id;
     db.posts.destroy({ where: { id: id } }); 
     return res.status(200).json({ message: "Successfully deleted post!" });

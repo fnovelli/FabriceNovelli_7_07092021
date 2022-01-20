@@ -11,7 +11,8 @@ class Message extends React.Component {
         this.state = {
             user: [],
             message: [],
-            newPost: '' 
+            newPost: '',
+            textEdit: ''
       }
     }
 
@@ -22,10 +23,17 @@ class Message extends React.Component {
       });
     }
 
+    editPost(e) {
+
+      this.setState({
+        textEdit: e.target.value,
+      });
+    }
+
   async componentDidMount() {
     this.setState({
       user: await this.getUser(),
-        message: await this.getMessages()
+      message: await this.getMessages()
    
     });
   }
@@ -184,6 +192,11 @@ createNewPost() {
   )
 }
 
+editMessage = (id) => {
+
+
+}
+
 
 deleteMessage = (id) => {
 
@@ -197,21 +210,24 @@ deleteMessage = (id) => {
       headers: { 'Content-Type': 'application/json' },
     
       }).then(response => {
-        if (response.status == 200 || response.status == 201) {
+        if (response.ok) {
           window.location.reload(); //force refresh
         }
       }).catch(errors => {
       console.log('BackEnd error:', errors);
       return;
     });
-
   }
 }
 
-displayEditDeleteButton(pseudoA, pseudoB, idd)
+displayEditDeleteButton(user, message)
 {
 
-  if (pseudoA === pseudoB)
+  let pseudoA = user.nickname;
+  let pseudoB = message.user.nickname
+  const idd = message.id;
+
+  if (pseudoA === pseudoB || user.admin === true)
   {
     return (
     
@@ -265,7 +281,7 @@ displayMessages() {
             </div>        
             </div> 
 
-            { this.displayEditDeleteButton(user.nickname, message.user.nickname, message.id) }
+            { this.displayEditDeleteButton(user, message) }
 
             </div>
 

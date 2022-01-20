@@ -223,7 +223,7 @@ exports.updateUser = async (req, res) => {
     }
   })
 
-      User.update( req.body, { where: { id: id } }); 
+      User.update( recq.body, { where: { id: id } }); 
       return res.status(200).json({ message: "Successfully updated user!" });
     
     }
