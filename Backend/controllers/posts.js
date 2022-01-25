@@ -144,7 +144,6 @@ exports.updatePost = async (req, res) => {
     return res.status(500).send({ error: "Error, couldn't update post!" });
   }
 };
-
 exports.deletePost = async (req, res) => {
 
   try {

@@ -53,6 +53,7 @@ db.likes.belongsTo(db.posts, {
 db.users.hasMany(db.posts, {as: 'post'});
 db.users.hasMany(db.comments, {as: 'comment'});
 db.users.hasMany(db.likes, {as: 'like' });
+db.posts.hasMany(db.likes, {as: 'like' });
 db.posts.hasMany(db.comments, {as: 'com'});
 
 

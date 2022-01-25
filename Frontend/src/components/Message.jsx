@@ -12,7 +12,9 @@ class Message extends React.Component {
             user: [],
             message: [],
             newPost: '',
-            textEdit: ''
+            textEdit: '',
+            disable: true,
+            msgID: 0,
       }
     }
 
@@ -34,7 +36,6 @@ class Message extends React.Component {
     this.setState({
       user: await this.getUser(),
       message: await this.getMessages()
-   
     });
   }
 
@@ -72,7 +73,6 @@ async postMessage(FormObject) {
   console.log('BackEnd error:', errors);
   return;
 });
-
 }
 
 handlePostNewMSG = (e) => {
@@ -147,7 +147,6 @@ async getUser() {
 {
   return "NULL";
 }
-
 }
 
 createNewPost() {
@@ -185,18 +184,45 @@ createNewPost() {
 <button type="submit" id="btnNewPost">
             Poster
           </button>
-</form>
-
+    </form>
        </div>
-
   )
 }
 
-editMessage = (id) => {
+async editMessage(FormObject) {
 
+  const { msgID } = this.state;
+  let postEditURL = url + "/" + msgID;
 
+    return fetch(postEditURL , {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(FormObject)
+    
+      }).then(response => {
+        const result = this.handleMSGError(response.status);        
+        return result;
+      }).catch(errors => {
+      console.log('BackEnd error:', errors);
+      return false;
+    });
 }
 
+handleSubmitEditMSG = (e) => {
+     
+  e.preventDefault();
+
+  const { textEdit } = this.state;
+
+  let obj =
+  {
+    "message": textEdit
+  };
+
+  console.log('form', obj);
+  this.editMessage(obj);   
+}
 
 deleteMessage = (id) => {
 
@@ -232,7 +258,7 @@ displayEditDeleteButton(user, message)
     return (
     
     <div className="postButtonsGroup">
-    <button type="submit" id="postEditButton">
+    <button type="submit" id="postEditButton" onClick= {() => { this.handleClickEdit(idd) } }>
           Editer
         </button>
 
@@ -244,8 +270,64 @@ displayEditDeleteButton(user, message)
   } 
 }
 
+displaySendEditedMSG(message)
+{
 
-displayMessages() {
+
+  const idd = message.id;
+  const { msgID } = this.state;
+  const { disable } = this.state;
+
+  if (!disable && msgID === idd) {
+    return (
+    
+    <div className="postButtonsGroup">
+    <button type="submit" id="btnNewPost" onClick= { this.handleSubmitEditMSG  }>
+          Mettre à jour 
+        </button>
+        </div>
+    )
+  }
+  
+}
+
+handleClickEdit(idd) {
+
+  this.setState({disable:!this.state.disable})
+  this.setState({msgID:idd}) 
+}
+
+displayMessages(message, id) {
+
+  const { disable } = this.state;
+  const { msgID } = this.state;
+  const { textEdit } = this.state;
+
+  if (disable || msgID !== id) {
+
+    return(
+
+  <a className="post" href={ "/message/?id=" + message.id }>
+ 
+  { message.message }         
+ </a>
+    )
+  } 
+  
+  else {
+
+    console.log('editpost: ', textEdit);
+    return(
+
+  <textarea className="post" onChange={this.editPost.bind(this)}>
+ 
+    { message.message }         
+ </textarea>
+    )
+  }
+}
+
+displayMessagesContainer() {
 
     const { user } = this.state;
     const { message } = this.state;
@@ -270,9 +352,9 @@ displayMessages() {
      
    <ol key = { message.id } >
 
-
 <div className="postTop">  
       <div className="postTopLeft"> 
+      
               <img className="postProfileImg" alt="avatar"
               src={ message.user.avatar }>
                 </img>
@@ -285,34 +367,27 @@ displayMessages() {
 
             </div>
 
-            <a className="post"  href={ "/message/?id=" + message.id }>
-             { message.message }         
-            </a>
+            { this.displayMessages(message, message.id) }
+            { this.displaySendEditedMSG(message) }
+
       
         </ol>
         </div>
     )) }  
  
     </article>
-
-    )
-      
+    ) 
 }
 
   render() {
-
-    
+  
     return (
       <article className="postContainer">
           { this.createNewPost() }
-            { this.displayMessages() }
-  
-
+          { this.displayMessagesContainer() }
         </article>
 
-    )
-  
-    
+    )    
 }
 }
   
