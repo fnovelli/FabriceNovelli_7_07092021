@@ -87,6 +87,7 @@ exports.getAllPosts = async (req, res) => {
 
   db.posts.findAll( { 
     attributes: ["id", "message"],
+    order: [["createdAt", "DESC"]],
     include: [
       {
       model: db.users, as: "user",
@@ -96,6 +97,7 @@ exports.getAllPosts = async (req, res) => {
       {
         model: db.comments, as: "com",
         attributes: ["comment", "id"],
+        order: [["createdAt", "DESC"]],
         include: [
           {
             model: db.users,  as: "user",

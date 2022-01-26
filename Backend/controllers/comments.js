@@ -90,6 +90,7 @@ exports.getAllComments = async (req, res) => {
 
   Comments.findAll( { 
     attributes: ["id", "comment"],
+    order: [["createdAt", "DESC"]],
     include: [
       {
       model: db.users, as: "user",
