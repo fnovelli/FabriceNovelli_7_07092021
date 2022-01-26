@@ -133,15 +133,12 @@ async getUser() {
       'Accept': 'application/json',
     }
   })
-
     if (answer.ok)
     {
       return answer.json();
     }
    else {
-       return "NULL";
-
-    
+       return "NULL";    
   }
 } catch (error)
 {
@@ -270,10 +267,8 @@ displayEditDeleteButton(user, message)
   } 
 }
 
-displaySendEditedMSG(message)
+displayUpdatePostButtondMSG(message)
 {
-
-
   const idd = message.id;
   const { msgID } = this.state;
   const { disable } = this.state;
@@ -287,8 +282,7 @@ displaySendEditedMSG(message)
         </button>
         </div>
     )
-  }
-  
+  } 
 }
 
 handleClickEdit(idd) {
@@ -301,11 +295,10 @@ displayMessages(message, id) {
 
   const { disable } = this.state;
   const { msgID } = this.state;
-  const { textEdit } = this.state;
 
   if (disable || msgID !== id) {
 
-    return(
+    return (
 
   <a className="post" href={ "/message/?id=" + message.id }>
  
@@ -316,7 +309,6 @@ displayMessages(message, id) {
   
   else {
 
-    console.log('editpost: ', textEdit);
     return(
 
   <textarea className="post" onChange={this.editPost.bind(this)}>
@@ -368,7 +360,7 @@ displayMessagesContainer() {
             </div>
 
             { this.displayMessages(message, message.id) }
-            { this.displaySendEditedMSG(message) }
+            { this.displayUpdatePostButtondMSG(message) }
 
       
         </ol>

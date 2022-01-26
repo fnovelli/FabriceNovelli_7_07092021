@@ -13,7 +13,10 @@ class Comment extends React.Component {
     this.state = {
       user: {},
       message: [],
-      newComment: ''
+      newComment: '',
+      comEdit: '',
+      disable: true,
+      comID: 0,
     }
   }
 
@@ -21,6 +24,13 @@ class Comment extends React.Component {
 
     this.setState({
       newComment: e.target.value,
+    });
+  }
+
+  editComment(e) {
+
+    this.setState({
+     comEdit: e.target.value,
     });
   }
 
@@ -137,7 +147,54 @@ class Comment extends React.Component {
     )
   }
 
-  displayComments() {
+  displayUpdateComButtondMSG(com)
+{
+  const idd = com.id;
+  const { comID } = this.state;
+  const { disable } = this.state;
+
+  if (!disable && comID === idd) {
+    return (
+    
+    <div className="postButtonsGroup">
+    <button type="submit" id="btnNewPost" onClick= { this.handleSubmitEditCOM  }>
+          Mettre à jour 
+        </button>
+        </div>
+    )
+  } 
+}
+
+  displayComments(comment, id) {
+
+    const { disable } = this.state;
+    const { comID } = this.state;
+
+    if (disable || comID !== id) {
+  
+      return (
+  
+        <div className="post">
+        { comment.comment }
+
+        </div>
+      )
+    } 
+    
+    else {
+  
+
+      return(
+  
+    <textarea className="post" onChange={this.editComment.bind(this)}>
+   
+      { comment.comment }         
+   </textarea>
+      )
+    }
+  }
+
+  displayCommentsContainer() {
 
 
     const j = this.state.message;
@@ -180,10 +237,9 @@ class Comment extends React.Component {
               { this.displayEditDeleteButton(user, comment) }
               </div>
               
-              <div className="post">
-              { comment.comment }
-
-              </div>
+              { this.displayComments(comment, comment.id) }
+              { this.displayUpdateComButtondMSG(comment) }
+       
 
               </ol>
         </div>
@@ -192,6 +248,42 @@ class Comment extends React.Component {
 
     )
   }
+
+  async editCom(FormObject) {
+
+    const { comID } = this.state;
+    let postEditURL = urlCom + "/" + comID;
+  
+      return fetch(postEditURL , {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(FormObject)
+      
+        }).then(response => {
+          const result = this.handleCommentStatus(response.status);        
+          return result;
+        }).catch(errors => {
+        console.log('BackEnd error:', errors);
+        return false;
+      });
+  }
+  
+  handleSubmitEditCOM = (e) => {
+       
+    e.preventDefault();
+  
+    const { comEdit } = this.state;
+  
+    let obj =
+    {
+      "comment": comEdit
+    };
+  
+    console.log('form', obj);
+    this.editCom(obj);   
+  }
+  
 
   deleteCom = (id) => {
 
@@ -214,8 +306,13 @@ class Comment extends React.Component {
       });
     }
   }
-  
 
+  handleClickEdit(idd) {
+
+    this.setState({disable:!this.state.disable})
+    this.setState({comID:idd}) 
+  }
+  
   displayEditDeleteButton(user, message)
 {
 
@@ -228,7 +325,7 @@ class Comment extends React.Component {
     return (
     
     <div className="postButtonsGroup">
-    <button type="submit" id="postEditButton">
+    <button type="submit" id="postEditButton" onClick= {() => { this.handleClickEdit(idd) } }>
           Editer
         </button>
 
@@ -287,7 +384,6 @@ class Comment extends React.Component {
       )
     }
 
-
     return (
 
 <article id ="messageBlock">
@@ -307,21 +403,17 @@ class Comment extends React.Component {
          </div>
          </div>
          </div>
-
-
          <div className="post">
         
          { j["message"]  }  
      
-                 </div>
-
+      </div>
         </div>
       
 </div>
 
-
     { this.createNewComment() }
-    { this.displayComments() }
+    { this.displayCommentsContainer() }
 
     </article>
     )
