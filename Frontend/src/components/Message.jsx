@@ -1,5 +1,9 @@
 import React from "react";
 import "./styles/message.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faComment } from "@fortawesome/free-solid-svg-icons";
 
 let url = "http://localhost:3000/api/posts";
 let urlUser = "http://localhost:3000/api/users/@me";
@@ -176,13 +180,19 @@ createNewPost() {
                 >
                   </textarea>
                 <br/>
-    
+
+<div id="newPostBottom">
+
+<FontAwesomeIcon icon={faUpload} > </FontAwesomeIcon>
+
 
 <button type="submit" id="btnNewPost">
             Poster
           </button>
+          </div>
     </form>
        </div>
+     
   )
 }
 
@@ -265,6 +275,20 @@ displayEditDeleteButton(user, message)
         </div>
     )
   } 
+}
+
+displayLikeButton(user, message)
+{
+  return (
+    <div id="postBtm">
+        <FontAwesomeIcon icon={faThumbsUp} > </FontAwesomeIcon> 
+
+
+     <a  href={ "/message/?id=" + message.id }>   
+  <FontAwesomeIcon icon={faComment} > </FontAwesomeIcon> 
+  </a>
+  </div>
+  )
 }
 
 displayUpdatePostButtondMSG(message)
@@ -361,9 +385,9 @@ displayMessagesContainer() {
 
             { this.displayMessages(message, message.id) }
             { this.displayUpdatePostButtondMSG(message) }
-
-      
+            { this.displayLikeButton(user, message)}
         </ol>
+
         </div>
     )) }  
  
