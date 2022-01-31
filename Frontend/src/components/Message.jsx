@@ -281,11 +281,17 @@ displayLikeButton(user, message)
 {
   return (
     <div id="postBtm">
+      <div class="likeCom">
+
         <FontAwesomeIcon icon={faThumbsUp} > </FontAwesomeIcon> 
+        J'aime
+        </div>
 
 
-     <a  href={ "/message/?id=" + message.id }>   
+     <a class="likeCom" href={ "/message/?id=" + message.id }>
+ 
   <FontAwesomeIcon icon={faComment} > </FontAwesomeIcon> 
+  Commenter
   </a>
   </div>
   )
