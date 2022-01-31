@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./styles/message.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
@@ -406,5 +406,7 @@ displayMessagesContainer() {
     )    
 }
 }
+
+
   
 export default Message;
