@@ -1,4 +1,4 @@
-![alt text](https://i.imgur.com/MAKC6gw.png)
+![alt text](https://i.imgur.com/2PaPDrs.png)
 
 ## Groupomania Reseau Social
 
