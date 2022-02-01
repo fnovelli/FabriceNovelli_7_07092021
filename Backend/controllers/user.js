@@ -74,7 +74,7 @@ exports.login = async (req, res) => {
               return res.Status(406).json( { error: 'Incorrect password.'});
           }
 
-            const tokenJ = jwt.sign({ userId: user.id }, secret, { expiresIn: '24h' });
+            const tokenJ = jwt.sign({ userId: user.id, admin: user.admin  }, secret, { expiresIn: '24h' });
     
             //send cookie to browser, "httpOnly" so the browser cannot read it, "strict" so only our client can use the cookie.
             res.cookie('user_token', tokenJ, { httpOnly: true, sameSite: 'strict' });

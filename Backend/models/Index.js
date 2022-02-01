@@ -20,7 +20,6 @@ async function DBconnection() {
 
 DBconnection();
 
-
 const db = {};
 
 db.Sequelize = Sequelize;
@@ -56,10 +55,7 @@ db.users.hasMany(db.likes, {as: 'like' });
 db.posts.hasMany(db.likes, {as: 'like' });
 db.posts.hasMany(db.comments, {as: 'com'});
 
-
-
 const Users = db.users;
-
 
 /*async function createJaneUser() {
    const jane = Users.build({ 

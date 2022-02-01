@@ -52,11 +52,9 @@ function handleErrorDel(status) {
 
 class Account extends React.Component {
 
-
     constructor(props) {
         super(props);
-
-      
+    
         this.state = {
           name: "",
           nickname: "",
@@ -129,7 +127,7 @@ updateName(e) {
 
 
 updateNickname(e) {
-  
+    
     this.setState({
       nickname: e.target.value,
     });
@@ -163,11 +161,9 @@ updateEmail(e) {
     });
   }
   
-  
    handleSubmit = (e) => {
     
     e.preventDefault();
-
 
     let obj =
     {
@@ -177,8 +173,7 @@ updateEmail(e) {
     };
 
     console.log('form', obj);
-    this.formAccountPutData(obj);
-      
+    this.formAccountPutData(obj);    
   }
     
   
@@ -207,14 +202,12 @@ updateEmail(e) {
 
 EditAccount() {
 
-
   const { userinfo } = this.state;
 
   console.log('cur user: ', userinfo);
 
       return (
 
-  
         <div>
           <article id="accountBlock">
         <section id="formBlock">
@@ -259,12 +252,10 @@ EditAccount() {
           <div className="formClass">
         <label for="avatar">Avatar</label>
         <input type="file"
-        accept=".jpeg, .jpg, .png, .webp"
-                
+        accept=".jpeg, .jpg, .png, .webp"           
 
                 ></input>
           </div>
-
   
             <button type="submit" id="btnSignUp">
               Mettre à jour
@@ -274,8 +265,7 @@ EditAccount() {
             <br/>
                     
         </section>
-
-      
+ 
             <div id="delete">
             <button type="submit" id="btnDelete" onClick= { this.deleteSubmit }>
               SUPPRIMER LE COMPTE
@@ -283,26 +273,18 @@ EditAccount() {
             </div>
             </article>
             </div>
-           
-    
+
       );
     };
 
 
     render() {
 
-    
         return (
             <div>
-    
                 { this.EditAccount() }
-      
-    
             </div>
-    
         )
-      
-        
     }
 }
     

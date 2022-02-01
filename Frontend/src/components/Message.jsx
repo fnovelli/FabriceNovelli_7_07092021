@@ -19,6 +19,8 @@ class Message extends React.Component {
             textEdit: '',
             disable: true,
             msgID: 0,
+            
+
       }
     }
 

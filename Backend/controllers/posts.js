@@ -55,6 +55,9 @@ exports.getPost = async (req, res) => {
 
       },
       {
+      model: db.likes, as: "like",
+      },
+      {
         model: db.comments, as: "com",
         attributes: ["comment", "id"],
         include: [
@@ -94,6 +97,9 @@ exports.getAllPosts = async (req, res) => {
       attributes: ["nickname", "avatar"],
 
       },
+      {
+        model: db.likes, as: "like",
+        },
       {
         model: db.comments, as: "com",
         attributes: ["comment", "id"],
