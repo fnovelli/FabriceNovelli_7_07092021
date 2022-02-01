@@ -11,11 +11,9 @@ const Home = () => {
   return (
     <div className="bgHome">
     <header className="container">
-   
-        <div className="title">
-      <h2>Bienvenue chez Groupomania</h2>
+    <div className="title">
+      <h2>Groupomania Actualité</h2>
       </div>
-      
         </header>
 
         <div>
@@ -29,11 +27,11 @@ const Home = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        Connectez-vous pour continuer!
+        Connectez-vous pour continuer !
       </a>
 
         <br/>
-        Pas encore de compte?
+        Pas encore de compte ?
       </p>
 
       <a

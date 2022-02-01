@@ -1,4 +1,3 @@
-import logo from  './icons/icon-left-font-monochrome-white.png';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Navigation, Footer, Home, Register, Login, Account, Comment, AuthenticatedRoute } from "./components/";
@@ -16,9 +15,7 @@ export default function App()  {
     <Auth.Provider value={{isAuthenticated, setIsAuthenticated}} >
       
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        </header>
+
         
         <Router>
         <Navigation />

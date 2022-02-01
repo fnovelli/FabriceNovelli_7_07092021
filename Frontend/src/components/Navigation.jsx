@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { NavLink, Link, withRouter } from "react-router-dom";
 import { Logout } from "./Logout";
 import Auth from "../contexts/Auth";
+import logo from  '../icons/icon-left-font-monochrome-white.png';
 
 
 const NavBar = () => {
@@ -16,10 +17,15 @@ const NavBar = () => {
   
 return (
 
-<div className="navigation">
+<header className="navigation">
+
     <div className=" navbar-dark">
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <nav className="navbar navbar-expand App-header">
+
         <div className="container">
+  
+        <img src={logo} className="App-logo" alt="logo" />
+
           <Link className="navbar-brand" to="/">
             
           </Link>
@@ -78,11 +84,17 @@ return (
      
               </li>
             </ul>
+            
           </div>
+  
         </div>
+ 
       </nav>
+      
     </div>
-    </div>
+    
+    </header>
+
   )
   };
 
