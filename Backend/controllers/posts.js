@@ -47,7 +47,7 @@ exports.getPost = async (req, res) => {
 
   await db.posts.findOne( {
     where: { id: id },
-    attributes: ["id", "message"],
+    attributes: ["id", "message", "imageUrl"],
     include: [
       {
       model: db.users, as: "user",
@@ -89,7 +89,7 @@ exports.getPost = async (req, res) => {
 exports.getAllPosts = async (req, res) => {
 
   db.posts.findAll( { 
-    attributes: ["id", "message"],
+    attributes: ["id", "message", "imageUrl"],
     order: [["createdAt", "DESC"]],
     include: [
       {

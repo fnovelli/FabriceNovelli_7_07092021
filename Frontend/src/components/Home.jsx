@@ -3,7 +3,6 @@ import { Message } from "../components";
 import "./styles/home.css"
 import Auth from "../contexts/Auth";
 
-
 const Home = () => {
   
   const { isAuthenticated } = useContext(Auth);

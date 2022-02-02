@@ -104,7 +104,6 @@ class Comment extends React.Component {
     } catch (error) {
       return "NULL";
     }
-
   }
 
   createNewComment() {
@@ -196,7 +195,6 @@ class Comment extends React.Component {
 
   displayCommentsContainer() {
 
-
     const j = this.state.message;
     const { user } = this.state;
 
@@ -204,9 +202,7 @@ class Comment extends React.Component {
 
     const obj = j['user'];
     const obj2 = j['com'];
-
-    
-    
+   
     if (!obj || !obj2) {
       return (
         <div>
@@ -245,7 +241,6 @@ class Comment extends React.Component {
         </div>
     )) }  
       </article>
-
     )
   }
 
@@ -284,7 +279,6 @@ class Comment extends React.Component {
     this.editCom(obj);   
   }
   
-
   deleteCom = (id) => {
 
     let fullURL = urlCom + "/" + id;
@@ -404,8 +398,10 @@ class Comment extends React.Component {
          </div>
          </div>
          <div className="post">
-        
-         { j["message"]  }  
+    
+         <p>
+         { j["message"]  }   
+         <img class="imagePost" src={message.imageUrl }></img>  </p>
      
       </div>
         </div>

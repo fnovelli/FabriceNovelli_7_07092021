@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./styles/message.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
+import { Image } from "../components";
+import { externIMGUrl} from "./Image";
 
 let url = "http://localhost:3000/api/posts";
 let urlUser = "http://localhost:3000/api/users/@me";
@@ -45,7 +46,6 @@ class Message extends React.Component {
     });
   }
 
-
  handleMSGError(status) {
 
     switch (status)
@@ -62,27 +62,18 @@ class Message extends React.Component {
     }
   }
 
-  handleMSGError(status) {
-
-    switch (status)
-    {
-      case 200:
-      case 201:
-        window.location.reload(); //refresh window after a post
-      break;
-      default:
-          if (status >= 400 && status <= 599) {
-            return alert('Unexpected error, please try again later.');
-          }
-      break;  
-    }
-  }
-
-
 handlePostNewMSG = (e) => {
 
     var msg = this.state.newPost;
-    let objJS = { message: msg};
+    let objJS;
+
+    if (externIMGUrl != "")
+    {
+      objJS = { message: msg, imageUrl: externIMGUrl };
+    }
+    else {
+      objJS = { message: msg }
+    }
 
     e.preventDefault();
 
@@ -154,6 +145,8 @@ createNewPost() {
   
   const { user } = this.state;
 
+  console.log("imgLink: ", externIMGUrl);
+
   return (
 
     <div className="newPostWrapper">
@@ -182,9 +175,7 @@ createNewPost() {
                 <br/>
 
 <div id="newPostBottom">
-
-<FontAwesomeIcon icon={faUpload} > </FontAwesomeIcon>
-
+    <Image />
 <button type="submit" id="btnNewPost">
             Poster
           </button>
@@ -292,14 +283,12 @@ handleLikeError(status) {
   }
 }
 
-
 handleClickLike = (e) => {
 
   e.preventDefault();
 
   let urlLike = "/" + this.msgIDLike + "/like";
   let fullURLLike = url + urlLike;
-
 
   fetch(fullURLLike, {
     method: 'POST',
@@ -364,17 +353,23 @@ handleClickEdit(idd) {
 
 displayMessages(message, id) {
 
+
   const { disable } = this.state;
   const { msgID } = this.state;
 
   if (disable || msgID !== id) {
 
-    return (
+    console.log("msg: ", message);
 
-  <a className="post" href={ "/message/?id=" + message.id }>
+    return (
+      <div className="post">
+  <a href={ "/message/?id=" + message.id }>
  
-  { message.message }         
+  { message.message }  
+  <img class="imagePost" src={message.imageUrl }></img>  
  </a>
+
+   </div>
     )
   } 
   
@@ -408,11 +403,9 @@ displayMessagesContainer() {
 
     <article id ="messageBlock">
 
-   {  message.map((message) => (
+   { message.map((message) => (
    
      <div className="postWrapper">
-       
-     
    <ol key = { message.id } >
 
 <div className="postTop">  

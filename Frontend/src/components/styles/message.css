@@ -30,21 +30,16 @@
 .newpostTop {
     margin-top: 15px;
     margin-left: 25px;
-    display: flex;
-    
+    display: flex;  
 }
 
 .postTop {
-    margin-top: 15px;
-    
+    margin-top: 15px;   
     display: flex;
-
-    width: 598px;
-    
+    width: 598px;   
 }
 
 .postTopLeft {
-
     display: flex;
 }
 
@@ -81,9 +76,7 @@
     margin-bottom: 10px;
 }
 
-
 #postEditButton {
-
     margin-right: 20px;
     font-size: 15px;
     text-align: center;
@@ -200,8 +193,7 @@
 
   .formTextArea:active {
       border: none;
-      outline: none;
-      
+      outline: none;  
   }
 
   #newPostBottom, #postBtm {
@@ -215,12 +207,9 @@
   }
 
   #postBtm {
-
     border: 1px solid grey;
-
     border-left: none;
     border-right: none;
-
   }
 
   a, a:hover { 

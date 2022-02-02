@@ -1,0 +1,16 @@
+img {
+    cursor: pointer;
+    display: flex;
+    max-width: 150px;
+    max-height: 100px;
+}
+
+.imagePost {
+
+    max-width: 480px;
+    max-height: 280px;
+}
+
+.image-upload>input {
+    display: none;
+}  

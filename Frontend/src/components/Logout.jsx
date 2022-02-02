@@ -14,7 +14,6 @@ function LogoutCheck(status) {
   }
 }
 
-
 async function Logout() {
 
   try {
@@ -40,9 +39,7 @@ async function Logout() {
 {
   return false;
 }
-
 }
-
 
 export {
   Logout,

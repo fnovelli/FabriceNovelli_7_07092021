@@ -8,3 +8,4 @@ export { default as Account } from "./Account";
 export { default as Comment } from "./Comment";
 export { default as Error } from "./Error";
 export { default as AuthenticatedRoute }  from "./AuthenticatedRoute";
+export { Image } from "./Image";

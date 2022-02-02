@@ -13,7 +13,6 @@ const NavBar = () => {
     Logout();
     setIsAuthenticated(false);
   }
-
   
 return (
 
@@ -21,13 +20,11 @@ return (
 
     <div className=" navbar-dark">
       <nav className="navbar navbar-expand App-header">
-
         <div className="container">
   
         <img src={logo} className="App-logo" alt="logo" />
 
-          <Link className="navbar-brand" to="/">
-            
+          <Link className="navbar-brand" to="/">          
           </Link>
 
           <div>
@@ -38,8 +35,6 @@ return (
                   <span className="sr-only">(current)</span>
                 </Link>
               </li>
-
-
                   <div>
                     { (!isAuthenticated && (
                       <>
@@ -60,41 +55,28 @@ return (
                     )) || (
                       <>
              
-          
                   <li>
                   <NavLink className="nav-link" to="/account">
                     Mon Compte
                   </NavLink>
                   </li>
-
-
                   <li>
                   <Link className="nav-link" to="/" onClick={ handleLogout }>
                     Déconnexion
                   </Link>
                   </li>
-
-
                       </>)
                   }
                   </div>
               <li>
-           
                   <a className="nav-link" href="mailto:groupomania@support.com">Contact</a>
-     
               </li>
             </ul>
-            
           </div>
-  
         </div>
- 
-      </nav>
-      
+      </nav>   
     </div>
-    
     </header>
-
   )
   };
 
