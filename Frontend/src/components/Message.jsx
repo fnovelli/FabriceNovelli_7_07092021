@@ -10,6 +10,8 @@ let urlUser = "http://localhost:3000/api/users/@me";
 
 class Message extends React.Component {
 
+  static msgIDLike = 0;
+
     constructor(props) {
         super(props);
         this.state = {
@@ -19,10 +21,8 @@ class Message extends React.Component {
             textEdit: '',
             disable: true,
             msgID: 0,
-            
-
-      }
     }
+  }
 
     updatePost(e) {
 
@@ -62,24 +62,22 @@ class Message extends React.Component {
     }
   }
 
-async postMessage(FormObject) {
+  handleMSGError(status) {
 
-  await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-    body: JSON.stringify(FormObject)
+    switch (status)
+    {
+      case 200:
+      case 201:
+        window.location.reload(); //refresh window after a post
+      break;
+      default:
+          if (status >= 400 && status <= 599) {
+            return alert('Unexpected error, please try again later.');
+          }
+      break;  
+    }
+  }
 
-  }).then(response => {
-
-    this.handleMSGError(response.status);
-    return;
-  }).catch(errors => {
-
-  console.log('BackEnd error:', errors);
-  return;
-});
-}
 
 handlePostNewMSG = (e) => {
 
@@ -187,7 +185,6 @@ createNewPost() {
 
 <FontAwesomeIcon icon={faUpload} > </FontAwesomeIcon>
 
-
 <button type="submit" id="btnNewPost">
             Poster
           </button>
@@ -279,18 +276,60 @@ displayEditDeleteButton(user, message)
   } 
 }
 
-displayLikeButton(user, message)
+handleLikeError(status) {
+
+  switch (status)
+  {
+    case 200:
+    case 201:
+      console.log('msg liked!');
+    break;
+    default:
+        if (status >= 400 && status <= 599) {
+          return alert('Unexpected error, please try again later.');
+        }
+    break;  
+  }
+}
+
+
+handleClickLike = (e) => {
+
+  e.preventDefault();
+
+  let urlLike = "/" + this.msgIDLike + "/like";
+  let fullURLLike = url + urlLike;
+
+
+  fetch(fullURLLike, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json',
+     },
+    credentials: 'include',
+
+  }).then(response => {
+
+    this.handleLikeError(response.status);
+  }).catch(errors => {
+
+  console.log('BackEnd error:', errors);
+});
+}
+
+displayLikeButton(message)
 {
+  const idd = message.id;
+  this.msgIDLike = idd;
+
   return (
     <div id="postBtm">
-      <div class="likeCom">
+      <div class="likeCom" onClick={this.handleClickLike }>
 
         <FontAwesomeIcon icon={faThumbsUp} > </FontAwesomeIcon> 
         J'aime
         </div>
 
-
-     <a class="likeCom" href={ "/message/?id=" + message.id }>
+     <a class="likeCom" href={ "/message/?id=" + idd }>
  
   <FontAwesomeIcon icon={faComment} > </FontAwesomeIcon> 
   Commenter
@@ -393,7 +432,7 @@ displayMessagesContainer() {
 
             { this.displayMessages(message, message.id) }
             { this.displayUpdatePostButtondMSG(message) }
-            { this.displayLikeButton(user, message)}
+            { this.displayLikeButton(message)}
         </ol>
 
         </div>

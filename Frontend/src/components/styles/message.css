@@ -231,6 +231,7 @@
     .likeCom {
         display: flex;
         align-items: center;
+        cursor: pointer;
     }
 
     .likeCom:hover
