@@ -17,7 +17,8 @@ exports.likeOnePost = async (req, res) => {
           where: { userId: userid, postId: id }
         })
 
-       if (isLiked > 0) {
+       if (isLiked.like) {
+
         await likes.updateOne({ userId: userid, postId: id }, {
           $inc: { like: -1},
         })
@@ -54,4 +55,16 @@ exports.likeOnePost = async (req, res) => {
     catch (error) {
       res.status(400).json({ error })
     }
+  }
+
+  exports.deleteOneLike = async (req, res) =>  {
+
+    try {
+      
+
+    }
+    catch (error) {
+
+    }
+
   }

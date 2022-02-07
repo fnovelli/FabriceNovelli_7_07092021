@@ -5,7 +5,6 @@ import React, { useState } from "react";
 import { hasAuthenticated } from './services/AuthApi';
 import Auth from './contexts/Auth';
 
-
 export default function App()  {
 
   const [isAuthenticated, setIsAuthenticated] = useState(hasAuthenticated());
@@ -16,7 +15,6 @@ export default function App()  {
       
     <div className="App">
 
-        
         <Router>
         <Navigation />
 

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import "./styles/Image.css"
 
-let externIMGUrl = "";
+let externIMGUrl = null;
 
 class Image extends React.Component {
 
@@ -15,15 +15,15 @@ class Image extends React.Component {
       this.onImageChange = this.onImageChange.bind(this);
     }
 
-
     onImageChange = event => {
       if (event.target.files && event.target.files[0]) {
         let img = event.target.files[0];
         this.setState({
           image: URL.createObjectURL(img),
         });
-        externIMGUrl = URL.createObjectURL(img);
-      }
+
+        externIMGUrl = img;
+    }
     };
 
     render() {
@@ -36,7 +36,7 @@ class Image extends React.Component {
               <img class="image" src={this.state.image} />
               <FontAwesomeIcon icon={faUpload} > </FontAwesomeIcon>
               </label>
-              <input id="file-input" type="file" name="myImage" onChange={this.onImageChange} />
+              <input id="file-input" type="file" name="image" onChange={this.onImageChange} />
             </div>
           </div>
         </div>

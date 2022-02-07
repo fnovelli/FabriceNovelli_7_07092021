@@ -64,25 +64,21 @@ class Message extends React.Component {
 
 handlePostNewMSG = (e) => {
 
+  e.preventDefault();
+
     var msg = this.state.newPost;
-    let objJS;
 
-    if (externIMGUrl != "")
-    {
-      objJS = { message: msg, imageUrl: externIMGUrl };
-    }
-    else {
-      objJS = { message: msg }
-    }
-
-    e.preventDefault();
+    var data = new FormData();
+    data.append("message", msg);
+    data.append("image", externIMGUrl); //make sure the string "image" here match the one used in multer middleware.
 
     fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json',
-       },
+      headers: { 'Accept': 'application/json'
+      },
       credentials: 'include',
-      body: JSON.stringify(objJS)
+      body: data
+
   
     }).then(response => {
   

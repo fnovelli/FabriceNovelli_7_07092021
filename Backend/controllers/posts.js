@@ -19,7 +19,7 @@ exports.createPost = async (req, res) => {
       const post = { 
         userId: id,
         message: req.body.message,
-        imageUrl: req.body.imageUrl,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     };
   
     await db.posts.create(post)
@@ -152,6 +152,7 @@ exports.updatePost = async (req, res) => {
     return res.status(500).send({ error: "Error, couldn't update post!" });
   }
 };
+
 exports.deletePost = async (req, res) => {
 
   try {

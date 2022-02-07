@@ -1,13 +1,14 @@
 import React from 'react';
 import './styles/form.css'
 import "./styles/account.css"
+import { Image } from "../components";
+import { externIMGUrl} from "./Image";
 
 let url = "http://localhost:3000/api/users";
 let urlUser = "http://localhost:3000/api/users/@me";
 
 const userOK = 'Compte édité avec succès!';
 const userDelOK = 'Compte supprimé avec succès!';
-
 
 function handleError(status) {
 
@@ -59,6 +60,7 @@ class Account extends React.Component {
           name: "",
           nickname: "",
           email: "",
+          avatar: "",
           password: "",
           passwordAgain: "",
           bio: "",
@@ -114,9 +116,7 @@ async getUser() {
 {
   return "NULL";
 }
-
 }
-
 
 updateName(e) {
   
@@ -154,6 +154,15 @@ updateEmail(e) {
     });
   }
 
+  updateAvatar(e)
+  {
+
+
+    this.setState({
+      avatar:e.target.value,
+    })
+  }
+
   updateBio(e) {
   
     this.setState({
@@ -164,12 +173,13 @@ updateEmail(e) {
    handleSubmit = (e) => {
     
     e.preventDefault();
-
+  
     let obj =
     {
       "username": this.state.nickname,
       "email": this.state.email,
       "bio": this.state.bio,
+      "avatar": externIMGUrl,
     };
 
     console.log('form', obj);
@@ -195,7 +205,6 @@ updateEmail(e) {
         console.log('BackEnd error:', errors);
         return;
       });
-
     }
   }
 
@@ -207,7 +216,6 @@ EditAccount() {
   console.log('cur user: ', userinfo);
 
       return (
-
         <div>
           <article id="accountBlock">
         <section id="formBlock">
@@ -251,16 +259,12 @@ EditAccount() {
 
           <div className="formClass">
         <label for="avatar">Avatar</label>
-        <input type="file"
-        accept=".jpeg, .jpg, .png, .webp"           
-
-                ></input>
+        <Image />
           </div>
   
             <button type="submit" id="btnSignUp">
               Mettre à jour
-            </button>
-      
+            </button>    
             </form>
             <br/>
                     
@@ -273,10 +277,8 @@ EditAccount() {
             </div>
             </article>
             </div>
-
       );
     };
-
 
     render() {
 

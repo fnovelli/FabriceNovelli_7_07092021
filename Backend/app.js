@@ -38,9 +38,9 @@ app.get('/', function (req, res) {
 
 
   //body-parser is outdated, we use this syntax instead, the idea is still the same, analyse and treat body request.
-  app.use(express.urlencoded({extended: true})); 
+  app.use(express.json({limit: '10 mb'}));
+  app.use(express.urlencoded({limit: '10mb', extended: true})); 
   app.use(express.json());
-
   //fix security when doing http request
   app.use(cors({
     origin : 'http://localhost:8000',
