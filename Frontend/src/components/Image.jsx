@@ -5,6 +5,11 @@ import "./styles/Image.css"
 
 let externIMGUrl = null;
 
+function resetImageObj()
+{
+  externIMGUrl = null;
+}
+
 class Image extends React.Component {
 
       constructor(props) {
@@ -33,7 +38,7 @@ class Image extends React.Component {
           <div>
           <div class="image-upload">
           <label for="file-input">
-              <img class="image" src={this.state.image} />
+              <img class="image" alt="" src={this.state.image} />
               <FontAwesomeIcon icon={faUpload} > </FontAwesomeIcon>
               </label>
               <input id="file-input" type="file" name="image" onChange={this.onImageChange} />
@@ -44,5 +49,5 @@ class Image extends React.Component {
     }
   }
   
-  export { Image, externIMGUrl };
+  export { Image, externIMGUrl,  resetImageObj };
   

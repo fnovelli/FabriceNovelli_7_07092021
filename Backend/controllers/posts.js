@@ -19,9 +19,10 @@ exports.createPost = async (req, res) => {
       const post = { 
         userId: id,
         message: req.body.message,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        imageUrl: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null //we check if req.file is not null to send the image link 
     };
-  
+
+
     await db.posts.create(post)
           .then(() => res.status(201).json({ post: "Message sent" }))
           .catch(error => res.status(400).json({ error }));

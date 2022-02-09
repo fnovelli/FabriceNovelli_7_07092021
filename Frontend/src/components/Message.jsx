@@ -5,6 +5,7 @@ import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { Image } from "../components";
 import { externIMGUrl} from "./Image";
+import { resetImageObj } from "./Image";
 
 let url = "http://localhost:3000/api/posts";
 let urlUser = "http://localhost:3000/api/users/@me";
@@ -62,23 +63,49 @@ class Message extends React.Component {
     }
   }
 
-handlePostNewMSG = (e) => {
 
-  e.preventDefault();
 
-    var msg = this.state.newPost;
+sendPostIMG()
+{
+  
+  var msg = this.state.newPost;
 
-    var data = new FormData();
-    data.append("message", msg);
-    data.append("image", externIMGUrl); //make sure the string "image" here match the one used in multer middleware.
+  var data = new FormData();
+  data.append("message", msg);
+  data.append("image", externIMGUrl); //make sure the string "image" here match the one used in multer middleware.
+
+  fetch(url, {
+    method: 'POST',
+
+    headers: { 'Accept': 'application/json'
+    },
+    credentials: 'include',
+    body: data
+
+
+  }).then(response => {
+
+
+    this.handleMSGError(response.status);
+  }).catch(errors => {
+
+  console.log('BackEnd error:', errors);
+});
+}
+
+sendRegularPost()
+{
+  
+  var msg = this.state.newPost;
+    let objJS = { message: msg, imageUrl: "null" };
+
 
     fetch(url, {
       method: 'POST',
-      headers: { 'Accept': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json',
+       },
       credentials: 'include',
-      body: data
-
+      body: JSON.stringify(objJS)
   
     }).then(response => {
   
@@ -87,6 +114,22 @@ handlePostNewMSG = (e) => {
   
     console.log('BackEnd error:', errors);
   });
+}
+
+
+handlePostNewMSG = (e) => {
+
+  e.preventDefault();
+
+  if (externIMGUrl !== null)
+  {
+    this.sendPostIMG();
+  }
+  else 
+  {
+    console.log("resular post");
+    this.sendRegularPost();
+  }
 }
 
 async getMessages() {
@@ -362,7 +405,7 @@ displayMessages(message, id) {
   <a href={ "/message/?id=" + message.id }>
  
   { message.message }  
-  <img class="imagePost" src={message.imageUrl }></img>  
+  <img class="imagePost" alt="" src={message.imageUrl }></img>  
  </a>
 
    </div>

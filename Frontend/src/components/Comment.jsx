@@ -401,7 +401,7 @@ class Comment extends React.Component {
     
          <p>
          { j["message"]  }   
-         <img class="imagePost" src={message.imageUrl }></img>  </p>
+         <img class="imagePost" alt="" src={message.imageUrl }></img>  </p>
      
       </div>
         </div>
