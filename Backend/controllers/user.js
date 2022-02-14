@@ -55,9 +55,7 @@ exports.createUser = async (req, res) => {
   .catch(error => res.status(400).json({ error }));
 })
 .catch(error => res.status(500).json({ error }));      
-
 };
-
 
 exports.login = async (req, res) => {
 
@@ -158,7 +156,6 @@ exports.getUser = async (req, res) => {
     return getLoggedUser(req, res);
   }
 
-
   User.findByPk(id)
     .then(data => {
       if (data) {
@@ -192,6 +189,28 @@ exports.getAllUsers = async (req, res) => {
 });
 };
 
+async function checkMailAndNicknameDBB()
+{
+  await User.findOne({ where : {nickname: req.body.nickname }}) 
+  .then(user => {
+
+    if (user.nickname !== req.body.nickname ) {
+      return res.status(409).send({ error: "Nickname already exist in the DB" });
+    }
+  })
+
+
+await User.findOne({ where : {email: req.body.email }}) 
+.then(user => {
+
+if (user) {
+  return res.status(409).send({ error: "E-mail already exist in the DB" });
+}
+})
+
+
+}
+
 exports.updateUser = async (req, res) => {
 
   try {
@@ -206,29 +225,38 @@ exports.updateUser = async (req, res) => {
         return res.status(400).json({ error: 'unexpected error, cannot get user ID' });
       }
 
-      await User.findOne({ where : {nickname: req.body.nickname }}) 
-      .then(user => {
+      checkMailAndNicknameDBB();
 
-        if (user.nickname !== req.body.nickname ) {
-          return res.status(409).send({ error: "Nickname already exist in the DB" });
-        }
-      })
-    
-    
-  await User.findOne({ where : {email: req.body.email }}) 
-  .then(user => {
-    
-    if (user) {
-      return res.status(409).send({ error: "E-mail already exist in the DB" });
-    }
-  })
+      if (req.files) {
+        
+      const filename = db.users.avatar.split("/images")[1];
 
-      User.update( recq.body, { where: { id: id } }); 
-      return res.status(200).json({ message: "Successfully updated user!" });
-    
+        fs.unlink(`images/${filename}`, (err) => {
+          if (err) 
+          console.log(err);
+          else {
+            console.log(`Deleted file: images/${filename}`);
+          }
+        });
     }
 
+
+      const userUp = { 
+        nickname: req.body.nickname,
+        email: req.body.email,
+        bio: req.body.bio,
+        avatar: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : `${req.protocol}://${req.get('host')}` + ava //we check if req.file is not null to send the image link 
+    };
+
+      await User.update( userUp, { where: { id: id } });  
+      return res.status(200).json({ 
+        userUp,
+        message: 'Successfully updated user!'
+    });
+    }
+ 
     return res.status(501).send({ error: "Error, couldn't get the ID to update user." });
+ 
 } 
   catch (error) {
     return res.status(500).send({ error: "Error, couldn't update user!" });

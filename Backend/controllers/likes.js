@@ -10,31 +10,21 @@ exports.likeOnePost = async (req, res) => {
     if (cookie) {
 
         const userid = token.getUserId(cookie);
-        const likes = db.likes;
         const id = req.params.id;
 
-          const isLiked = likes.findOne({
-          where: { userId: userid, postId: id }
-        })
-
-       if (isLiked.like) {
-
-        await likes.updateOne({ userId: userid, postId: id }, {
-          $inc: { like: -1},
-        })
-          res.status(200).json({ message: "unliked!"})
-        } 
-        else {
-
-          await likes.updateOne({ userId: userid, postId: id }, {
-            $inc: { like: +1},
-          })
-
-          res.status(201).json({ message: "new like!"})
-        }
+        const like = { 
+          userId: userid,
+          postId: id,
+          like: 1,
+        };
+      
+        db.likes.create(like)
+        .then(like => {    
+          res.status(201).json({ message: "liked!"});
+      })
+      .catch(error => res.status(400).json({ error }));
       }
 
-  
     } catch (error) {
       res.status(400).json({ error })
     }
@@ -60,7 +50,26 @@ exports.likeOnePost = async (req, res) => {
   exports.deleteOneLike = async (req, res) =>  {
 
     try {
-      
+      let cookie = req.cookies['user_token'];
+      const userid = token.getUserId(cookie);
+      let like = await db.likes.findOne({ where: { id: req.params.id } });
+      let isAdmin = false;
+  
+      db.users.findByPk(userid)
+      .then(data => {
+        if (data) {
+          isAdmin = data.admin;
+        }
+      });
+  
+      if (userid !== like.userId && !isAdmin)
+      {
+        return res.status(403).send({ error: "Error, you don't have the permission to do that." });
+      }
+  
+      const id = req.params.id;
+      db.likes.destroy({ where: { id: id } }); 
+      return res.status(200).json({ message: "Successfully unliked post!" });
 
     }
     catch (error) {

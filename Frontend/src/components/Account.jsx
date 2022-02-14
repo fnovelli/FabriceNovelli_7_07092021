@@ -2,9 +2,9 @@ import React from 'react';
 import './styles/form.css'
 import "./styles/account.css"
 import { Image } from "../components";
-import { externIMGUrl} from "./Image";
+import { externIMGUrl, resetImageObj} from "./Image";
 
-let url = "http://localhost:3000/api/users";
+let url = "http://localhost:3000/api/users/edit";
 let urlUser = "http://localhost:3000/api/users/@me";
 
 const userOK = 'Compte édité avec succès!';
@@ -75,48 +75,6 @@ class Account extends React.Component {
       });
     }  
 
-async formAccountPutData(FormObject) {
-
-    return fetch(url , {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(FormObject)
-    
-      }).then(response => {
-        const result = handleError(response.status);        
-        return result;
-      }).catch(errors => {
-      console.log('BackEnd error:', errors);
-      return false;
-    });
-}
-
-async getUser() {
-
-  try {
- const answer = await fetch(urlUser, {
-    method: 'GET',  
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json',
-    }
-  })
-
-    if (answer.ok)
-    {
-      return answer.json();
-    }
-   else {
-       return "NULL";
-
-    
-  }
-} catch (error)
-{
-  return "NULL";
-}
-}
 
 updateName(e) {
   
@@ -169,23 +127,105 @@ updateEmail(e) {
       bio: e.target.value,
     });
   }
+
+  async getUser() {
+
+    try {
+    const answer = await fetch(urlUser, {
+      method: 'GET',  
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json',
+      }
+    })
+    
+      if (answer.ok)
+      {
+        return answer.json();
+      }
+     else {
+         return "NULL";
+    
+      
+    }
+    } catch (error)
+    {
+    return "NULL";
+    }
+    }
+
   
+async formAccountPutData(FormObject) {
+
+  return fetch(url , {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(FormObject)
+  
+    }).then(response => {
+      const result = handleError(response.status);        
+      return result;
+    }).catch(errors => {
+    console.log('BackEnd error:', errors);
+    return false;
+  });
+}
+
+formAccountPutDataAvatar(data) {
+
+  fetch(url, {
+    method: 'POST',
+    credentials: 'include',
+    body: data
+
+
+  }).then(response => {
+
+      console.log('data: ', data);
+    handleError(response.status);
+  }).catch(errors => {
+
+  console.log('BackEnd error:', errors);
+});
+}
+
+
+
    handleSubmit = (e) => {
     
     e.preventDefault();
-  
-    let obj =
-    {
-      "username": this.state.nickname,
-      "email": this.state.email,
-      "bio": this.state.bio,
-      "avatar": externIMGUrl,
-    };
 
-    console.log('form', obj);
-    this.formAccountPutData(obj);    
+    var nickname = this.state.nickname;
+    var email = this.state.email;
+    var bio = this.state.bio;
+  
+    if (externIMGUrl == null)
+    {
+      let obj =
+      {
+        "username": this.state.nickname,
+        "email": this.state.email,
+        "bio": this.state.bio,
+        "avatar": externIMGUrl,
+      };
+      console.log('form', obj);
+      this.formAccountPutData(obj);
+      return;
   }
-    
+  else {
+
+    var data = new FormData();
+    data.append("nickname", nickname);
+    data.append("email", email);
+    data.append("bio", bio);
+    data.append("avatar", externIMGUrl);  //make sure the string "image" here match the one used in multer middleware.
+
+
+    this.formAccountPutDataAvatar(data);
+    return;
+  }
+}
   
   deleteSubmit = (e) => {
 
@@ -214,6 +254,7 @@ EditAccount() {
   const { userinfo } = this.state;
 
   console.log('cur user: ', userinfo);
+  console.log("imgLink: ", externIMGUrl);
 
       return (
         <div>

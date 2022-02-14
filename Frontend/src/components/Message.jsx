@@ -61,13 +61,10 @@ class Message extends React.Component {
           }
       break;  
     }
-  }
-
-
+}
 
 sendPostIMG()
-{
-  
+{ 
   var msg = this.state.newPost;
 
   var data = new FormData();
@@ -76,7 +73,6 @@ sendPostIMG()
 
   fetch(url, {
     method: 'POST',
-
     headers: { 'Accept': 'application/json'
     },
     credentials: 'include',
@@ -85,7 +81,7 @@ sendPostIMG()
 
   }).then(response => {
 
-
+      console.log('data: ', data);
     this.handleMSGError(response.status);
   }).catch(errors => {
 
@@ -97,7 +93,7 @@ sendRegularPost()
 {
   
   var msg = this.state.newPost;
-    let objJS = { message: msg, imageUrl: "null" };
+    let objJS = { message: msg, image: "null" };
 
 
     fetch(url, {
@@ -127,7 +123,6 @@ handlePostNewMSG = (e) => {
   }
   else 
   {
-    console.log("resular post");
     this.sendRegularPost();
   }
 }
@@ -344,17 +339,21 @@ handleClickLike = (e) => {
 });
 }
 
-displayLikeButton(message)
+displayLikeButton(message, like)
 {
   const idd = message.id;
   this.msgIDLike = idd;
+  console.log('like: ', message.like['0']);
+  let likeID;
 
   return (
+
     <div id="postBtm">
+
       <div class="likeCom" onClick={this.handleClickLike }>
 
         <FontAwesomeIcon icon={faThumbsUp} > </FontAwesomeIcon> 
-        J'aime
+
         </div>
 
      <a class="likeCom" href={ "/message/?id=" + idd }>
@@ -392,7 +391,6 @@ handleClickEdit(idd) {
 
 displayMessages(message, id) {
 
-
   const { disable } = this.state;
   const { msgID } = this.state;
 
@@ -407,7 +405,6 @@ displayMessages(message, id) {
   { message.message }  
   <img class="imagePost" alt="" src={message.imageUrl }></img>  
  </a>
-
    </div>
     )
   } 
@@ -464,7 +461,7 @@ displayMessagesContainer() {
 
             { this.displayMessages(message, message.id) }
             { this.displayUpdatePostButtondMSG(message) }
-            { this.displayLikeButton(message)}
+            { this.displayLikeButton(message, message.like)}
         </ol>
 
         </div>
