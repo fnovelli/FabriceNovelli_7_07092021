@@ -22,19 +22,16 @@ schema
 
 exports.createUser = async (req, res) => {
 
+  //if the form was sent incomplete, reject the request.
   if (!req.body.nickname || !req.body.name || !req.body.email || !req.body.password) {
     res.status(400).send({message: "Content cannot be empty!"});
     return;
   }
 
-  await User.findOne({ where : {email: req.body.email }}) 
-  .then(user => {
-
-    if (user) {
-      return res.status(409).send({ error: "User already exist in the DB" });
-    }
-  })
+    //we check if the nickname or the e-mail requested by the user doesn't exist in the DB already
+    isMailOrNickname_In_DB(req, res);
    
+    //create an user object and hash the password 
   bcrypt.hash(req.body.password, 10)
   .then(hash =>{
     const user = { 
@@ -42,7 +39,7 @@ exports.createUser = async (req, res) => {
       nickname: req.body.nickname,
       email: req.body.email,
       password: hash,
-      avatar: `${req.protocol}://${req.get('host')}` + ava,
+      avatar: `${req.protocol}://${req.get('host')}` + ava, //assign a default avatar
   };
 
     User.create(user)
@@ -62,9 +59,11 @@ exports.login = async (req, res) => {
   User.findOne({ where : {email: req.body.email }}) 
   .then(user => {
 
-    if (!user) {
+    if (!user) { //if the user doesn't exist, reject the request
       return res.status(404).send({ error: "User not found!" });
     }
+
+    //we check if the password sent match the crypted one in the DB
     bcrypt.compare(req.body.password, user.password)
       .then(valid => {
 
@@ -92,6 +91,7 @@ function logoutUser(req, res) {
 
   cookie = req.cookies;
 
+  //we check the cookie and remove it to log out the user
   for (var prop in cookie) {
       if (!cookie.hasOwnProperty(prop)) {
           continue;
@@ -171,9 +171,7 @@ exports.getUser = async (req, res) => {
         message: "Error retrieving user with id=" + id
       });
     });
-
 }
-
 
 exports.getAllUsers = async (req, res) => {
 
@@ -189,24 +187,26 @@ exports.getAllUsers = async (req, res) => {
 });
 };
 
-async function checkMailAndNicknameDBB()
+
+function isMailOrNickname_In_DB(req, res)
 {
-  await User.findOne({ where : {nickname: req.body.nickname }}) 
+  User.findOne({ where : {nickname: req.body.nickname }}) 
   .then(user => {
 
     if (user.nickname !== req.body.nickname ) {
+
       return res.status(409).send({ error: "Nickname already exist in the DB" });
     }
   })
 
+       
+  User.findOne({ where : {email: req.body.email }}) 
+  .then(userMail => {
 
-await User.findOne({ where : {email: req.body.email }}) 
-.then(user => {
-
-if (user) {
-  return res.status(409).send({ error: "E-mail already exist in the DB" });
-}
-})
+    if (userMail.email !== req.body.email ) {
+      return res.status(409).send({ error: "Email already exist in the DB" });
+    }
+  })
 
 
 }
@@ -216,8 +216,8 @@ exports.updateUser = async (req, res) => {
   try {
   
     let cookie = req.cookies['user_token'];
-    if (cookie) {
 
+    if (cookie) {
       const id = token.getUserId(cookie);
 
       if (id === null)
@@ -225,29 +225,46 @@ exports.updateUser = async (req, res) => {
         return res.status(400).json({ error: 'unexpected error, cannot get user ID' });
       }
 
-      checkMailAndNicknameDBB();
-
-      if (req.files) {
+      isMailOrNickname_In_DB(req, res);
         
-      const filename = db.users.avatar.split("/images")[1];
+      if (req.file) 
+      { 
 
-        fs.unlink(`images/${filename}`, (err) => {
-          if (err) 
-          console.log(err);
-          else {
-            console.log(`Deleted file: images/${filename}`);
+        User.findOne({ where : {id: id }}) 
+        .then(user => {
+      
+          //if user already had a profile pic, delete it first.
+          if (user.avatar !== null) {
+
+            console.log('Trying delete picture...')
+              const filename = user.avatar.split("/images")[1];
+
+              fs.unlink(`images/${filename}`, (err) => {
+                if (err)  {
+                  console.log('Error cannot delete img: ', err);
+                }
+                else {
+                  console.log(`Deleted file: images/${filename}`);
+                }
+              });
           }
-        });
-    }
+        })
+      }
 
-
+  //create an object with user information
       const userUp = { 
         nickname: req.body.nickname,
         email: req.body.email,
         bio: req.body.bio,
-        avatar: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : `${req.protocol}://${req.get('host')}` + ava //we check if req.file is not null to send the image link 
+        avatar: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : "null" 
     };
 
+    if (userUp.avatar === "null") //don't update profile pic if user didn't request it
+    {
+      delete userUp.avatar;
+    }
+
+    //apply the edit
       await User.update( userUp, { where: { id: id } });  
       return res.status(200).json({ 
         userUp,
@@ -262,6 +279,8 @@ exports.updateUser = async (req, res) => {
     return res.status(500).send({ error: "Error, couldn't update user!" });
   }
 };
+
+
 
 exports.deleteUser = async(req, res) => {
 

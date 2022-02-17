@@ -71,6 +71,11 @@ sendPostIMG()
   data.append("message", msg);
   data.append("image", externIMGUrl); //make sure the string "image" here match the one used in multer middleware.
 
+  
+  for (var key of data.entries()) {
+    console.log(key[0] + ', ' + key[1]);
+  }
+
   fetch(url, {
     method: 'POST',
     headers: { 'Accept': 'application/json'
@@ -81,7 +86,6 @@ sendPostIMG()
 
   }).then(response => {
 
-      console.log('data: ', data);
     this.handleMSGError(response.status);
   }).catch(errors => {
 
@@ -89,42 +93,15 @@ sendPostIMG()
 });
 }
 
-sendRegularPost()
-{
-  
-  var msg = this.state.newPost;
-    let objJS = { message: msg, image: "null" };
-
-
-    fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json',
-       },
-      credentials: 'include',
-      body: JSON.stringify(objJS)
-  
-    }).then(response => {
-  
-      this.handleMSGError(response.status);
-    }).catch(errors => {
-  
-    console.log('BackEnd error:', errors);
-  });
-}
 
 
 handlePostNewMSG = (e) => {
 
   e.preventDefault();
 
-  if (externIMGUrl !== null)
-  {
-    this.sendPostIMG();
-  }
-  else 
-  {
-    this.sendRegularPost();
-  }
+  this.sendPostIMG();
+
+
 }
 
 async getMessages() {
@@ -178,8 +155,6 @@ async getUser() {
 createNewPost() {
   
   const { user } = this.state;
-
-  console.log("imgLink: ", externIMGUrl);
 
   return (
 
@@ -343,7 +318,7 @@ displayLikeButton(message, like)
 {
   const idd = message.id;
   this.msgIDLike = idd;
-  console.log('like: ', message.like['0']);
+ // console.log('like: ', message.like['0']);
   let likeID;
 
   return (
@@ -395,8 +370,6 @@ displayMessages(message, id) {
   const { msgID } = this.state;
 
   if (disable || msgID !== id) {
-
-    console.log("msg: ", message);
 
     return (
       <div className="post">

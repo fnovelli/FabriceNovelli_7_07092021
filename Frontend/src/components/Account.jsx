@@ -17,9 +17,12 @@ function handleError(status) {
       case 200:
       case 201:
       console.log(userOK);
-      alert(userOK);
       
-      return true;
+      window.location.reload(); //refresh window 
+      break;
+      case 409:
+        alert('Erreur, le mail ou le pseudo existent déjà!');
+        break;
       case 501:
         alert('error when trying to get cookie!');
         break;
@@ -57,7 +60,6 @@ class Account extends React.Component {
         super(props);
     
         this.state = {
-          name: "",
           nickname: "",
           email: "",
           avatar: "",
@@ -75,13 +77,6 @@ class Account extends React.Component {
       });
     }  
 
-
-updateName(e) {
-  
-    this.setState({
-      name: e.target.value,
-    });
-  }
 
 
 updateNickname(e) {
@@ -152,37 +147,35 @@ updateEmail(e) {
     {
     return "NULL";
     }
-    }
+  }
 
-  
-async formAccountPutData(FormObject) {
+sendUserIMG()
+{ 
+  var nicknameR = this.state.nickname;
+  var emailR = this.state.email;
+  var bioR = this.state.bio;
 
-  return fetch(url , {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify(FormObject)
-  
-    }).then(response => {
-      const result = handleError(response.status);        
-      return result;
-    }).catch(errors => {
-    console.log('BackEnd error:', errors);
-    return false;
-  });
-}
 
-formAccountPutDataAvatar(data) {
+
+  var data = new FormData();
+  data.append("nickname", nicknameR);
+  data.append("email", emailR);
+  data.append("bio", bioR);
+  data.append("image", externIMGUrl); //make sure the string "image" here match the one used in multer middleware.
+
+  for (var key of data.entries()) {
+    console.log(key[0] + ', ' + key[1]);
+  }
 
   fetch(url, {
     method: 'POST',
     credentials: 'include',
-    body: data
-
+    headers: { 'Accept': 'application/json'
+    },
+    body: data,
 
   }).then(response => {
 
-      console.log('data: ', data);
     handleError(response.status);
   }).catch(errors => {
 
@@ -191,40 +184,13 @@ formAccountPutDataAvatar(data) {
 }
 
 
-
    handleSubmit = (e) => {
     
     e.preventDefault();
 
-    var nickname = this.state.nickname;
-    var email = this.state.email;
-    var bio = this.state.bio;
-  
-    if (externIMGUrl == null)
-    {
-      let obj =
-      {
-        "username": this.state.nickname,
-        "email": this.state.email,
-        "bio": this.state.bio,
-        "avatar": externIMGUrl,
-      };
-      console.log('form', obj);
-      this.formAccountPutData(obj);
-      return;
-  }
-  else {
+    this.sendUserIMG();
 
-    var data = new FormData();
-    data.append("nickname", nickname);
-    data.append("email", email);
-    data.append("bio", bio);
-    data.append("avatar", externIMGUrl);  //make sure the string "image" here match the one used in multer middleware.
-
-
-    this.formAccountPutDataAvatar(data);
-    return;
-  }
+    
 }
   
   deleteSubmit = (e) => {
@@ -257,6 +223,7 @@ EditAccount() {
   console.log("imgLink: ", externIMGUrl);
 
       return (
+
         <div>
           <article id="accountBlock">
         <section id="formBlock">
@@ -297,6 +264,9 @@ EditAccount() {
                 onChange={this.updateBio.bind(this)}>
                 </textarea>
           </div>
+
+
+
 
           <div className="formClass">
         <label for="avatar">Avatar</label>
