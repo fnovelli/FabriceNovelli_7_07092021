@@ -2,12 +2,11 @@ import React from 'react';
 import './styles/form.css'
 import "./styles/account.css"
 import { Image } from "../components";
-import { externIMGUrl, resetImageObj} from "./Image";
+import { externIMGUrl } from "./Image";
 
 let url = "http://localhost:3000/api/users/edit";
 let urlUser = "http://localhost:3000/api/users/@me";
 
-const userOK = 'Compte édité avec succès!';
 const userDelOK = 'Compte supprimé avec succès!';
 
 function handleError(status) {
@@ -15,16 +14,14 @@ function handleError(status) {
     switch (status)
     {
       case 200:
-      case 201:
-      console.log(userOK);
-      
+      case 201:    
       window.location.reload(); //refresh window 
       break;
       case 409:
-        alert('Erreur, le mail ou le pseudo existent déjà!');
+        alert('Erreur, le mail ou le pseudo existe déjà!');
         break;
       case 501:
-        alert('error when trying to get cookie!');
+        alert('Erreur, impossible de charger les données du compte.');
         break;
       default:
         
@@ -37,14 +34,12 @@ function handleError(status) {
     return false;
 }
 
-
 function handleErrorDel(status) {
 
   switch (status)
   {
     case 200:
     case 201:
-    console.log(userDelOK);
     return alert(userDelOK);
     default:
         if (status >= 400 && status <= 599) {
@@ -76,7 +71,6 @@ class Account extends React.Component {
      
       });
     }  
-
 
 
 updateNickname(e) {
@@ -155,17 +149,11 @@ sendUserIMG()
   var emailR = this.state.email;
   var bioR = this.state.bio;
 
-
-
   var data = new FormData();
   data.append("nickname", nicknameR);
   data.append("email", emailR);
   data.append("bio", bioR);
   data.append("image", externIMGUrl); //make sure the string "image" here match the one used in multer middleware.
-
-  for (var key of data.entries()) {
-    console.log(key[0] + ', ' + key[1]);
-  }
 
   fetch(url, {
     method: 'POST',
@@ -183,14 +171,10 @@ sendUserIMG()
 });
 }
 
-
    handleSubmit = (e) => {
     
     e.preventDefault();
-
-    this.sendUserIMG();
-
-    
+    this.sendUserIMG();    
 }
   
   deleteSubmit = (e) => {
@@ -218,9 +202,6 @@ sendUserIMG()
 EditAccount() {
 
   const { userinfo } = this.state;
-
-  console.log('cur user: ', userinfo);
-  console.log("imgLink: ", externIMGUrl);
 
       return (
 
@@ -264,9 +245,6 @@ EditAccount() {
                 onChange={this.updateBio.bind(this)}>
                 </textarea>
           </div>
-
-
-
 
           <div className="formClass">
         <label for="avatar">Avatar</label>

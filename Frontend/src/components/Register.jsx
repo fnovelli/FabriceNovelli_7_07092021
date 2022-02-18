@@ -1,4 +1,3 @@
-
 import React, { useState} from 'react';
 import './styles/form.css'
 import PasswordChecklist from "react-password-checklist"
@@ -15,7 +14,7 @@ function handleError(status) {
     console.log(userOK);
     return alert(userOK);
     case 409:
-     return alert('Username or E-mail already exist in the database.');
+     return alert('Username or E-mail already exists in the database.');
     default:
         if (status >= 400 && status <= 499) {
           return alert('Unexpected error, please try again later.');
@@ -135,7 +134,6 @@ function Register() {
 			/>
         </div>
 
-
           <button type="submit" id="btnSignUp">
             Envoyer
           </button>
@@ -143,7 +141,6 @@ function Register() {
           </form>
       
       </section>
-
   
     );
   };

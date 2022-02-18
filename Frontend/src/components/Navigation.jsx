@@ -4,7 +4,6 @@ import { Logout } from "./Logout";
 import Auth from "../contexts/Auth";
 import logo from  '../icons/icon-left-font-monochrome-white.png';
 
-
 const NavBar = () => {
   
   const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
@@ -43,7 +42,6 @@ return (
                     S'inscrire
                   </Link>
                   </li>
-
 
                   <li>
                   <Link className="nav-link" to="/login">

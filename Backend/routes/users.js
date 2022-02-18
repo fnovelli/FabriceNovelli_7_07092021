@@ -9,6 +9,7 @@ router.get('/', userCtrl.getAllUsers);
 router.get('/:id', userCtrl.getUser);
 
 router.post('/edit', auth, multer, userCtrl.updateUser);
+router.post('/editUser/:id', auth, multer, userCtrl.updateUserAdmin);
 router.delete('/', auth, userCtrl.deleteUser);
 
 

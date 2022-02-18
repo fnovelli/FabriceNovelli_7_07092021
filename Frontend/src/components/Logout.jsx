@@ -6,7 +6,6 @@ function LogoutCheck(status) {
   {
     case 200:
     case 201:
-        console.log('Successfully logout');
     return true;
     default:
         console.log('Failed to logout');

@@ -64,7 +64,6 @@ class Comment extends React.Component {
     let objJS = { postId: postID, comment: com };
 
     e.preventDefault();
-    console.log('allo: ', objJS);
 
     fetch(urlCom, {
       method: 'POST',
@@ -198,8 +197,6 @@ class Comment extends React.Component {
     const j = this.state.message;
     const { user } = this.state;
 
-    console.log('j: ', j);
-
     const obj = j['user'];
     const obj2 = j['com'];
    
@@ -275,7 +272,6 @@ class Comment extends React.Component {
       "comment": comEdit
     };
   
-    console.log('form', obj);
     this.editCom(obj);   
   }
   
@@ -342,7 +338,6 @@ class Comment extends React.Component {
         return "NULL";
       }
       const newURL = url + "/" + urlID;
-      console.log('url is ' + newURL);
       const answer = await fetch(newURL, {
         method: 'GET',
         credentials: 'include',

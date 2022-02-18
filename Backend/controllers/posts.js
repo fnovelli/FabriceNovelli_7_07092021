@@ -130,13 +130,13 @@ exports.updatePost = async (req, res) => {
     let post = await db.posts.findOne({ where: { id: req.params.id } });
     let isAdmin = false;
 
-    db.users.findByPk(userid)
-    .then(data => {
-      if (data) {
+    const userAdmin = await db.users.findOne({ where : {id: userid }});
 
-        res.send(data);
-      }
-    });
+    if (userAdmin.admin)
+    {
+      isAdmin = true;
+    }
+
 
     if (userid !== post.userId && !isAdmin)
     {
@@ -162,12 +162,12 @@ exports.deletePost = async (req, res) => {
     let post = await db.posts.findOne({ where: { id: req.params.id } });
     let isAdmin = false;
 
-    db.users.findByPk(userid)
-    .then(data => {
-      if (data) {
-        isAdmin = data.admin;
-      }
-    });
+    const userAdmin = await db.users.findOne({ where : {id: userid }});
+
+    if (userAdmin.admin)
+    {
+      isAdmin = true;
+    }
 
     if (userid !== post.userId && !isAdmin)
     {

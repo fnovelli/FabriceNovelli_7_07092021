@@ -5,7 +5,6 @@ import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { faComment } from "@fortawesome/free-solid-svg-icons";
 import { Image } from "../components";
 import { externIMGUrl} from "./Image";
-import { resetImageObj } from "./Image";
 
 let url = "http://localhost:3000/api/posts";
 let urlUser = "http://localhost:3000/api/users/@me";
@@ -71,10 +70,6 @@ sendPostIMG()
   data.append("message", msg);
   data.append("image", externIMGUrl); //make sure the string "image" here match the one used in multer middleware.
 
-  
-  for (var key of data.entries()) {
-    console.log(key[0] + ', ' + key[1]);
-  }
 
   fetch(url, {
     method: 'POST',
@@ -94,14 +89,10 @@ sendPostIMG()
 }
 
 
-
 handlePostNewMSG = (e) => {
 
   e.preventDefault();
-
   this.sendPostIMG();
-
-
 }
 
 async getMessages() {
@@ -226,7 +217,6 @@ handleSubmitEditMSG = (e) => {
     "message": textEdit
   };
 
-  console.log('form', obj);
   this.editMessage(obj);   
 }
 
@@ -283,7 +273,7 @@ handleLikeError(status) {
     case 200:
     case 201:
       console.log('msg liked!');
-    break;
+    return;
     default:
         if (status >= 400 && status <= 599) {
           return alert('Unexpected error, please try again later.');
@@ -319,7 +309,7 @@ displayLikeButton(message, like)
   const idd = message.id;
   this.msgIDLike = idd;
  // console.log('like: ', message.like['0']);
-  let likeID;
+  //let likeID;
 
   return (
 

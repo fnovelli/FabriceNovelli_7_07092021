@@ -280,7 +280,83 @@ exports.updateUser = async (req, res) => {
   }
 };
 
+exports.updateUserAdmin = async (req, res) => {
 
+  try {
+  
+    let cookie = req.cookies['user_token'];
+
+    if (cookie) {
+      const id = token.getUserId(cookie);
+
+      if (id === null)
+      {
+        return res.status(400).json({ error: 'unexpected error, cannot get user ID' });
+      }
+
+      const userAdmin = await User.findOne({ where : {id: id }});
+
+      if (userAdmin.admin === false)
+      {
+        return res.status(408).json({ error: 'Error, you do not have the privilege to do that.' });
+      }
+
+     const user = User.findOne({ where : {id: req.params.id }});
+
+     if (user === null)
+     {
+      return res.status(408).json({ error: 'Error, cannot find user!' });
+     }
+
+      isMailOrNickname_In_DB(req, res);
+        
+      if (req.file) 
+      { 
+          //if user already had a profile pic, delete it first.
+          if (user.avatar !== null) {
+
+            console.log('Trying delete picture...')
+              const filename = user.avatar.split("/images")[1];
+
+              fs.unlink(`images/${filename}`, (err) => {
+                if (err)  {
+                  console.log('Error cannot delete img: ', err);
+                }
+                else {
+                  console.log(`Deleted file: images/${filename}`);
+                }
+              });
+        }
+      }
+
+  //create an object with user information
+      const userUp = { 
+        nickname: req.body.nickname,
+        email: req.body.email,
+        bio: req.body.bio,
+        avatar: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : "null" 
+    };
+
+    if (userUp.avatar === "null") //don't update profile pic if user didn't request it
+    {
+      delete userUp.avatar;
+    }
+
+    //apply the edit
+      await User.update( userUp, { where: { id: user.id } });  
+      return res.status(200).json({ 
+        userUp,
+        message: 'Successfully updated user!'
+    });
+    }
+ 
+    return res.status(501).send({ error: "Error, couldn't get the ID to update user." });
+ 
+} 
+  catch (error) {
+    return res.status(500).send({ error: "Error, couldn't update user!" });
+  }
+};
 
 exports.deleteUser = async(req, res) => {
 
@@ -294,6 +370,13 @@ exports.deleteUser = async(req, res) => {
       if (id === null)
       {
         return res.status(500).send({ error: "Error, couldn't delete user! Cannot get ID." });
+      }
+
+      const userAdmin = await User.findOne({ where : {id: id }});
+
+      if (userAdmin.admin === false)
+      {
+        return res.status(408).json({ error: 'Error, you do not have the privilege to do that.' });
       }
       
       logoutUser(req, res);
