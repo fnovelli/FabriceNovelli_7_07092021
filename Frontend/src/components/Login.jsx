@@ -21,16 +21,13 @@ const handleChange = ({currentTarget}) => {
   setUser({...user, [name]: value})
 }
 
-
 const handleSubmit = async e => {
 
     e.preventDefault();
 
     try {
 
-    console.log(user);
     const response = await login(user);
-    console.log('anwser of the form is: ', response);
 
     if (!response)
       alert("E-mail ou mot de passe incorrect!");
@@ -41,7 +38,6 @@ const handleSubmit = async e => {
  catch ({ response}) {
    console.log(response);
  }
-
 }
 
 useEffect(() => {

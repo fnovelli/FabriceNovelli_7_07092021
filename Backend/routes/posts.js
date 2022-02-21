@@ -9,10 +9,11 @@ router.post("/", auth, multer, postsCtrl.createPost);
 router.get('/:id', auth, postsCtrl.getPost);
 router.get('/', auth, postsCtrl.getAllPosts);
 router.put('/:id', auth, multer, postsCtrl.updatePost);
-router.delete('/:id', auth, multer, postsCtrl.deletePost);
+router.delete('/:id', auth, postsCtrl.deletePost);
 
 router.post('/:id/like', auth, likeCtrl.likeOnePost);
 router.get('/:id/like', auth, likeCtrl.getLikesOfOnePost);
+router.delete('/:id/like', auth, likeCtrl.deleteOneLike);
 
 
 module.exports = router;

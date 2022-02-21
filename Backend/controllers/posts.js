@@ -137,7 +137,6 @@ exports.updatePost = async (req, res) => {
       isAdmin = true;
     }
 
-
     if (userid !== post.userId && !isAdmin)
     {
       return res.status(403).send({ error: "Error, you don't have the permission to do that." });

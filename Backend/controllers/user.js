@@ -207,8 +207,6 @@ function isMailOrNickname_In_DB(req, res)
       return res.status(409).send({ error: "Email already exist in the DB" });
     }
   })
-
-
 }
 
 exports.updateUser = async (req, res) => {

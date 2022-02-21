@@ -11,7 +11,6 @@ let urlUser = "http://localhost:3000/api/users/@me";
 
 class Message extends React.Component {
 
-  static msgIDLike = 0;
 
     constructor(props) {
         super(props);
@@ -182,7 +181,6 @@ createNewPost() {
           </div>
     </form>
        </div>
-     
   )
 }
 
@@ -268,25 +266,17 @@ displayEditDeleteButton(user, message)
 
 handleLikeError(status) {
 
-  switch (status)
-  {
-    case 200:
-    case 201:
-      console.log('msg liked!');
-    return;
-    default:
-        if (status >= 400 && status <= 599) {
-          return alert('Unexpected error, please try again later.');
-        }
-    break;  
+  if (status >= 400 && status <= 599) {
+    return alert('Unexpected error, please try again later.');
   }
+
 }
 
-handleClickLike = (e) => {
+handleClickLike = (e, id) => {
 
   e.preventDefault();
 
-  let urlLike = "/" + this.msgIDLike + "/like";
+  let urlLike = "/" + id + "/like";
   let fullURLLike = url + urlLike;
 
   fetch(fullURLLike, {
@@ -304,24 +294,46 @@ handleClickLike = (e) => {
 });
 }
 
-displayLikeButton(message, like)
+displayLikeButton(user, message, id)
 {
-  const idd = message.id;
-  this.msgIDLike = idd;
- // console.log('like: ', message.like['0']);
-  //let likeID;
+
+  const msgObj = message.like['0'];
+
+ if (msgObj) { 
+      if (msgObj.userId === user.id) {
+
+          return (
+
+            <div id="postBtm">
+
+              <div class="likedCom" onClick={(e) => { this.handleClickLike(e, id); }}>
+
+                <FontAwesomeIcon icon={faThumbsUp} > </FontAwesomeIcon> 
+                J'aime
+                </div>
+
+            <a class="likeCom" href={ "/message/?id=" + id }>
+        
+          <FontAwesomeIcon icon={faComment} > </FontAwesomeIcon> 
+              Commenter
+          </a>
+          </div>
+          )
+        }
+    }
+
 
   return (
 
     <div id="postBtm">
 
-      <div class="likeCom" onClick={this.handleClickLike }>
+      <div class="likeCom" onClick={(e) => { this.handleClickLike(e, id); }}>
 
         <FontAwesomeIcon icon={faThumbsUp} > </FontAwesomeIcon> 
-
+            J'aime
         </div>
 
-     <a class="likeCom" href={ "/message/?id=" + idd }>
+     <a class="likeCom" href={ "/message/?id=" + id }>
  
   <FontAwesomeIcon icon={faComment} > </FontAwesomeIcon> 
   Commenter
@@ -424,7 +436,7 @@ displayMessagesContainer() {
 
             { this.displayMessages(message, message.id) }
             { this.displayUpdatePostButtondMSG(message) }
-            { this.displayLikeButton(message, message.like)}
+            { this.displayLikeButton(user, message, message.id)}
         </ol>
 
         </div>

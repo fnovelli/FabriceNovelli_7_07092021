@@ -12,7 +12,6 @@ router.post('/edit', auth, multer, userCtrl.updateUser);
 router.post('/editUser/:id', auth, multer, userCtrl.updateUserAdmin);
 router.delete('/', auth, userCtrl.deleteUser);
 
-
 router.post('/login', userCtrl.login);
 router.post('/logout', userCtrl.logout);
 
