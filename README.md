@@ -23,15 +23,17 @@ Connecter vous à votre serveur et ensuite exécuter la commande: "CREATE DATABA
 
 ## Configurer la base de donnée SQL
 
-Il vous faudra le fichier ".env" qui n'est pas fournit ici pour des raisons de sécurité ainsi que par le fait que chaque serveur SQL est unique.
+Il vous faudra le fichier ".env" qui n'est pas fournit ici pour des raisons de sécurité.
 Ce fichier contient les informations de la base de données afin que Sequelize puisse fonctionner correctement, il est donc indispensable.
-Si vous avez posséder une copie de ce fichier, vous pouvez l'éditer avec un éditeur de texte et remplir les informations nécessaire avec votre propre configuration SQL:
+Si vous possédez une copie de ce fichier, vous pouvez l'éditer avec un éditeur de texte et remplir les informations nécessaire avec votre propre configuration SQL:
 
 - SQL_HOST devrait être "localhost".
 - SQL_USER doit contenir le nom d'user que vous avez choisi. (Par default root).
 - SQL_PASS doit contenir le mot de passe que vous avez défini.
 - SQL_DB doit avoir le même nom que la base de donnée, par défaut "Groupomania".
 - JWT_SECRET le secret que vous allez définir.
+
+Une fois les informations remplies, placez le fichier ".env" dans le dossier BackEnd du projet.
 
 ## Démarrer le back-end
 
