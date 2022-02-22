@@ -37,7 +37,7 @@ Une fois les informations remplies, placez le fichier ".env" dans le dossier Bac
 
 ## Démarrer le back-end
 
-Depuis le dossier back-end, taper: "nodemon server" dans le terminal pour démarrer le backend. Si le fichier .env à été configuré correctement, vous devriez pouvoir lire
+Depuis le dossier Backend, taper: "nodemon server" dans le terminal pour démarrer le serveur. Si le fichier .env a bien été configuré correctement, vous devriez pouvoir lire
 "Connection has been established successfully."
 
 ## Installer le Front-End
