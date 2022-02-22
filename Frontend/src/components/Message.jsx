@@ -272,7 +272,6 @@ handleLikeError(status) {
   else {
     window.location.reload();
   }
-
 }
 
 handleClickLike = (e, id) => {
