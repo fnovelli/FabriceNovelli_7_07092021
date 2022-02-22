@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Message } from "../components";
 import "./styles/home.css"
 import Auth from "../contexts/Auth";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   
@@ -20,27 +21,19 @@ const Home = () => {
         <>
     <li>
     <p>
-        <a
-        className="App-link"
-        href="/login/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+    <Link className="nav-link" to="/login">
+
         Connectez-vous pour continuer !
-      </a>
+      </Link>
 
         <br/>
         Pas encore de compte ?
       </p>
 
-      <a
-        className="App-link"
-        href="/register/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <Link className="nav-link" to="/register">
+
         Créer un compte maintenant!
-      </a>
+      </Link>
   </li>
   </>
       )) || (
