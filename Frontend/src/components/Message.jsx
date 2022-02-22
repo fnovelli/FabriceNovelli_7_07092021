@@ -269,7 +269,6 @@ handleLikeError(status) {
   if (status >= 400 && status <= 599) {
     return alert('Unexpected error, please try again later.');
   }
-
 }
 
 handleClickLike = (e, id) => {
@@ -294,53 +293,43 @@ handleClickLike = (e, id) => {
 });
 }
 
+isUserLike(msgObj, user)
+{
+  if (msgObj) { 
+
+    if (msgObj.userId === user.id) {
+       return true;
+    }
+  }
+
+  return false;
+}
+
 displayLikeButton(user, message, id)
 {
 
-  const msgObj = message.like['0'];
-
- if (msgObj) { 
-      if (msgObj.userId === user.id) {
+      const msgObj = message.like['0'];
 
           return (
 
             <div id="postBtm">
 
-              <div class="likedCom" onClick={(e) => { this.handleClickLike(e, id); }}>
+              <div class={ this.isUserLike(msgObj, user) ? "likedCom" : "likeCom" } onClick={(e) => { this.handleClickLike(e, id); }}>
 
                 <FontAwesomeIcon icon={faThumbsUp} > </FontAwesomeIcon> 
-                J'aime
+                <div class="likeText"> J'aime</div>
                 </div>
 
             <a class="likeCom" href={ "/message/?id=" + id }>
         
           <FontAwesomeIcon icon={faComment} > </FontAwesomeIcon> 
-              Commenter
+          <div class="likeText">Commenter</div>
           </a>
           </div>
           )
-        }
-    }
-
-
-  return (
-
-    <div id="postBtm">
-
-      <div class="likeCom" onClick={(e) => { this.handleClickLike(e, id); }}>
-
-        <FontAwesomeIcon icon={faThumbsUp} > </FontAwesomeIcon> 
-            J'aime
-        </div>
-
-     <a class="likeCom" href={ "/message/?id=" + id }>
- 
-  <FontAwesomeIcon icon={faComment} > </FontAwesomeIcon> 
-  Commenter
-  </a>
-  </div>
-  )
 }
+  
+
 
 displayUpdatePostButtondMSG(message)
 {
@@ -377,7 +366,8 @@ displayMessages(message, id) {
       <div className="post">
   <a href={ "/message/?id=" + message.id }>
  
-  { message.message }  
+  { message.message } 
+
   <img class="imagePost" alt="" src={message.imageUrl }></img>  
  </a>
    </div>

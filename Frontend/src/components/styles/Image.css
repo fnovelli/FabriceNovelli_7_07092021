@@ -6,7 +6,7 @@ img {
 }
 
 .imagePost {
-
+    margin-top: 8px;
     max-width: 480px;
     max-height: 280px;
 }

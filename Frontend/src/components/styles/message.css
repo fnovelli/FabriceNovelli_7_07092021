@@ -221,6 +221,7 @@
         display: flex;
         align-items: center;
         cursor: pointer;
+        justify-content: space-between;
     }
 
     .likedCom {
@@ -229,8 +230,12 @@
         cursor: pointer;
         color: rgb(54, 174, 255);
         font-size: 18px;
+
     }
 
+    .likeText {
+        margin-left: 5px;
+    }
 
     .likeCom:hover
     {
