@@ -252,7 +252,7 @@ displayEditDeleteButton(user, message)
     return (
     
     <div className="postButtonsGroup">
-    <button type="submit" id="postEditButton" onClick= {() => { this.handleClickEdit(idd) } }>
+    <button type="submit" id="postEditButton" onClick= {() => { this.handleClickEdit(idd)} }>
           Editer
         </button>
 
@@ -269,6 +269,10 @@ handleLikeError(status) {
   if (status >= 400 && status <= 599) {
     return alert('Unexpected error, please try again later.');
   }
+  else {
+    window.location.reload();
+  }
+
 }
 
 handleClickLike = (e, id) => {
@@ -287,6 +291,7 @@ handleClickLike = (e, id) => {
   }).then(response => {
 
     this.handleLikeError(response.status);
+
   }).catch(errors => {
 
   console.log('BackEnd error:', errors);
