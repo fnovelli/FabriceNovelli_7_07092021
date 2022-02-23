@@ -11,6 +11,4 @@ function getUserId(token) {
   return userId; 
 }
 
-
-
 module.exports.getUserId = getUserId;

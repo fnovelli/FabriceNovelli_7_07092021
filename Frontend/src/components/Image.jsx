@@ -5,11 +5,6 @@ import "./styles/Image.css"
 
 let externIMGUrl = null;
 
-function resetImageObj()
-{
-  externIMGUrl = null;
-}
-
 class Image extends React.Component {
 
       constructor(props) {
@@ -49,5 +44,5 @@ class Image extends React.Component {
     }
   }
   
-  export { Image, externIMGUrl,  resetImageObj };
+  export { Image, externIMGUrl };
   

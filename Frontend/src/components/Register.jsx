@@ -3,7 +3,7 @@ import './styles/form.css'
 import PasswordChecklist from "react-password-checklist"
 
 let url = "http://localhost:3000/api/users";
-const userOK = 'successfully created new user!';
+const userOK = 'Nouveau compte créé avec succès!';
 
 function handleError(status) {
 
@@ -59,7 +59,6 @@ function Register() {
 	const [password, setPassword] = useState("");
 	const [passwordAgain, setPasswordAgain] = useState("");
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -85,8 +84,7 @@ function Register() {
          pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
          onChange={(e) => setName(e.target.value)}
          ></input>
-        </div>
-  
+        </div> 
 
       <div className="formClass">
        <label for="nickname">Pseudo</label>
@@ -129,8 +127,7 @@ function Register() {
 					number: "Le mot de passe doit contenir au moins un nombre.",
 					capital: "Le mot de passe doit avoir au moins une majuscule.",
 					match: "Les deux mots de passe doivent être identique.",
-				}}
-        
+				}}    
 			/>
         </div>
 
@@ -138,8 +135,7 @@ function Register() {
             Envoyer
           </button>
     
-          </form>
-      
+          </form>      
       </section>
   
     );
