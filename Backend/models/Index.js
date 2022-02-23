@@ -1,10 +1,23 @@
 const { Sequelize } = require('sequelize');
-const schemaSQL = `CREATE DATABASE IF NOT EXISTS ${process.env.SQL_DB}`;
+const schemaSQL = `CREATE DATABASE IF NOT EXISTS \`${process.env.SQL_DB}\`;`;
+const mysql = require('mysql2/promise');
+
 
 const sequelize = new Sequelize(process.env.SQL_DB, process.env.SQL_USER, process.env.SQL_PASS, {
   host: process.env.SQL_HOST,
   dialect: 'mysql',
 });
+
+
+async function DBinitialize() {
+
+  const host = sequelize.host;
+  const user = process.env.SQL_USER;
+  const password = process.env.SQL_PASS;
+
+  const connection = await mysql.createConnection({ host, user, password });
+  await connection.query(schemaSQL);
+}
 
 
 async function DBconnection() {
@@ -15,6 +28,8 @@ async function DBconnection() {
 
   } catch (error) {
     console.error('Unable to connect to the database:', error);
+    //if the connection failed try to create a database if it doesn't exist.
+    DBinitialize();
   }
 }
 
@@ -55,34 +70,6 @@ db.posts.hasMany(db.comments, {as: 'com'});
 db.users.hasMany(db.likes, {as: 'likeUser' });
 db.posts.hasMany(db.likes, {as: 'like' });
 
-
-const Users = db.users;
-
-/*async function createJaneUser() {
-   const jane = Users.build({ 
-      name: 'Jane',
-      nickname: 'Jaja',
-      email: 'jane@gmail.com',
-      password: 'passw0rd',
-      admin: false
-   })
-
-   console.log(jane.name);
-   console.log(jane.nickname);
-   try { 
-   await jane.save();
-   console.log("user " + jane.name + " has been added in the database.");
-   }
-   catch (error) {
-      console.error('Unable to save user in DBB.', error);
-   }
-
-
-  await sequelize.sync({force:true});
-}
-
-
-createJaneUser();*/
-
+sequelize.sync();
 
 module.exports = db;

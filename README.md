@@ -4,8 +4,7 @@
 
 Pour faire fonctionner le Projet, vous devez installer :
 
-- [node-sass](https://www.npmjs.com/package/node-sass) : attention à prendre la version correspondante à NodeJS. Pour Node 14.0 par exemple, installer node-sass en version 4.14+.
-- [NodeJS](https://nodejs.org/en/download/) en version 12.14 ou 14.0 
+- [NodeJS](https://nodejs.org/en/download/) en version 14.0
 
 ## Installer le Back-End
 
@@ -15,11 +14,11 @@ Sur Windows, ces installations peuvent nécessiter d'utiliser PowerShell en tant
 
 ## Installer la base de donnée SQL
 
-Ce projet utilise une base de données SQL pour stocker les informations des utilisateurs, il vous faudra donc installer et configurer [MySQL Server.](https://dev.mysql.com/downloads/mysql/)
+Ce projet utilise une base de données SQL pour stocker les informations des utilisateurs, il vous faudra donc installer et configurer [MySQL Server v8](https://dev.mysql.com/downloads/mysql/)
 Retenez bien le nom d'utilisateur et mot de passe que vous allez utiliser lors de l'installation, car il faudra réutiliser ces informations par la suite.
 
 Une fois MySql installé, rendez-vous dans le dossier d'installation de ce dernier, puis ouvrez le dossier "bin". A partir de la, ouvrir un terminal et taper "mysql -u root -p"
-Connecter vous à votre serveur et ensuite exécuter la commande: "CREATE DATABASE Groupomania;".
+Connecter vous ensuite à votre serveur avec vos identifiants, cette étape permet de vérifier que tout est bien fonctionnel côter MySQL.
 
 ## Configurer la base de donnée SQL
 
@@ -35,16 +34,17 @@ Si vous possédez une copie de ce fichier, vous pouvez l'éditer avec un éditeu
 
 Une fois les informations remplies, placez le fichier ".env" dans le dossier BackEnd du projet.
 
-## Démarrer le back-end
+## Démarrer le Back-End
 
 Depuis le dossier Backend, taper: "nodemon server" dans le terminal pour démarrer le serveur. Si le fichier .env a bien été configuré correctement, vous devriez pouvoir lire
-"Connection has been established successfully."
+"Connection has been established successfully." En principe, si la base de donnée Groupomania n'existe pas, elle devrait être créé automatiquement, si ce n'est pas le cas
+rendez-vous sur MySql dans la console et taper "CREATE DATABASE Groupomania;"
 
 ## Installer le Front-End
 
 Depuis un terminal de commande, rendez-vous dans le dossier FrontEnd du projet et taper: "npm install".
 Ce projet utilise Javascript et le framework "React", beaucoup de packages sont necessaire et par conséquent l'installation prendra un moment.
 
-## Démarrer le front-end
+## Démarrer le Front-End
 
-Depuis le dossier front-end, taper: "npm start" pour avoir accès au serveur de développement. Rendez-vous sur http://localhost:8000/. L'application va se recharger automatiquement si vous modifiez un fichier source.
+Depuis le dossier FrontEnd, taper: "npm start" pour avoir accès au serveur de développement. Rendez-vous sur http://localhost:8000/. L'application va se recharger automatiquement si vous modifiez un fichier source.
