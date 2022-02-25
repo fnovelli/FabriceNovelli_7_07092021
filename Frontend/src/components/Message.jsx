@@ -11,7 +11,6 @@ let urlUser = "http://localhost:3000/api/users/@me";
 
 class Message extends React.Component {
 
-
     constructor(props) {
         super(props);
         this.state = {
@@ -69,7 +68,6 @@ sendPostIMG()
   data.append("message", msg);
   data.append("image", externIMGUrl); //make sure the string "image" here match the one used in multer middleware.
 
-
   fetch(url, {
     method: 'POST',
     headers: { 'Accept': 'application/json'
@@ -86,7 +84,6 @@ sendPostIMG()
   console.log('BackEnd error:', errors);
 });
 }
-
 
 handlePostNewMSG = (e) => {
 
@@ -318,22 +315,21 @@ displayLikeButton(user, message, id)
 
             <div id="postBtm">
 
-              <div class={ this.isUserLike(msgObj, user) ? "likedCom" : "likeCom" } onClick={(e) => { this.handleClickLike(e, id); }}>
+              <div className={ this.isUserLike(msgObj, user) ? "likedCom" : "likeCom" } onClick={(e) => { this.handleClickLike(e, id); }}>
 
                 <FontAwesomeIcon icon={faThumbsUp} > </FontAwesomeIcon> 
                 <div class="likeText"> J'aime</div>
                 </div>
 
-            <a class="likeCom" href={ "/message/?id=" + id }>
+            <a className="likeCom" href={ "/message/?id=" + id }>
         
           <FontAwesomeIcon icon={faComment} > </FontAwesomeIcon> 
-          <div class="likeText">Commenter</div>
+          <div className="likeText">Commenter</div>
           </a>
           </div>
-          )
+       )
 }
   
-
 
 displayUpdatePostButtondMSG(message)
 {
@@ -380,7 +376,7 @@ displayMessages(message, id) {
   
   else {
 
-    return(
+    return (
 
   <textarea className="post" onChange={this.editPost.bind(this)}>
  
@@ -420,7 +416,7 @@ displayMessagesContainer() {
               src={ message.user.avatar }>
                 </img>
                 <div className="postUsername">
-            { message.user.nickname }
+            { message.user ? message.user.nickname : null }
             </div>        
             </div> 
 
@@ -452,6 +448,4 @@ displayMessagesContainer() {
 }
 }
 
-
-  
 export default Message;

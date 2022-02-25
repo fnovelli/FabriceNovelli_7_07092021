@@ -83,13 +83,9 @@ return (
         </form>
     
     </section>
-
-
   </div>
 )
 }
 
-
-  
 export default Login;
 

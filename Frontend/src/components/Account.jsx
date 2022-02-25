@@ -7,6 +7,7 @@ import { externIMGUrl } from "./Image";
 let url = "http://localhost:3000/api/users/edit";
 let urlUser = "http://localhost:3000/api/users/@me";
 
+let urlDel = "http://localhost:3000/api/users";
 const userDelOK = 'Compte supprimé avec succès!';
 
 function handleError(status) {
@@ -23,8 +24,7 @@ function handleError(status) {
       case 501:
         alert('Erreur, impossible de charger les données du compte.');
         break;
-      default:
-        
+      default:    
           if (status >= 400 && status <= 599) {
             alert('Unexpected error, please try again later.');
           }
@@ -71,7 +71,6 @@ class Account extends React.Component {
      
       });
     }  
-
 
 updateNickname(e) {
     
@@ -183,7 +182,7 @@ sendUserIMG()
 
         e.preventDefault();
 
-      fetch(url, {
+      fetch(urlDel, {
         method: 'DELETE',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },

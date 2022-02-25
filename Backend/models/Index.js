@@ -2,12 +2,10 @@ const { Sequelize } = require('sequelize');
 const schemaSQL = `CREATE DATABASE IF NOT EXISTS \`${process.env.SQL_DB}\`;`;
 const mysql = require('mysql2/promise');
 
-
 const sequelize = new Sequelize(process.env.SQL_DB, process.env.SQL_USER, process.env.SQL_PASS, {
   host: process.env.SQL_HOST,
   dialect: 'mysql',
 });
-
 
 async function DBinitialize() {
 
@@ -18,7 +16,6 @@ async function DBinitialize() {
   const connection = await mysql.createConnection({ host, user, password });
   await connection.query(schemaSQL);
 }
-
 
 async function DBconnection() {
 
@@ -45,30 +42,26 @@ db.posts = require('../Models/Posts')(sequelize, Sequelize);
 db.comments = require('../Models/Comments')(sequelize, Sequelize);
 db.likes = require('../Models/Likes')(sequelize, Sequelize);
 
+db.users.hasMany(db.posts, {as: 'post', onDelete: 'CASCADE', hooks: true});
+db.users.hasMany(db.comments, {as: 'comment', onDelete: 'CASCADE', hooks: true});
+db.posts.hasMany(db.comments, {as: 'com', onDelete: 'CASCADE', hooks: true});
+db.users.hasMany(db.likes, {as: 'likeUser', onDelete: 'CASCADE', hooks: true });
+db.posts.hasMany(db.likes, {as: 'like', onDelete: 'CASCADE', hooks: true});
+
 db.posts.belongsTo(db.users, {
-  foreignKey: 'userId', as: 'user', allowNull: false }, 
-  { onDelete:'CASCADE'});
+  foreignKey: 'userId', as: 'user', allowNull: false });
 
 db.comments.belongsTo(db.users, {
-  foreignKey: 'userId', as: 'user', allowNull: false }, 
-  { onDelete:'CASCADE'});
+  foreignKey: 'userId', as: 'user', allowNull: false });
 db.comments.belongsTo(db.posts, {
-  foreignKey: 'postId', as: 'post', }, 
-  { onDelete:'CASCADE'});
+  foreignKey: 'postId', as: 'post', allowNull: false  });
 
 
 db.likes.belongsTo(db.users, {
-  foreignKey: 'userId', as: 'user', allowNull: false }, 
-  { onDelete:'CASCADE'});
+  foreignKey: 'userId', as: 'user', allowNull: false });
 db.likes.belongsTo(db.posts, {
-  foreignKey: 'postId', as: 'post', }, 
-  { onDelete:'CASCADE'});
+  foreignKey: 'postId', as: 'post', allowNull: false  });
 
-db.users.hasMany(db.posts, {as: 'post'});
-db.users.hasMany(db.comments, {as: 'comment'});
-db.posts.hasMany(db.comments, {as: 'com'});
-db.users.hasMany(db.likes, {as: 'likeUser' });
-db.posts.hasMany(db.likes, {as: 'like' });
 
 sequelize.sync();
 

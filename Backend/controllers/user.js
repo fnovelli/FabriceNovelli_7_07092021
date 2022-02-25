@@ -213,7 +213,7 @@ exports.updateUser = async (req, res) => {
 
   try {
   
-    let cookie = req.cookies['user_token'];
+    let cookie = await req.cookies['user_token'];
 
     if (cookie) {
       const id = token.getUserId(cookie);
@@ -228,23 +228,26 @@ exports.updateUser = async (req, res) => {
       if (req.file) 
       { 
 
-        User.findOne({ where : {id: id }}) 
+        await User.findOne({ where : {id: id }}) 
         .then(user => {
       
           //if user already had a profile pic, delete it first.
           if (user.avatar !== null) {
 
-            console.log('Trying delete picture...')
-              const filename = user.avatar.split("/images")[1];
+            if (user.avatar !== `${req.protocol}://${req.get('host')}` + ava) {
 
-              fs.unlink(`images/${filename}`, (err) => {
-                if (err)  {
-                  console.log('Error cannot delete img: ', err);
-                }
-                else {
-                  console.log(`Deleted file: images/${filename}`);
-                }
-              });
+                console.log('Trying delete picture...')
+                  const filename = user.avatar.split("/images")[1];
+
+                  fs.unlink(`images/${filename}`, (err) => {
+                    if (err)  {
+                      console.log('Error cannot delete img: ', err);
+                    }
+                    else {
+                      console.log(`Deleted file: images/${filename}`);
+                    }
+                  });
+            }
           }
         })
       }
@@ -285,7 +288,7 @@ exports.updateUserAdmin = async (req, res) => {
     let cookie = req.cookies['user_token'];
 
     if (cookie) {
-      const id = token.getUserId(cookie);
+      const id = await token.getUserId(cookie);
 
       if (id === null)
       {
@@ -363,22 +366,15 @@ exports.deleteUser = async(req, res) => {
     let cookie = req.cookies['user_token'];
     if (cookie) {
 
-      const id = token.getUserId(cookie);
+      const id = await token.getUserId(cookie);
   
       if (id === null)
       {
         return res.status(500).send({ error: "Error, couldn't delete user! Cannot get ID." });
       }
-
-      const userAdmin = await User.findOne({ where : {id: id }});
-
-      if (userAdmin.admin === false)
-      {
-        return res.status(408).json({ error: 'Error, you do not have the privilege to do that.' });
-      }
       
       logoutUser(req, res);
-      User.destroy({ where: { id: id } }); 
+      await User.destroy({ where: { id: id } }); 
       return res.status(200).json({ message: "Successfully deleted user!" });
     }
     
